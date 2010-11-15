@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>jQuery UI Autocomplete - Categories</title>
+  <script src="../jquery-1.4.3.min.js"></script>
+  <script src="../jquery.corner/2.11/jquery.corner.js"></script>
+  <link href="../smoothness-1.8.5/jquery-ui-1.8.5.custom.css" 
+	rel="stylesheet">
+  <link href="../selectmenu/jquery.ui.selectmenu.css" rel="stylesheet" />
+  <link href="demo.css" rel="stylesheet">  
+  <script src="../jquery-ui-1.8.5.custom.min.js"></script>
+  <script src="../selectmenu/jquery.ui.selectmenu.js"></script>
+  <script src="demo.js"></script>
+</head>
+<body>
+
+  <p></p>
+
+  <form action="#">
+    <fieldset>
+      <label for="speedD">Select an Address:</label>
+      <select name="speedD" id="speedD">
+	<option>John Doe - 78 West Main St Apt 3A | Bloomsburg, PA 12345 (footer text)</option>
+	<option>Jane Doe - 78 West Main St Apt 3A | Bloomsburg, PA 12345 (footer text)</option>
+	<option selected="selected">Joseph Doe - 78 West Main St Apt 3A | Bloomsburg, PA 12345 (footer text)</option>
+	<option>Mad Doe Kiiid - 78 West Main St Apt 3A | Bloomsburg, PA 12345 (footer text)</option>
+      </select>
+    </fieldset>
+    <div class="demo">
+      <label for="search">Search: 
+      <div>
+	<em>Grouped results, type "a" or "n".</em>
+      </div>
+      </label>
+      <input id="search" />
+    </div>
+  </form>
+  <script>
+    $('.demo').corner();
+  </script>
+
+</body>
+</html>

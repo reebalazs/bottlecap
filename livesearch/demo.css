@@ -1,0 +1,31 @@
+.ui-autocomplete-category {
+    font-weight: bold;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+}
+
+
+body {
+    font-size: 62.5%;
+    font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+}
+
+.demo {
+    padding: 2em;
+    text-align: center; 
+    font-family: verdana, arial, sans-serif;
+    width: 18em; 
+    padding: 1em; 
+    margin: 1em; 
+    background: #6af; 
+}
+
+.demo label {
+    text-align: left;
+}
+fieldset { border:0; }	
+label,select,.ui-select-menu { float: left; margin-right: 10px; }
+select { width: 200px; }
+
+
