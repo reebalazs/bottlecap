@@ -1,3 +1,5 @@
+(function($) {
+
 $(function() {
 
     var data = [
@@ -63,3 +65,5 @@ var addressFormatting = function(text) {
     // leave out rounded corners for now
     // $('.ui-selectmenu-status').corner();
 };
+
+})(jQuery);
