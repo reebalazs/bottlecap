@@ -2,6 +2,8 @@
 
 $(function() {
 
+    var cache = {}, lastXhr;
+    
     var data = [
         { label: "anders", category: "" },
         { label: "andreas", category: "" },
@@ -14,39 +16,17 @@ $(function() {
         { label: "andreas johnson", category: "People" }
     ];
 
-    $.widget("custom.catcomplete", $.ui.autocomplete, {
-        _renderMenu: function(ul, items) {
-            var self = this,
-                currentCategory = "";
-            $.each(items, function (index, item) {
-                if (item.category !== currentCategory) {
-                    ul.append("<li class='ui-autocomplete-category'>"
-                              + item.category
-                              + "</li>");
-                    currentCategory = item.category;
-                }
-                self._renderItem(ul, item);
-            });
-        }
-    });
 
-
-    $("#search").catcomplete({
-        delay: 0,
-        source: data
-    });
-
-
-    $(".demo button").button({
+    // The drop-deown menu
+    $(".ui-ls-menu").button({
 	icons: {
-	    primary: "ui-icon-home",
 	    secondary: "ui-icon-triangle-1-s"
 	}
     }).each(function() {
 	$(this).next().menu({
 	    select: function(event, ui) {
 		$(this).hide();
-		$("#log").append("<div>Selected " + ui.item.text() + "</div>");
+//		$("#log").append("<div>Selected " + ui.item.text() + "</div>");
 	    },
 	    input: $(this)
 	}).hide();
@@ -67,6 +47,55 @@ $(function() {
 	return false;
     });
 
+    
+    // The autocomplete widget
+    $.widget("custom.catcomplete", $.ui.autocomplete, {
+        _renderMenu: function(ul, items) {
+            var self = this,
+                currentCategory = "";
+            $.each(items, function (index, item) {
+                if (item.category !== currentCategory) {
+                    ul.append("<li class='ui-autocomplete-category'>"
+                              + item.category
+                              + "</li>");
+                    currentCategory = item.category;
+                }
+                self._renderItem(ul, item);
+            });
+        }
+    });
+    $(".ui-ls-autocomplete").catcomplete({
+        delay: 0,
+        source: function (request, response) {
+            var url = 'demo-paul-data.json';
+            var term = request.term;
+
+            if ( term in cache ) {
+                console.log('cache hit');
+		response( cache[ term ] );
+		return;
+	    }
+
+	    lastXhr = $.getJSON( url, request, function( data, status, xhr ) {
+		cache[ term ] = data;
+		if ( xhr === lastXhr ) {
+		    response( data );
+		}
+            });
+            
+        }
+
+    });
+
+
+    // The magnifying glass button on the right
+    $(".ui-ls-gobtn").button({
+        text: false,
+	icons: {
+	    primary: "ui-icon-search"
+        }
+    });
+    
     
 });
 
