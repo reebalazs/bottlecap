@@ -95,7 +95,13 @@ $(function() {
 	    primary: "ui-icon-search"
         }
     });
-    
+
+    $('.ui-ls-autocomplete').height($('.ui-ls-menu').height()-4);
+    $('.ui-ls-autocomplete').position({
+        of: $('.ui-ls-menu'),
+        at: "left top",
+        my: "right top"
+    });
     
 });
 
