@@ -1,0 +1,26 @@
+body {
+    font-size: 62.5%;
+    font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
+}
+
+.ui-autocomplete-category {
+    font-weight: bold;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+}
+
+.ui-menu { 
+    width: 200px; position: absolute; 
+}
+
+.demo button {
+    margin-right:0;
+    border-radius: 4px 0px 0px 4px;
+}
+
+#search {
+    height: 18px;
+    padding-left: 0;
+    margin-left: 0;
+}
