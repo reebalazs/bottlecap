@@ -14,11 +14,16 @@ $(function() {
         { label: "andreas johnson", category: "People" }
     ];
 
-    $('#search').livesearch({
+    $('.ui-ls-autocomplete').livesearch({
         data: data,
-        selectMenu: $('select#speedD')
+        selectMenu: $('.ui-ls-menu')
     });
 
+    // The magnifying glass button on the right
+    $(".ui-ls-gobtn").button({
+        text: false,
+        icons: {primary: "ui-icon-search"}
+    });
 });
 
 })(jQuery);
