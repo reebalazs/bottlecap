@@ -20,11 +20,14 @@ body {
 }
 
 .ui-ls-autocomplete {
-    height: 18px;
     padding-left: 0;
     padding-right: 0;
     margin-left: 0;
     margin-right: 0;
+}
+
+#ui-menu-1 {
+    xwidth: 500px;
 }
 
 .ui-ls-gobtn {

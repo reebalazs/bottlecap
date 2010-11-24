@@ -96,13 +96,13 @@ $(function() {
         }
     });
 
-    $('.ui-ls-autocomplete').height($('.ui-ls-menu').height()-4);
+    // Dynamically set some positioning
+    $('.ui-ls-autocomplete').height($('.ui-ls-menu').height()-6);
     $('.ui-ls-autocomplete').position({
         of: $('.ui-ls-menu'),
         at: "left top",
         my: "right top"
     });
-    
 });
 
 
