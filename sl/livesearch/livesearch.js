@@ -40,9 +40,17 @@ $.widget("bottlecap.livesearch", {
             return false;
         });
 
+        function _handleSearch(value) {
+            $('<p>Search for ' + value + '</p>')
+                .appendTo($(document.body));
+        };
+
         el.autocomplete({
             delay: 0,
-            source: data
+            source: data,
+                    select: function(event, ui) {
+                    _handleSearch(ui.item.value);
+                }
         }).data('autocomplete')._renderMenu = function(ul, items) {
             var self = this,
                 currentCategory = "";
@@ -56,6 +64,12 @@ $.widget("bottlecap.livesearch", {
                 self._renderItem(ul, item);
             });
         };
+
+        // don't depend on markup?
+        el.next('button').click(function() {
+            _handleSearch(el.val());
+            return false;
+        });
 
     }
 });
