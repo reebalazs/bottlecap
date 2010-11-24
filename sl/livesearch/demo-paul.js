@@ -52,8 +52,11 @@ $(function() {
     $.widget("custom.catcomplete", $.ui.autocomplete, {
         _renderMenu: function(ul, items) {
             var self = this,
-                currentCategory = "";
+                currentCategory = "";            
             $.each(items, function (index, item) {
+                // Change autocomplete behavior which overrides the
+                // searchterm
+                item.value = self.term;
                 if (item.category !== currentCategory) {
                     ul.append("<li class='ui-autocomplete-category'>"
                               + item.category
@@ -62,7 +65,15 @@ $(function() {
                 }
                 self._renderItem(ul, item);
             });
-        }
+        },
+
+	_renderItem: function( ul, item) {
+		return $( "<li></li>" )
+			.data( "item.autocomplete", item )
+			.append( $( "<a></a>" ).text( item.label ) )
+			.appendTo( ul );
+	}
+        
     });
     $(".ui-ls-autocomplete").catcomplete({
         delay: 0,
@@ -86,7 +97,9 @@ $(function() {
         }
 
     });
-
+    $(".ui-ls-autocomplete").bind('autocompleteselect', function (evt, ui) {
+            console.log(9393);
+    });
 
     // The magnifying glass button on the right
     $(".ui-ls-gobtn").button({
