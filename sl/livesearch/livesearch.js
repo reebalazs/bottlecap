@@ -13,23 +13,48 @@ $.widget("bottlecap.livesearch", {
             data = o.data,
             selectMenu = o.selectMenu;
 
+        // The drop-down menu
+        selectMenu.button({
+            icons: {secondary: "ui-icon-triangle-1-s"}
+        }).each(function() {
+            $(this).next().menu({
+                select: function(event, ui) {
+                    $(this).hide();
+                },
+                input: $(this)
+            }).hide();
+        }).click(function(event) {
+            var menu = $(this).next();
+            if (menu.is(":visible")) {
+                menu.hide();
+                return false;
+            }
+            menu.menu("deactivate").show().css({top:0, left:0}).position({
+                my: "left top",
+                at: "left bottom",
+                of: this
+            });
+            $(document).one("click", function() {
+                menu.hide();
+            });
+            return false;
+        });
+
+        function _handleSearch(value) {
+            $('<p>Search for ' + value + '</p>')
+                .appendTo($(document.body));
+        };
+
         el.autocomplete({
             delay: 0,
-            source: o.data
-        });
-
-        selectMenu.selectmenu({
-            style: 'dropdown',
-            menuWidth: 400,
-            format: addressFormatting
-        });
-
-        // isn't being called now
-        /*
-        el._renderMenu = function(ul, items) {
+            source: data,
+                    select: function(event, ui) {
+                    _handleSearch(ui.item.value);
+                }
+        }).data('autocomplete')._renderMenu = function(ul, items) {
             var self = this,
                 currentCategory = "";
-            $.each(items, function(index, item) {
+            $.each(items, function (index, item) {
                 if (item.category !== currentCategory) {
                     ul.append("<li class='ui-autocomplete-category'>"
                               + item.category
@@ -38,8 +63,14 @@ $.widget("bottlecap.livesearch", {
                 }
                 self._renderItem(ul, item);
             });
-        }
-        */
+        };
+
+        // don't depend on markup?
+        el.next('button').click(function() {
+            _handleSearch(el.val());
+            return false;
+        });
+
     }
 });
 
@@ -58,9 +89,6 @@ function addressFormatting(text) {
         newText = newText.replace(findreps[i].find, findreps[i].rep);
     }
     return newText;
-
-    // leave out rounded corners for now
-    // $('.ui-selectmenu-status').corner();
 }
 
 })(jQuery);
