@@ -5,7 +5,12 @@
     { "label": "annhhx10", "category": "Products" },
     { "label": "annk K12", "category": "Products" },
     { "label": "annttop C13", "category": "Products" },
-    {"type": "profile", "label": "Paul Everitt", "category": "People"},
+
+    {"type": "profile", "label": "Paul Everitt", 
+     "icon": "headshot.jpg", "department": "Inhuman Resources",
+     "extension": "x7984",
+     "category": "People"},
+
     { "label": "anders andersson", "category": "People" },
     { "label": "andreas andersson", "category": "People" },
     { "label": "andreas johnson", "category": "People" }
