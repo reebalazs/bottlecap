@@ -57,7 +57,9 @@ $(function() {
             $.each(items, function (index, item) {
                 // Change autocomplete behavior which overrides the
                 // searchterm
+                item.data_value = item.value;
                 item.value = self.term;
+                
                 if (item.category !== currentCategory) {
                     ul.append("<li class='ui-autocomplete-category'>"
                               + item.category
@@ -69,21 +71,52 @@ $(function() {
         },
 
 	_renderItem: function( ul, item) {
-		return $( "<li></li>" )
-			.data( "item.autocomplete", item )
-			.append( $( "<a></a>" ).text( item.label ) )
-			.appendTo( ul );
+
+            var li = $('<li>');
+            var entry, div;
+
+            // Render different items in different ways
+            switch (item.type) {
+                case 'profile': {
+                    entry = $('<a class="ls-profile">').text('xx');
+                    break;
+                    entry.append($('<img>').attr('src', item.icon));
+                    div = entry.append($('<div>'));
+                    div.append(
+                        $('<span>')
+                            .text(item.label)
+                            .css('display', 'inline-block')
+                            .width(250));
+                    div.append($('<span>')
+                               .text(item.extension));
+                    entry.append($('<div>').text(item.department));
+                    break;
+                };
+
+                default: {
+                    entry = $( "<a></a>" ).text( item.label );
+                };
+            };
+	    return $( "<li></li>" )
+		.data( "item.autocomplete", item )
+		.append( entry )
+		.appendTo( ul );
 	}
         
     });
     $(".ui-ls-autocomplete").catcomplete({
         delay: 0,
+        position: {
+	    my: "right top",
+	    at: "right bottom",
+            of: $('.ui-ls-gobtn'),
+	    collision: "none"
+        },            
         source: function (request, response) {
             var url = 'demo-paul-data.json';
             var term = request.term;
 
             if ( term in cache ) {
-                console.log('cache hit');
 		response( cache[ term ] );
 		return;
 	    }
@@ -96,11 +129,8 @@ $(function() {
             });
             
         }
-
     });
-    $(".ui-ls-autocomplete").bind('autocompleteselect', function (evt, ui) {
-            console.log(9393);
-    });
+    
 
     // The magnifying glass button on the right
     $(".ui-ls-gobtn").button({
@@ -114,8 +144,8 @@ $(function() {
     $('.ui-ls-autocomplete').height($('.ui-ls-menu').height()-2);
     $('.ui-ls-autocomplete').position({
         of: $('.ui-ls-menu'),
-        at: "left top",
-        my: "right top"
+        at: "right top",
+        my: "left top"
     });
 });
 

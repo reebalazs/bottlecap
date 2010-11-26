@@ -1,4 +1,6 @@
 body {
+    margin: 0;
+    padding: 0;
     font-size: 62.5%;
     font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 }
@@ -11,7 +13,8 @@ body {
 }
 
 .ui-menu { 
-    width: 200px; position: absolute; 
+    width: 200px; 
+    position: absolute; 
 }
 
 .ui-ls-menu {
@@ -26,11 +29,33 @@ body {
 }
 
 #ui-menu-1 {
-    xwidth: 500px;
+    width: 350px;
 }
 
 .ui-ls-gobtn {
-    margin-left: 0;
+    margin-left: -1px;
     border-radius: 0px 4px 4px 0px;
+}
+
+
+
+.bc-header {
+    background-color: lightgray;
+    border-bottom: solid gray 1px;
+    padding: 0.5em;
+}
+
+.bc-header h1 {
+    margin-top: 0;
+}
+
+.bc-header-toolbox {
+    float: right;
+}
+
+.ls-profile img {
+    float: left; 
+    margin-right: 10px;
+    height: 32px;
 }
 
