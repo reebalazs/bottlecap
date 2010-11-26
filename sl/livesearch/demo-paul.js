@@ -23,10 +23,11 @@ $(function() {
 	    secondary: "ui-icon-triangle-1-s"
 	}
     }).each(function() {
+        var btn_text = $(this).find('.ui-button-text');
 	$(this).next().menu({
 	    select: function(event, ui) {
+                btn_text.text(ui.item.text());
 		$(this).hide();
-//		$("#log").append("<div>Selected " + ui.item.text() + "</div>");
 	    },
 	    input: $(this)
 	}).hide();
@@ -110,7 +111,7 @@ $(function() {
     });
 
     // Dynamically set some positioning
-    $('.ui-ls-autocomplete').height($('.ui-ls-menu').height()-6);
+    $('.ui-ls-autocomplete').height($('.ui-ls-menu').height()-2);
     $('.ui-ls-autocomplete').position({
         of: $('.ui-ls-menu'),
         at: "left top",

@@ -29,6 +29,20 @@ Menu Policies
 - The choice is "sticky", meaning, remember their last menu choice and
   default to that.
 
+- When selecting a new choice in the context menu, update the value
+  displayed in the visible part of the menu.
+
+- Make sure the context menu is never visible at the same time as the
+  resultsbox.
+
+- The width of the menu should never change based on the selection.
+
+- Keypresses should work as expected (cursor up, cursor down, dismiss
+  with Escape)
+
+- Menu should disappear when expected (clicking outside the box, etc.)
+
+- When opened, the menu should have the existing choice highlighted
 
 Autocomplete Policies
 =====================
