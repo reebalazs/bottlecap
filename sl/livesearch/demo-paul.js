@@ -3,6 +3,9 @@
 $(function() {
 
     var cache = {}, lastXhr;
+    var ajm = $.manageAjax.create('livesearch',
+                                  { queue: true, cacheResponse: true }
+                                 );
     
     var data = [
         { label: "anders", category: "" },
@@ -61,9 +64,23 @@ $(function() {
                 item.value = self.term;
                 
                 if (item.category !== currentCategory) {
-                    ul.append("<li class='ui-autocomplete-category'>"
-                              + item.category
-                              + "</li>");
+                    var li = $('<li class="ui-autocomplete-category"></li>');
+                    li.append(
+                        $('<span>')
+                            .text(item.category)
+                        .css('display', 'inline-block')
+                        .width(300)
+                        );
+                    li.append(
+                        $('<span class="ls-more"></span>')
+                            .css('color', 'silver')
+                            .attr('href', '/search/more')
+                            .text('more')
+                        .bind('click', function (evt, ui) {
+                            alert('clicked');
+                        })
+                    );
+                    ul.append(li);
                     currentCategory = item.category;
                 }
                 self._renderItem(ul, item);
@@ -115,6 +132,23 @@ $(function() {
             var url = 'demo-paul-data.json';
             var term = request.term;
 
+            $.manageAjax.add(
+                'livesearch',
+                {
+                    url: url,
+                    maxRequests: 1,
+                    queue: 'clear',
+                    abortOld: true,
+                    success: function(data) {
+                        response(data);
+                    },
+                    error: function (xhr, status, exc) {
+                        console.log(status);
+                    }
+                });            
+            
+            return;
+            
             if ( term in cache ) {
 		response( cache[ term ] );
 		return;
@@ -140,7 +174,10 @@ $(function() {
     });
 
     // Dynamically set some positioning
-    $('.ui-ls-autocomplete').height($('.ui-ls-menu').height()-2);
+    $('.ui-ls-autocomplete')
+        .css('border', 'solid 1px lightgray')
+        .height($('.ui-ls-menu').height()+1)
+        .focus();
     $('.ui-ls-autocomplete').position({
         of: $('.ui-ls-menu'),
         at: "right top",

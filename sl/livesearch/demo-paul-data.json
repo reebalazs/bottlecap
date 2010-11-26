@@ -1,17 +1,107 @@
 [
-    { "label": "anders", "category": "" },
-    { "label": "andreas", "category": "" },
-    { "label": "antal", "category": "" },
-    { "label": "annhhx10", "category": "Products" },
-    { "label": "annk K12", "category": "Products" },
-    { "label": "annttop C13", "category": "Products" },
 
-    {"type": "profile", "label": "Paul Everitt", 
+    {"category": "People", "type": "profile", 
+     "label": "Paul Everitt",
      "icon": "headshot.jpg", "department": "Inhuman Resources",
      "extension": "x7984",
-     "category": "People"},
+     "url": ""},
 
-    { "label": "anders andersson", "category": "People" },
-    { "label": "andreas andersson", "category": "People" },
-    { "label": "andreas johnson", "category": "People" }
+    {"category": "People", "type": "profile", 
+     "label": "Robert Marianski",
+     "icon": "headshot.jpg", "department": "Inhuman Resources",
+     "extension": "x7984",
+     "url": ""},
+
+    {"category": "People", "type": "profile", 
+     "label": "Chris Rossi",
+     "icon": "headshot.jpg", "department": "Inhuman Resources",
+     "extension": "x7984",
+     "url": ""},
+
+    {"category": "People", "type": "profile", 
+     "label": "Chris McDonough",
+     "icon": "headshot.jpg", "department": "Inhuman Resources",
+     "extension": "x7984",
+     "url": ""},
+
+    {"category": "Pages", "type": "wikipage", 
+     "label": "Online Mediae Directories Monitoring",
+     "url": ""},
+
+
+    {"category": "Pages", "type": "wikipage", 
+     "label": "Memo on Political Activities",
+     "url": ""},
+
+
+    {"category": "Pages", "type": "wikipage", 
+     "label": "Useful Communications Resources",
+     "url": "Open Activity Updates"},
+
+
+    {"category": "Pages", "type": "wikipage", 
+     "label": "Guatemala Initiatives FY2010",
+     "url": ""},
+
+
+
+    {"category": "Posts", "type": "forumpost", 
+     "label": "Re: UCB Lecture Stats",
+     "url": ""},
+
+
+    {"category": "Posts", "type": "blogentry", 
+     "label": "Changes and improvements abroad",
+     "url": ""},
+
+
+    {"category": "Posts", "type": "blogcomment", 
+     "label": "Re: Consortium planning and updates",
+     "url": ""},
+
+
+    {"category": "Files", "type": "folder", 
+     "label": "Recent Updates Folder",
+     "url": ""},
+
+
+    {"category": "Files", "type": "file", 
+     "label": "Sample Media Alert",
+     "url": ""},
+
+
+    {"category": "Files", "type": "file", 
+     "label": "Communications Overview v9",
+     "url": ""},
+
+
+    {"category": "Files", "type": "file", 
+     "label": "press_european.pdf",
+     "url": ""},
+
+
+    {"category": "Files", "type": "file", 
+     "label": "governmental_action_by_sector.xls",
+     "url": ""},
+
+
+    {"category": "Other", "type": "community", 
+     "label": "Brown-Bag Lunch: 'How to Reduce Crime'",
+     "url": ""},
+
+    {"category": "Other", "type": "community", 
+     "label": "Brown-Bag Lunch: 'The Liberian Diaspora'",
+     "url": ""},
+
+    {"category": "Other", "type": "community", 
+     "label": "Consortium Activities",
+     "url": ""},
+
+    {"category": "Other", "type": "community", 
+     "label": "Developer Team",
+     "url": ""},
+
+    {"category": "Other", "type": "community", 
+     "label": "HR Initiatives",
+     "url": ""}
 ]

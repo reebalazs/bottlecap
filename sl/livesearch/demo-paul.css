@@ -10,17 +10,14 @@ body {
     padding: .2em .4em;
     margin: .8em 0 .2em;
     line-height: 1.5;
+    border-bottom: solid gray 1px;
 }
 
 .ui-menu { 
-    width: 200px; 
+    width: 100px; 
     position: absolute; 
-}
-
-.ui-ls-menu {
     margin-right:0;
     border-radius: 4px 0px 0px 4px;
-    width: 100px;
 }
 
 .ui-ls-autocomplete {
@@ -38,9 +35,8 @@ body {
 }
 
 
-
 .bc-header {
-    background-color: lightgray;
+    background-color: lightblue;
     border-bottom: solid gray 1px;
     padding: 0.5em;
 }
@@ -60,3 +56,7 @@ body {
     width: 32px;
 }
 
+.ls-more:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
