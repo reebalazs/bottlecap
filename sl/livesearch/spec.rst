@@ -22,6 +22,8 @@ General Policies
 
 - Theme-able via Themeroller.
 
+- In all cases, handle overflow of text intelligently.
+
 
 Menu Policies
 =============
@@ -132,6 +134,9 @@ Autocomplete Policies
 - Use position() to ensure that the botton of the resultsbox doesn't
   scroll out of the viewport.  Try to remember the calculations and
   refresh only when needed.
+
+- If text is too big to fit on line, detect this case and provide an
+  ellipsis that acts as a tooltip to show the truncated part.
 
 Searchbutton Policies
 =====================
