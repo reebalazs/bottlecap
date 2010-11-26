@@ -78,8 +78,7 @@ $(function() {
             // Render different items in different ways
             switch (item.type) {
                 case 'profile': {
-                    entry = $('<a class="ls-profile">').text('xx');
-                    break;
+                    entry = $('<a class="ls-profile"></a>');
                     entry.append($('<img>').attr('src', item.icon));
                     div = entry.append($('<div>'));
                     div.append(
