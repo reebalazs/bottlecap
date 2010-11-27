@@ -140,6 +140,8 @@ $(function() {
                     queue: 'clear',
                     abortOld: true,
                     success: function(data) {
+                        if (typeof data === 'string')
+                            data = $.parseJSON(data);
                         response(data);
                     },
                     error: function (xhr, status, exc) {
