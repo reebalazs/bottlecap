@@ -7,20 +7,6 @@ $(function() {
                                   { queue: true, cacheResponse: true }
                                  );
 
-    // Some sample data
-    var data = [
-        { label: "anders", category: "" },
-        { label: "andreas", category: "" },
-        { label: "antal", category: "" },
-        { label: "annhhx10", category: "Products" },
-        { label: "annk K12", category: "Products" },
-        { label: "annttop C13", category: "Products" },
-        { label: "anders andersson", category: "People" },
-        { label: "andreas andersson", category: "People" },
-        { label: "andreas johnson", category: "People" }
-    ];
-
-
     // The drop-down menu
     $(".ui-ls-menu").button({
 	icons: {
@@ -83,6 +69,9 @@ $(function() {
                 }
                 self._renderItem(ul, item);
             });
+            // Set a class on the first item, to remove a border on
+            // the first row
+            ul.find('li:first').addClass('ui-ls-autocomplete-first');
         },
 
 	_renderItem: function( ul, item) {

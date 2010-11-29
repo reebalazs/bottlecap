@@ -78,10 +78,6 @@ Autocomplete Policies
 - If there is a network or server error, explain that to the user and
   provide a way to see what is wrong.
 
-- Profile-formatted results will have a mini-picture, the persons
-  first and last name on one row with phone information floated right,
-  and their org/office/phone information on the next row.
-
 - Make sure international characters still work.
 
 - Grayed-out, italics prompt in the box (HTML5-like) which disappears

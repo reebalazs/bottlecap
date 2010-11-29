@@ -27,6 +27,10 @@ body {
     border: solid 1px lightgray;
 }
 
+.ui-ls-autocomplete-first {
+    border: none;
+}
+
 #ui-menu-1 {
     width: 350px;
     padding-left: 104px;
