@@ -1,7 +1,6 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 62.5%;
     font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 }
 
@@ -49,12 +48,20 @@ body {
     padding: 0.5em;
 }
 
+.ui-widget {
+    font-size: 73%;
+}
+
 .bc-header h1 {
     margin-top: 0;
 }
 
 .bc-header-toolbox {
     float: right;
+}
+
+.bc-content-frame {
+    margin: 2em;
 }
 
 .ui-ls-profile img {

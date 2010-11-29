@@ -2,30 +2,30 @@
 
     {"category": "People", "type": "profile", 
      "label": "Paul Everitt",
-     "icon": "headshot.jpg", "department": "Inhuman Resources",
+     "icon": "headshot.jpg", "department": "Human Resources",
      "extension": "x7984",
      "url": ""},
 
     {"category": "People", "type": "profile", 
      "label": "Robert Marianski",
-     "icon": "headshot.jpg", "department": "Inhuman Resources",
+     "icon": "headshot.jpg", "department": "Human Resources",
      "extension": "x7984",
      "url": ""},
 
     {"category": "People", "type": "profile", 
      "label": "Chris Rossi",
-     "icon": "headshot.jpg", "department": "Inhuman Resources",
+     "icon": "headshot.jpg", "department": "Human Resources",
      "extension": "x7984",
      "url": ""},
 
     {"category": "People", "type": "profile", 
      "label": "Chris McDonough",
-     "icon": "headshot.jpg", "department": "Inhuman Resources",
+     "icon": "headshot.jpg", "department": "Human Resources",
      "extension": "x7984",
      "url": ""},
 
     {"category": "Pages", "type": "wikipage", 
-     "label": "Online Mediae Directories Monitoring",
+     "label": "Online Media Directories Monitoring",
      "url": ""},
 
 
