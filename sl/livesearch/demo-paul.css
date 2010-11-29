@@ -7,15 +7,11 @@ body {
 
 .ui-autocomplete-category {
     font-weight: bold;
-    padding: .2em .4em;
-    margin: .8em 0 .2em;
+    padding: 6px 364px 0 0;
+    margin: 4px 0 0 -102px;
     line-height: 1.5;
-    border-bottom: solid gray 1px;
-}
-
-.ui-ls-category-text {
-    display: inline-block;
-    width: 300px;
+    border-top: solid gray 1px;
+    text-align: right;
 }
 
 .ui-menu { 
@@ -33,6 +29,9 @@ body {
 
 #ui-menu-1 {
     width: 350px;
+    padding-left: 104px;
+    background: #ffffff url(livesearch_bg.gif) repeat-y top left;
+    display: block !important; /* for testing */
 }
 
 .ui-ls-gobtn {
@@ -67,8 +66,18 @@ body {
     width: 250px;
 }
 
+.ui-ls-category-text {
+    position: absolute;
+    left: 0;
+    width: 91px;
+}
+
 .ui-ls-more {
-    color: silver;
+    color: #999999;
+    display: block;
+    position: absolute;
+    width: 91px;
+    margin-top: 15px;
 }
 
 .ui-ls-more:hover {
