@@ -138,6 +138,11 @@ Autocomplete Policies
 - If text is too big to fit on line, detect this case and provide an
   ellipsis that acts as a tooltip to show the truncated part.
 
+- When the results box appears, if it is too long for the viewport, a
+  scrollbar will appear on the right in the browser.  This takes up a
+  few pixels of widget, so make sure the LiveSearch and resultsbox
+  don't get pushed to the left.
+
 Searchbutton Policies
 =====================
 

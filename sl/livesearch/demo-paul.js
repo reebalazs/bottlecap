@@ -136,12 +136,11 @@ $(function() {
                 'livesearch',
                 {
                     url: url,
+                    dataType: 'json',
                     maxRequests: 1,
                     queue: 'clear',
                     abortOld: true,
                     success: function(data) {
-                        if (typeof data === 'string')
-                            data = $.parseJSON(data);
                         response(data);
                     },
                     error: function (xhr, status, exc) {
