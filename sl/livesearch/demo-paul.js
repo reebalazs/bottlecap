@@ -6,7 +6,8 @@ $(function() {
     var ajm = $.manageAjax.create('livesearch',
                                   { queue: true, cacheResponse: true }
                                  );
-    
+
+    // Some sample data
     var data = [
         { label: "anders", category: "" },
         { label: "andreas", category: "" },
@@ -20,7 +21,7 @@ $(function() {
     ];
 
 
-    // The drop-deown menu
+    // The drop-down menu
     $(".ui-ls-menu").button({
 	icons: {
 	    secondary: "ui-icon-triangle-1-s"
@@ -66,14 +67,11 @@ $(function() {
                 if (item.category !== currentCategory) {
                     var li = $('<li class="ui-autocomplete-category"></li>');
                     li.append(
-                        $('<span>')
+                        $('<span class="ui-ls-category-text"></span>')
                             .text(item.category)
-                        .css('display', 'inline-block')
-                        .width(300)
                         );
                     li.append(
-                        $('<span class="ls-more"></span>')
-                            .css('color', 'silver')
+                        $('<span class="ui-ls-more"></span>')
                             .attr('href', '/search/more')
                             .text('more')
                         .bind('click', function (evt, ui) {
@@ -95,14 +93,13 @@ $(function() {
             // Render different items in different ways
             switch (item.type) {
                 case 'profile': {
-                    entry = $('<a class="ls-profile"></a>');
+                    entry = $('<a class="ui-ls-profile"></a>');
                     entry.append($('<img>').attr('src', item.icon));
                     div = entry.append($('<div>'));
                     div.append(
-                        $('<span>')
+                        $('<span class="ui-ls-profilelabel"></span>')
                             .text(item.label)
-                            .css('display', 'inline-block')
-                            .width(250));
+                    );
                     div.append($('<span>')
                                .text(item.extension));
                     entry.append($('<div>').text(item.department));
@@ -176,7 +173,6 @@ $(function() {
 
     // Dynamically set some positioning
     $('.ui-ls-autocomplete')
-        .css('border', 'solid 1px lightgray')
         .height($('.ui-ls-menu').height()+1)
         .focus();
     $('.ui-ls-autocomplete').position({

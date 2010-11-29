@@ -13,6 +13,11 @@ body {
     border-bottom: solid gray 1px;
 }
 
+.ui-ls-category-text {
+    display: inline-block;
+    width: 300px;
+}
+
 .ui-menu { 
     width: 100px; 
     position: absolute; 
@@ -23,6 +28,7 @@ body {
 .ui-ls-autocomplete {
     padding: 0;
     margin: 0;
+    border: solid 1px lightgray;
 }
 
 #ui-menu-1 {
@@ -49,14 +55,23 @@ body {
     float: right;
 }
 
-.ls-profile img {
+.ui-ls-profile img {
     float: left; 
     margin-right: 10px;
     height: 32px;
     width: 32px;
 }
 
-.ls-more:hover {
+.ui-ls-profilelabel {
+    display: inline-block;
+    width: 250px;
+}
+
+.ui-ls-more {
+    color: silver;
+}
+
+.ui-ls-more:hover {
     cursor: pointer;
     text-decoration: underline;
 }
