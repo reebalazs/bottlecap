@@ -4,7 +4,10 @@ $(function() {
 
     $('.ui-ls-autocomplete').livesearch({
         url: 'demo-paul-data.json',
-        selectMenu: $('.ui-ls-menu')
+        search: function(event, ui) {
+            $('<p>Search for ' + ui.query + '</p>')
+                .appendTo($(document.body));
+        }
     });
 
     // The magnifying glass button on the right
