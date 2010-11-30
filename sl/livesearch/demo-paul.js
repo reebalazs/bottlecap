@@ -16,7 +16,14 @@ $(function() {
         var btn_text = $(this).find('.ui-button-text');
 	$(this).next().menu({
 	    select: function(event, ui) {
+
+                // Update the text in the button
                 btn_text.text(ui.item.text());
+
+                // Tell autocomplete about the new category
+                var ac = $('.ui-autocomplete'); // XXX should be less general
+                ac.data('selected_category', ui.item.text());
+                
 		$(this).hide();
 	    },
 	    input: $(this)
@@ -43,14 +50,21 @@ $(function() {
     $.widget("custom.catcomplete", $.ui.autocomplete, {
         _renderMenu: function(ul, items) {
             var self = this,
-                currentCategory = "";            
+                currentCategory = "";
+
+            // The context menu should have assigned a selected_menu
+            var selected_category = $('.ui-autocomplete').data('selected_category');
+            
             $.each(items, function (index, item) {
                 // Change autocomplete behavior which overrides the
                 // searchterm
                 item.data_value = item.value;
                 item.value = self.term;
                 
-                if (item.category !== currentCategory) {
+                if (
+                    (item.category !== currentCategory) &&
+                    (1==2)
+                    ){
                     var li = $('<li class="ui-autocomplete-category"></li>');
                     li.append(
                         $('<span class="ui-ls-category-text"></span>')
