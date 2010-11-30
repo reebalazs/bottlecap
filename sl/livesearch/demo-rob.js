@@ -2,20 +2,8 @@
 
 $(function() {
 
-    var data = [
-        { label: "anders", category: "" },
-        { label: "andreas", category: "" },
-        { label: "antal", category: "" },
-        { label: "annhhx10", category: "Products" },
-        { label: "annk K12", category: "Products" },
-        { label: "annttop C13", category: "Products" },
-        { label: "anders andersson", category: "People" },
-        { label: "andreas andersson", category: "People" },
-        { label: "andreas johnson", category: "People" }
-    ];
-
     $('.ui-ls-autocomplete').livesearch({
-        data: data,
+        url: 'demo-paul-data.json',
         selectMenu: $('.ui-ls-menu')
     });
 
@@ -23,6 +11,17 @@ $(function() {
     $(".ui-ls-gobtn").button({
         text: false,
         icons: {primary: "ui-icon-search"}
+    });
+
+    // XXX should this be in the livesearch widget itself?
+    // Dynamically set some positioning
+    $('.ui-ls-autocomplete')
+        .height($('.ui-ls-menu').height()+1)
+        .focus();
+    $('.ui-ls-autocomplete').position({
+        of: $('.ui-ls-menu'),
+        at: "right top",
+        my: "left top"
     });
 });
 
