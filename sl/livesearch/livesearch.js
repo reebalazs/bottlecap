@@ -60,6 +60,12 @@ $.widget("bottlecap.livesearch", {
         this.autoCompleteWidget = el.autocomplete({
             delay: 0,
             source: jQuery.proxy(this.queryData, this),
+            position: {
+	        my: "right top",
+	        at: "right bottom",
+                of: $('.ui-ls-gobtn'),
+	        collision: "none"
+            },            
             select: function(event, ui) {
                 // XXX this will need to change to probably use the url
                 self.performSearch(ui.item.label);
