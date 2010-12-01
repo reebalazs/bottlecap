@@ -61,10 +61,7 @@ $(function() {
                 item.data_value = item.value;
                 item.value = self.term;
                 
-                if (
-                    (item.category !== currentCategory) &&
-                    (1==2)
-                    ){
+                if (item.category !== currentCategory){
                     var li = $('<li class="ui-autocomplete-category"></li>');
                     li.append(
                         $('<span class="ui-ls-category-text"></span>')
