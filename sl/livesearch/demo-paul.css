@@ -4,13 +4,18 @@ body {
     font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 }
 
+.ui-ls-menu {
+    margin-right: 10px;
+}
+
 .ui-autocomplete-category {
     font-weight: bold;
     padding: 6px 364px 0 0;
     margin: 4px 0 0 -102px;
     line-height: 1.5;
-    border-top: solid gray 1px;
+    border-top: solid #999999 1px;
     text-align: right;
+    height: 0px;
 }
 
 .ui-menu { 
@@ -22,8 +27,8 @@ body {
 
 .ui-ls-autocomplete {
     padding: 0;
-    margin: 0;
-    border: solid 1px lightgray;
+    margin: 0 -10px 0 0;
+    border: solid 1px #eeeeee;
 }
 
 .ui-ls-autocomplete-first {
@@ -34,22 +39,23 @@ body {
     width: 350px;
     padding-left: 104px;
     background: #ffffff url(livesearch_bg.gif) repeat-y top left;
+    font-size: .7em;
+    display: block !important; /* for testing */
 }
 
 .ui-ls-gobtn {
-    margin-left: -1px;
     border-radius: 0px 4px 4px 0px;
 }
 
 
 .bc-header {
-    background-color: lightblue;
-    border-bottom: solid gray 1px;
+    background-color: #ADD8E6;
+    border-bottom: solid #999999 1px;
     padding: 0.5em;
 }
 
 .ui-widget {
-    font-size: 73%;
+    font-size: 1.2em;
 }
 
 .bc-header h1 {
@@ -58,10 +64,21 @@ body {
 
 .bc-header-toolbox {
     float: right;
+    font-size: 10px;
 }
 
 .bc-content-frame {
     margin: 2em;
+}
+
+.ui-menu .ui-menu-item a {
+    border: 1px solid #ffffff;
+}
+
+.ui-menu .ui-menu-item a:hover {
+    margin: 0;
+    border: 1px solid #999999;
+    background: #e1e1e1 url('../images/ui-bg_glass_75_dadada_1x400.png') repeat-x scroll 50% 50%;
 }
 
 .ui-ls-profile img {
@@ -88,6 +105,7 @@ body {
     position: absolute;
     width: 91px;
     margin-top: 15px;
+    left: 0;
 }
 
 .ui-ls-more:hover {
