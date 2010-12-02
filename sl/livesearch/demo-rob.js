@@ -7,6 +7,14 @@ $(function() {
         search: function(event, ui) {
             $('<p>Search for ' + ui.query + '</p>')
                 .appendTo($(document.body));
+        },
+        menu: function(event, ui) {
+            var text = ui.text;
+            if (text === 'People') {
+                $('.ui-ls-autocomplete').livesearch('option', 'url', 'demo-paul-data-people.json');
+            } else {
+                $('.ui-ls-autocomplete').livesearch('option', 'url', 'demo-paul-data.json');
+            }
         }
     });
 
