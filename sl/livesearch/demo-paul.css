@@ -40,7 +40,6 @@ body {
     padding-left: 104px;
     background: #ffffff url(livesearch_bg.gif) repeat-y top left;
     font-size: .7em;
-    display: block !important; /* for testing */
 }
 
 .ui-ls-gobtn {
