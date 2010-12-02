@@ -118,6 +118,14 @@ $.widget("bottlecap.livesearch", {
 
     performSearch: function(query) {
         this._trigger('search', 0, {query: query});
+    },
+
+    _setOption: function(key, value) {
+        if (key === 'url') {
+            this.url = value;
+        } else if (key === 'renderCompletions') {
+            this.renderer = value;
+        }
     }
 });
 
