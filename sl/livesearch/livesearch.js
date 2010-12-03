@@ -33,23 +33,23 @@ $.widget("bottlecap.livesearch", {
         });
         this.selectButtonText = this.selectButton.find('.ui-button-text');
         this.selectList.menu({
-            select: jQuery.proxy(this.menuSelected, this),
+            select: $.proxy(this.menuSelected, this),
             input: this.selectList
         }).hide();
-        this.selectButton.click(jQuery.proxy(this.selectButtonClicked, this));
-        this.selectList.click(jQuery.proxy(this.selectButtonClicked, this));
+        this.selectButton.click($.proxy(this.selectButtonClicked, this));
+        this.selectList.click($.proxy(this.selectButtonClicked, this));
 
         // set up auto complete behavior
         el.autocomplete({
             delay: 0,
-            source: jQuery.proxy(this.queryData, this),
+            source: $.proxy(this.queryData, this),
             position: {
                 my: "right top",
                 at: "right bottom",
                 of: this.searchButton,
                 collision: "none"
             },
-            select: jQuery.proxy(this.completionSelected, this)
+            select: $.proxy(this.completionSelected, this)
         });
         this.autoCompleteWidget = el.data('autocomplete');
 
@@ -60,7 +60,7 @@ $.widget("bottlecap.livesearch", {
             this.autoCompleteWidget._renderMenu = this.options.renderCompletions;
         }
 
-        this.searchButton.click(jQuery.proxy(this.searchButtonClicked, this));
+        this.searchButton.click($.proxy(this.searchButtonClicked, this));
     },
 
     // called when a particular category menu item is selected from the ul
