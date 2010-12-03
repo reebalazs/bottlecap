@@ -6,7 +6,7 @@ $.widget("bottlecap.livesearch", {
         // url for ajax request
         url: null,
         // function to call to render items from ajax request
-        renderCompletions: defaultRenderCompletions
+        renderCompletions: null,
     },
 
     _create: function () {
@@ -33,29 +33,34 @@ $.widget("bottlecap.livesearch", {
         });
         this.selectButtonText = this.selectButton.find('.ui-button-text');
         this.selectList.menu({
-            select: jQuery.proxy(this.menuSelected, this),
+            select: $.proxy(this.menuSelected, this),
             input: this.selectList
         }).hide();
-        this.selectButton.click(jQuery.proxy(this.selectButtonClicked, this));
-        this.selectList.click(jQuery.proxy(this.selectButtonClicked, this));
+        this.selectButton.click($.proxy(this.selectButtonClicked, this));
+        this.selectList.click($.proxy(this.selectButtonClicked, this));
 
         // set up auto complete behavior
-        this.autoCompleteWidget = el.autocomplete({
+        el.autocomplete({
             delay: 0,
-            source: jQuery.proxy(this.queryData, this),
+            source: $.proxy(this.queryData, this),
             position: {
                 my: "right top",
                 at: "right bottom",
                 of: this.searchButton,
                 collision: "none"
             },
-            select: jQuery.proxy(this.completionSelected, this)
+            select: $.proxy(this.completionSelected, this)
         });
+        this.autoCompleteWidget = el.data('autocomplete');
 
         // plug in rendering function when results come in
-        this.autoCompleteWidget.data('autocomplete')._renderMenu = this.options.renderCompletions;
+        // first save the default
+        this._defaultRenderCompletions = this.autoCompleteWidget._renderMenu;
+        if (typeof this.options.renderCompletions === 'function') {
+            this.autoCompleteWidget._renderMenu = this.options.renderCompletions;
+        }
 
-        this.searchButton.click(jQuery.proxy(this.searchButtonClicked, this));
+        this.searchButton.click($.proxy(this.searchButtonClicked, this));
     },
 
     // called when a particular category menu item is selected from the ul
@@ -124,91 +129,14 @@ $.widget("bottlecap.livesearch", {
         if (key === 'url') {
             this.url = value;
         } else if (key === 'renderCompletions') {
-            this.renderer = value;
+            if (typeof value === 'function') {
+                this.autoCompleteWidget._renderMenu = value;
+            } else if (value === 'default') {
+                this.autoCompleteWidget._renderMenu = this._defaultRenderCompletions;
+            }
         }
     }
+
 });
-
-function addressFormatting(text) {
-    var newText = text;
-    //array of find replaces
-    var findreps = [
-        {find:/^([^\-]+) \- /g, rep: '<span class="ui-selectmenu-item-header">$1</span>'},
-        {find:/([^\|><]+) \| /g, rep: '<span class="ui-selectmenu-item-content">$1</span>'},
-        {find:/([^\|><\(\)]+) (\()/g, rep: '<span class="ui-selectmenu-item-content">$1</span>$2'},
-        {find:/([^\|><\(\)]+)$/g, rep: '<span class="ui-selectmenu-item-content">$1</span>'},
-        {find:/(\([^\|><]+\))$/g, rep: '<span class="ui-selectmenu-item-footer">$1</span>'}
-    ];
-
-    for (var i in findreps) {
-        newText = newText.replace(findreps[i].find, findreps[i].rep);
-    }
-    return newText;
-}
-
-function defaultRenderCompletions(ul, items) {
-    var self = this,
-        currentCategory = "";
-    $.each(items, function(index, item) {
-        // Change autocomplete behavior which overrides the
-        // searchterm
-        item.data_value = item.value;
-        item.value = self.term;
-         if (item.category !== currentCategory) {
-            var li = $('<li class="ui-autocomplete-category"></li>');
-            li.append(
-                $('<span class="ui-ls-category-text"></span>')
-                    .text(item.category)
-            );
-            li.append(
-                $('<span class="ui-ls-more"></span>')
-                    .attr('href', '/search/more')
-                    .text('more')
-                    .click((function(category) {
-                        return function() {
-                            $('<p>More link clicked for '
-                              + category + '</p>')
-                                .appendTo($(document.body));
-                            return false;
-                        };
-                    })(item.category))
-            );
-            ul.append(li);
-            currentCategory = item.category;
-        }
-        defaultRenderItem(ul, item);
-    });
-    // Set a class on the first item, to remove a border on
-    // the first row
-    ul.find('li:first').addClass('ui-ls-autocomplete-first');
-}
-
-function defaultRenderItem(ul, item) {
-    var li = $('<li>');
-    var entry, div;
-     // Render different items in different ways
-    switch (item.type) {
-        case 'profile': {
-            entry = $('<a class="ui-ls-profile"></a>');
-            entry.append($('<img>').attr('src', item.icon));
-            div = entry.append($('<div>'));
-            div.append(
-                $('<span class="ui-ls-profilelabel"></span>')
-                    .text(item.label)
-            );
-            div.append($('<span>')
-                       .text(item.extension));
-            entry.append($('<div>').text(item.department));
-            break;
-        };
-         default: {
-            entry = $( "<a></a>" ).text( item.label );
-        };
-    };
-    return $( "<li></li>" )
-        .data( "item.autocomplete", item )
-        .append( entry )
-        .appendTo( ul );
-}
 
 })(jQuery);

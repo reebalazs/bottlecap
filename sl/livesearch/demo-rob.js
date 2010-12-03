@@ -15,7 +15,8 @@ $(function() {
             } else {
                 $('.ui-ls-autocomplete').livesearch('option', 'url', 'demo-paul-data.json');
             }
-        }
+        },
+        renderCompletions: renderCompletions
     });
 
     // The magnifying glass button on the right
@@ -35,5 +36,71 @@ $(function() {
         my: "left top"
     });
 });
+
+function renderCompletions(ul, items) {
+    var self = this,
+        currentCategory = "";
+    $.each(items, function(index, item) {
+        // Change autocomplete behavior which overrides the
+        // searchterm
+        item.data_value = item.value;
+        item.value = self.term;
+         if (item.category !== currentCategory) {
+            var li = $('<li class="ui-autocomplete-category"></li>');
+            li.append(
+                $('<span class="ui-ls-category-text"></span>')
+                    .text(item.category)
+            );
+            li.append(
+                $('<span class="ui-ls-more"></span>')
+                    .attr('href', '/search/more')
+                    .text('more')
+                    .click((function(category) {
+                        return function() {
+                            $('<p>More link clicked for '
+                              + category + '</p>')
+                                .appendTo($(document.body));
+                            return false;
+                        };
+                    })(item.category))
+            );
+            ul.append(li);
+            currentCategory = item.category;
+        }
+        renderItem(ul, item);
+    });
+    // Set a class on the first item, to remove a border on
+    // the first row
+    ul.find('li:first').addClass('ui-ls-autocomplete-first');
+}
+
+function renderItem(ul, item) {
+    var li = $('<li>');
+    var entry, div;
+     // Render different items in different ways
+    switch (item.type) {
+        case 'profile': {
+            entry = $('<a class="ui-ls-profile"></a>');
+            entry.append($('<img>').attr('src', item.icon));
+            div = entry.append($('<div>'));
+            div.append(
+                $('<span class="ui-ls-profilelabel"></span>')
+                    .text(item.label)
+            );
+            div.append($('<span>')
+                       .text(item.extension));
+            entry.append($('<div>').text(item.department));
+            break;
+        };
+         default: {
+            entry = $( "<a></a>" ).text( item.label );
+        };
+    };
+    return $( "<li></li>" )
+        .data( "item.autocomplete", item )
+        .append( entry )
+        .appendTo( ul );
+}
+
 
 })(jQuery);
