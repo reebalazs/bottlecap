@@ -40,7 +40,7 @@ $.widget("bottlecap.livesearch", {
         this.selectList.click(jQuery.proxy(this.selectButtonClicked, this));
 
         // set up auto complete behavior
-        this.autoCompleteWidget = el.autocomplete({
+        el.autocomplete({
             delay: 0,
             source: jQuery.proxy(this.queryData, this),
             position: {
@@ -51,12 +51,13 @@ $.widget("bottlecap.livesearch", {
             },
             select: jQuery.proxy(this.completionSelected, this)
         });
+        this.autoCompleteWidget = el.data('autocomplete');
 
         // plug in rendering function when results come in
         // first save the default
-        this._defaultRenderCompletions = this.autoCompleteWidget.data('autocomplete')._renderMenu;
+        this._defaultRenderCompletions = this.autoCompleteWidget._renderMenu;
         if (typeof this.options.renderCompletions === 'function') {
-            this.autoCompleteWidget.data('autocomplete')._renderMenu = this.options.renderCompletions;
+            this.autoCompleteWidget._renderMenu = this.options.renderCompletions;
         }
 
         this.searchButton.click(jQuery.proxy(this.searchButtonClicked, this));
@@ -129,9 +130,9 @@ $.widget("bottlecap.livesearch", {
             this.url = value;
         } else if (key === 'renderCompletions') {
             if (typeof value === 'function') {
-                this.autoCompleteWidget.data('autocomplete')._renderMenu = value;
+                this.autoCompleteWidget._renderMenu = value;
             } else if (value === 'default') {
-                this.autoCompleteWidget.data('autocomplete')._renderMenu = this._defaultRenderCompletions;
+                this.autoCompleteWidget._renderMenu = this._defaultRenderCompletions;
             }
         }
     }
