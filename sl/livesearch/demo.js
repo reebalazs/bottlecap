@@ -1,20 +1,24 @@
 (function($) {
 
+function createUrlFn(urlPrefix) {
+    return function(query) {
+        return urlPrefix + '?q=' + escape(query);
+    }
+}
+
 $(function() {
 
     $('.ui-ls-autocomplete').livesearch({
-        url: 'demo-paul-data.json',
+        urlfn: createUrlFn('data.json'),
         search: function(event, ui) {
             $('<p>Search for ' + ui.query + '</p>')
                 .appendTo($(document.body));
         },
         menu: function(event, ui) {
             var text = ui.text;
-            if (text === 'People') {
-                $('.ui-ls-autocomplete').livesearch('option', 'url', 'demo-paul-data-people.json');
-            } else {
-                $('.ui-ls-autocomplete').livesearch('option', 'url', 'demo-paul-data.json');
-            }
+            var urlFn = createUrlFn(
+                text === 'People' ? 'data-people.json' : 'data.json');
+            $('.ui-ls-autocomplete').livesearch('option', 'urlfn', urlFn);
         },
         renderCompletions: renderCompletions
     });

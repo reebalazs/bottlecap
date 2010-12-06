@@ -3,20 +3,18 @@
 $.widget("bottlecap.livesearch", {
 
     options: {
-        // url for ajax request
-        url: null,
+        // function to call for ajax url request
+        // scope is set to this widget
+        urlfn: null,
         // function to call to render items from ajax request
         renderCompletions: null
     },
 
     _create: function () {
-        var el = this.element,
-            url = this.options.url;
+        var el = this.element;
 
         // store state on plugin widget itself
-        this.cache = {};
-        this.lastXhr = null;
-        this.url = url;
+        this.urlfn = this.options.urlfn;
         this.ajaxManager = $.manageAjax.create(
             'livesearch',
             {queue: true, cacheResponse: true}
@@ -92,7 +90,6 @@ $.widget("bottlecap.livesearch", {
     },
 
     completionSelected: function(event, ui) {
-        // XXX this will need to change to probably use the url
         var item = ui.item;
         if (this._trigger('complete', 0, {item: item}) !== false) {
             this.performSearch(item.label);
@@ -100,19 +97,22 @@ $.widget("bottlecap.livesearch", {
     },
 
     queryData: function(request, response) {
-        var term = request.term;
+        var term = request.term,
+             url = this.urlfn.call(this, term);
 
-        // using the ajax manager reference doesn't work :(
-//        this.ajaxManager.add(
         $.manageAjax.add(
             'livesearch',
-            {url: this.url,
+            {url: url,
              dataType: 'json',
              maxRequests: 1,
              queue: 'clear',
              abortOld: true,
              success: function(data) { response(data); },
-             error: function (xhr, status, exc) { console.log(status); }
+             error: function (xhr, status, exc) {
+                 if (console && console.log) {
+                     this.log(status);
+                 }
+             }
         });
     },
 
@@ -126,8 +126,8 @@ $.widget("bottlecap.livesearch", {
     },
 
     _setOption: function(key, value) {
-        if (key === 'url') {
-            this.url = value;
+        if (key === 'urlfn') {
+            this.urlfn = value;
         } else if (key === 'renderCompletions') {
             if (typeof value === 'function') {
                 this.autoCompleteWidget._renderMenu = value;
