@@ -6,7 +6,7 @@ $.widget("bottlecap.livesearch", {
         // url for ajax request
         url: null,
         // function to call to render items from ajax request
-        renderCompletions: null,
+        renderCompletions: null
     },
 
     _create: function () {
@@ -112,7 +112,7 @@ $.widget("bottlecap.livesearch", {
              queue: 'clear',
              abortOld: true,
              success: function(data) { response(data); },
-             error: function (xhr, status, exc) { console.log(status); },
+             error: function (xhr, status, exc) { console.log(status); }
         });
     },
 
