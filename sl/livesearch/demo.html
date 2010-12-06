@@ -1,41 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>jQuery UI Autocomplete - Categories</title>
+  <title>LiveSearch Widget</title>
   <script src="../jquery-1.4.4.min.js"></script>
-  <script src="../jquery.corner-2.11.js"></script>
-  <link href="../jquery-ui-1.9m3.custom.css"
-        rel="stylesheet">
+  <link href="../jquery-ui-1.9m3.custom.css" rel="stylesheet">
   <link href="../jquery.ui.selectmenu.css" rel="stylesheet" />
+
+
   <link href="demo.css" rel="stylesheet">
   <script src="../jquery-ui-1.9m3.custom.min.js"></script>
-  <script src="../jquery.ui.selectmenu.js"></script>
+  <script src="../jquery.ajaxmanager-3.0.7.js"></script>
+  <script src="livesearch.js"></script>
   <script src="demo.js"></script>
 </head>
 <body>
 
-  <form action="#">
-    <fieldset>
-      <label for="speedD">Select an Address:</label>
-      <select name="speedD" id="speedD">
-        <option>John Doe - 78 West Main St Apt 3A | Bloomsburg, PA 12345 (footer text)</option>
-        <option>Jane Doe - 78 West Main St Apt 3A | Bloomsburg, PA 12345 (footer text)</option>
-        <option selected="selected">Joseph Doe - 78 West Main St Apt 3A | Bloomsburg, PA 12345 (footer text)</option>
-        <option>Mad Doe Kiiid - 78 West Main St Apt 3A | Bloomsburg, PA 12345 (footer text)</option>
-      </select>
-    </fieldset>
-    <div class="demo">
-      <label for="search">Search:
-        <div>
-          <em>Grouped results, type "a" or "n".</em>
-        </div>
-      </label>
-      <input id="search" />
+  <div class="bc-header">
+
+    <div class="bc-header-toolbox">
+      <button class="ui-ls-menu">All Content</button><ul>
+        <li><a href="#">People</a></li>
+        <li><a href="#">Pages</a></li>
+        <li><a href="#">Posts</a></li>
+        <li><a href="#">Files</a></li>
+        <li><a href="#">Other</a></li>
+        <li><a href="#">All Content</a></li>
+      </ul><input class="ui-ls-autocomplete" /><button class="ui-ls-gobtn">Search</button>
     </div>
-  </form>
-  <script type="text/javascript">
-    $('.demo').corner();
-  </script>
+
+    <h1>Bottlecap</h1>
+
+  </div>
 
 </body>
 </html>

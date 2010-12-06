@@ -3,7 +3,7 @@
 $(function() {
 
     $('.ui-ls-autocomplete').livesearch({
-        url: 'demo-paul-data.json',
+        url: 'data.json',
         search: function(event, ui) {
             $('<p>Search for ' + ui.query + '</p>')
                 .appendTo($(document.body));
@@ -11,9 +11,9 @@ $(function() {
         menu: function(event, ui) {
             var text = ui.text;
             if (text === 'People') {
-                $('.ui-ls-autocomplete').livesearch('option', 'url', 'demo-paul-data-people.json');
+                $('.ui-ls-autocomplete').livesearch('option', 'url', 'data-people.json');
             } else {
-                $('.ui-ls-autocomplete').livesearch('option', 'url', 'demo-paul-data.json');
+                $('.ui-ls-autocomplete').livesearch('option', 'url', 'data.json');
             }
         },
         renderCompletions: renderCompletions
