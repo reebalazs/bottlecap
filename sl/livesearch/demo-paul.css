@@ -111,3 +111,7 @@ body {
     cursor: pointer;
     text-decoration: underline;
 }
+
+.sras-searchresult {
+    margin-bottom: 1em;
+}

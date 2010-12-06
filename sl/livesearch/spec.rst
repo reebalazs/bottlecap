@@ -139,6 +139,28 @@ Autocomplete Policies
   few pixels of widget, so make sure the LiveSearch and resultsbox
   don't get pushed to the left.
 
+Advanced Search Results Policies
+================================
+
+This refers to the searchresults page, which is now combined with the
+functionality from advanced search to give a drilldown-style UI.
+
+- You get here by pressing "enter" in LiveSearch or clicking the
+  "search" button.
+
+- The search performed is *not* a prefix search, thus it shows some
+  slightly different results than LiveSearch.
+
+- Show the total number of matches, to the degree that accuracy and
+  performance are possible.
+
+- Show a pagination box with several batches ahead/behind, as well as
+  the first and last batch.
+
+- If the infrastructure provides it, give a "contextual summary" on
+  each searc result, showing the area around the match(es) with the
+  matched word (possibly synonym'd or stemmed) in bold.
+
 Searchbutton Policies
 =====================
 
@@ -160,3 +182,6 @@ Questions
 
 #. Should we display the total number of matches?
 
+
+Advanced Search Results Policies
+================================
