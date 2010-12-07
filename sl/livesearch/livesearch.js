@@ -110,7 +110,7 @@ $.widget("bottlecap.livesearch", {
              success: function(data) { response(data); },
              error: function (xhr, status, exc) {
                  if (console && console.log) {
-                     this.log(status);
+                     console.log(status);
                  }
              }
         });
