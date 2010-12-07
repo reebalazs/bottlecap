@@ -59,7 +59,9 @@ $.widget("bottlecap.livesearch", {
             this.autoCompleteWidget._renderMenu = this.options.renderCompletions;
         }
 
+        // search handlers
         this.searchButton.click($.proxy(this.searchButtonClicked, this));
+        el.keypress($.proxy(this.keyPressed, this));
     },
 
     // called when a particular category menu item is selected from the ul
@@ -120,6 +122,15 @@ $.widget("bottlecap.livesearch", {
     searchButtonClicked: function() {
         this.performSearch(this.element.val());
         return false;
+    },
+
+    keyPressed: function(e) {
+        // on enter key, we want to search
+        if (e.keyCode === 13) {
+            this.performSearch(this.element.val());
+            return false;
+        }
+        return true;
     },
 
     performSearch: function(query) {
