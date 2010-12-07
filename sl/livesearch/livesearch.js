@@ -39,7 +39,7 @@ $.widget("bottlecap.livesearch", {
 
         // set up auto complete behavior
         el.autocomplete({
-            delay: 0,
+            delay: 300,
             source: $.proxy(this.queryData, this),
             position: {
                 my: "right top",
