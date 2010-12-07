@@ -161,6 +161,13 @@ functionality from advanced search to give a drilldown-style UI.
   each searc result, showing the area around the match(es) with the
   matched word (possibly synonym'd or stemmed) in bold.
 
+- The searchbox inside the sras page is *not* an advanced search.
+
+- Just below the sras searchbox, we show the estimated total matches.
+
+- The drill-down on types has choices which do not match the
+  meta-choices in the context/category menu.
+
 Searchbutton Policies
 =====================
 

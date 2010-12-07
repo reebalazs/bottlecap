@@ -59,6 +59,8 @@ body {
 
 .bc-header h1 {
     margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1.6em;
 }
 
 .bc-header-toolbox {
@@ -114,4 +116,29 @@ body {
 
 .sras-searchresult {
     margin-bottom: 1em;
+}
+
+.sras-searchfooterlinks {
+    color: gray;
+    font-weight: 200;
+}
+
+.sras-searchknobs a {
+    text-decoration: none;
+    color: blue;
+}
+
+.sras-searchknobs p {
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+}
+
+.sras-searchknobgroup {
+    border-bottom: solid gray 1px; 
+    padding-bottom: 1em;
+    padding-top: 1em;
+}
+
+.sras-searchknobs a:visited {
+    color: blue;
 }
