@@ -127,6 +127,9 @@ $.widget("bottlecap.livesearch", {
     keyPressed: function(e) {
         // on enter key, we want to search
         if (e.keyCode === 13) {
+            // close the selections first
+            this.autoCompleteWidget.close();
+
             this.performSearch(this.element.val());
             return false;
         }
