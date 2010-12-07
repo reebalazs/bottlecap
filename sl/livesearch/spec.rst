@@ -168,6 +168,12 @@ functionality from advanced search to give a drilldown-style UI.
 - The drill-down on types has choices which do not match the
   meta-choices in the context/category menu.
 
+- Choosing a searchknob clears the location in the pagination and goes
+  back to the beginning.
+
+- Choosing one kind of searchknob retains a choice in another
+  searchknob group.
+
 Searchbutton Policies
 =====================
 
