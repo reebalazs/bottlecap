@@ -12,7 +12,7 @@ $(function() {
         urlfn: createUrlFn('data.json'),
         search: function(event, ui) {
             $('<p>Search for ' + ui.query + '</p>')
-                .appendTo($(document.body));
+                .prependTo($('.bc-content-frame'));
         },
         menu: function(event, ui) {
             var text = ui.text;
@@ -63,7 +63,7 @@ function renderCompletions(ul, items) {
                         return function() {
                             $('<p>More link clicked for '
                               + category + '</p>')
-                                .appendTo($(document.body));
+                                .prependTo($('.bc-content-frame'));
                             return false;
                         };
                     })(item.category))
