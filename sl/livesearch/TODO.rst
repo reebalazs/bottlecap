@@ -18,9 +18,6 @@ Medium Priority
 - (Chrissy) Some concept of striping for even/odd rows, or some other
   way to avoid them all looking the same.
 
-- (Chrissy) Get the spacing right between the subwidgets, so there
-  isn't any background leaking through.
-
 - (Robert) When the resultsbox is visible, clicking in the contextmenu
   should make the resultsbox vanish and the contextmenu appear.
 
@@ -41,13 +38,6 @@ Low Priority
 
 - (Chrissy) See if we can get a em based approach to sizes (box,
   fonts) instead of px across browsers.
-
-- (Chrissy) Better color scheme than "gray", "lightgray".  Later we'll
-  convert to use whatever the installed jQuery UI theme wants.
-
-- (Chrissy) The height of the box changes when using the cursor keys
-  to select something.  Do a search, press down to select the first
-  item, and the entire resultsbox shifts down.
 
 - (Robert) Have a consistent, namespaced approach to selector names.
 
