@@ -198,3 +198,7 @@ Questions
 
 Advanced Search Results Policies
 ================================
+
+Handshake with server
+=====================
+results by category should be grouped together
