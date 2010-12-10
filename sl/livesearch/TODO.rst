@@ -1,9 +1,6 @@
 High Priority
 =============
 
-- (Paul/Robert) Sticky policies on context menus.
-  (look into jstore. can store hierarchically under personal info)
-
 - (Paul/Robert) Handle multi-word searchterms.  Pain.
 
 - (Paul) Wire up activation, meaning, navigate to other pages.  Enter,
@@ -71,6 +68,9 @@ Completed
 
 - (Chrissy) Get the spacing right between the subwidgets, so there
   isn't any background leaking through.
+
+- (Paul/Robert) Sticky policies on context menus.
+  (look into jstore. can store hierarchically under personal info)
 
 Wont Fix
 ========
