@@ -7,18 +7,22 @@ $.widget("bottlecap.livesearch", {
         // scope is set to this widget
         urlfn: null,
         // function to call to render items from ajax request
-        renderCompletions: null
+        renderCompletions: null,
+        cookieName: 'bottlecap.livesearch.searchType'
     },
 
     _create: function () {
-        var el = this.element;
+        var el = this.element,
+             o = this.options;
 
         // store state on plugin widget itself
-        this.urlfn = this.options.urlfn;
+        this.urlfn = o.urlfn;
         this.ajaxManager = $.manageAjax.create(
             'livesearch',
             {queue: true, cacheResponse: true}
         );
+        this.cookieName = o.cookieName;
+        this.cookieValue = $.cookie(o.cookieName);
 
         // store references to elements
         this.selectList = el.prev('ul');
@@ -62,13 +66,39 @@ $.widget("bottlecap.livesearch", {
         // search handlers
         this.searchButton.click($.proxy(this.searchButtonClicked, this));
         el.keypress($.proxy(this.keyPressed, this));
+
+        // if the cookie exists, we need to select the appropriate element
+        if (this.cookieValue) {
+            var searchType = this.cookieValue;
+            var liNodes = this.selectList.find('li');
+            var liArray = $.makeArray(liNodes);
+            for (var i = 0; i < liArray.length; i++) {
+                var li = $(liArray[i]);
+                if (li.text() === searchType) {
+                    var dontSaveCookie = true;
+                    this.menuSelected(0, {item: li}, dontSaveCookie)
+                    break;
+                }
+            }
+        }
+
     },
 
     // called when a particular category menu item is selected from the ul
-    menuSelected: function(event, ui) {
+    menuSelected: function(event, ui, dontSaveCookie) {
         var item = ui.item,
             text = item.text();
+
         this.selectButtonText.text(text);
+
+        // store the selection in the cookie this function is also
+        // called initially to populate the right selection so we
+        // don't want to resave the cookie at that point
+        if (!dontSaveCookie) {
+            this.cookieValue = text;
+            $.cookie(this.cookieName, this.cookieValue);
+        }
+
         this._trigger('menu', 0, {
             item: item,
             text: text
