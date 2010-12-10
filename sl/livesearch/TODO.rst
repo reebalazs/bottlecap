@@ -26,6 +26,9 @@ Medium Priority
 
 - (Robert) When mouse is hovering a menu item, cursor keys can move the
   highlighted item, but the item under the mouse remains selected too.
+  
+- (Chrissy) Fix display of livesearch results box for when there is
+  only one results http://imagebin.ca/view/GOUcbK.html
 
 Low Priority
 ============
