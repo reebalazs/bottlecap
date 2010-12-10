@@ -33,266 +33,182 @@
   </div>
 
   <div class="bc-content-frame">
-    <div style="text-align: center; padding-bottom: 1em">
-      <div>
-	<input id="ls-current-searchterm" 
-	       size="50" value="Somesearch"/>
-	<button style="font-size: 0.6em; padding:0; margin-left: -0.5em"
-	   class="ui-ls-gobtn">Search</button>
-      </div>
-      <div style="font-size: x-small; font-weight: 200; color: gray">About
-      1,927 results (0.17 seconds)</div>
+    <div class="sras-header">
+      <input id="ls-current-searchterm" size="50" value="Somesearch"/>
+	  <button style="font-size: 0.6em; padding:0; margin-left: -0.5em" class="ui-ls-gobtn">Search</button>
+      <span class="discreet">About 1,927 results (0.17 seconds)</span>
     </div>
-    <table width="85%" border="0" style="font-size: 13px; font-family: arial,sans-serif">
-      <!-- XXX Chrissy, un-table-ify this -->
-      <tbody>
-	<tr>
-	  <td class="sras-searchknobs" width="150" valign="top" style="border-right: solid gray 1px">
+      
+    <div id="sras-content">
+        <div class="sras-searchknobs">
 
 	    <!-- Left hand column of search knobs -->
 
-	    <div class="sras-searchknobgroup">
+	    <div class="sras-searchknobgroup content">
 	      <p><strong>All Content</strong></p>
-	      <p><a href="#">Blog Entry</a></p>
-	      <p><a href="#">Blog Comment</a></p>
-	      <p><a href="#">Community</a></p>
-	      <p><a href="#">Event</a></p>
-	      <p><a href="#">File</a></p>
-	      <p><a href="#">News Item</a></p>
-	      <p><a href="#">Profile</a></p>
-	      <p><a href="#">Wiki Page</a></p>
+	      <ul>
+            <li><img src="icons/blog.png" alt="Blog" /><a href="#">Blog Entry</a></li>
+            <li><img src="icons/quill.png" alt="Blog Comment" /><a href="#">Blog Comment</a></li>
+            <li><img src="icons/building.png" alt="Community" /><a href="#">Community</a></li>
+            <li><img src="icons/calendar-select.png" alt="Event" /><a href="#">Event</a></li>
+            <li><img src="icons/blue-document-text.png" alt="File" /><a href="#">File</a></li>
+            <li><img src="icons/newspaper.png" alt="News" /><a href="#">News Item</a></li>
+            <li><img src="icons/user.png" alt="Profile" /><a href="#">Profile</a></li>
+            <li><img src="icons/blog-blue.png" alt="Wiki" /><a href="#">Wiki Page</a></li>
+	      </ul>
 	    </div>
 
 	    <div class="sras-searchknobgroup">
-	      <p><a href="#">Any time</a></p>
-	      <p><a href="#">Past hour</a></p>
-	      <p><a href="#">Past day</a></p>
-	      <p><strong>Past week</strong></p>
-	      <p><a href="#">Past month</a></p>
-	      <p><a href="#">Past year</a></p>
+	        <ul>
+                <li><a href="#">Any time</a></li>
+                <li><a href="#">Past hour</a></li>
+                <li><a href="#">Past day</a></li>
+                <li><strong>Past week</strong></li>
+                <li><a href="#">Past month</a></li>
+                <li><a href="#">Past year</a></li>
+	      </ul>
 	    </div>
 
-	    <div class="sras-searchknobgroup" style="border-bottom: none">
+	    <div class="sras-searchknobgroup last">
+	        <label>Author</label>
+		    <input value="Paul Everitt" size="20" />
+		    <button class="ui-ls-gobtn">Search</button>
+	   
+	        <label>Tag</label>
+            <input value="justonetag" size="20" />
+            <button class="ui-ls-gobtn">Search</button>
+        </div>
+
+	  </div>
+
+	  <div id="sras-results">
 	      
-	      <p>
-		<div>Author</div>
-		<div><input style="font-size: 0.7em" value="Paul Everitt" size="20" /><button style="font-size: 0.6em; padding:0; margin-left: -0.5em"
-	   class="ui-ls-gobtn">Search</button></div>
-	      </p>
+        <div class="sras-result">
+            <a class="sras-result-title" href="#">Some Document in a Community</a>
+            <p class="sras-summary">
+                Lots of stuff here about the contextual summary
+                of <span class="sras-highlight">somesearch</span>es, stuff that will wrap,
+                stuff that will go on and on.  Even more stuff, fills up
+                an entire screen before it decides to wrap to a new
+                line.
+            </p>
+            <div class="sras-details">
+                <img src="icons/blog-blue.png" alt="Wiki" />
+                Wiki in <a class="sras-searchfooterlinks" href="#">Some Community Name</a>
+                modified <em>8 minutes ago</em>
+                by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
+            </div>
+        </div>
+        
+        <div class="sras-result">
+            <a class="sras-result-title" href="#">Some Document in a Community</a>
+            <p class="sras-summary">
+                Lots of stuff here about the contextual summary
+                of <span class="sras-highlight">somesearch</span>es, stuff that will wrap,
+                stuff that will go on and on.  Even more stuff, fills up
+                an entire screen before it decides to wrap to a new
+                line.
+            </p>
+            <div class="sras-details">
+                <img src="icons/blog.png" alt="Blog" />
+                Blog in <a class="sras-searchfooterlinks" href="#">Some Community Name</a>
+                modified <em>8 minutes ago</em>
+                by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
+            </div>
+        </div>
+        
+        <div class="sras-result">
+            <a class="sras-result-title" href="#">Some Document in a Community</a>
+            <p class="sras-summary">
+                Lots of stuff here about the contextual summary
+                of <span class="sras-highlight">somesearch</span>es, stuff that will wrap,
+                stuff that will go on and on.  Even more stuff, fills up
+                an entire screen before it decides to wrap to a new
+                line.
+            </p>
+            <div class="sras-details">
+                <img src="icons/calendar-select.png" alt="Event" />
+                Event in <a class="sras-searchfooterlinks" href="#">Some Community Name</a>
+                modified <em>8 minutes ago</em>
+                by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
+            </div>
+        </div>
+        
+        <div class="sras-result">
+            <a class="sras-result-title" href="#">Some Document in a Community</a>
+            <p class="sras-summary">
+                Lots of stuff here about the contextual summary
+                of <span class="sras-highlight">somesearch</span>es, stuff that will wrap,
+                stuff that will go on and on.  Even more stuff, fills up
+                an entire screen before it decides to wrap to a new
+                line.
+            </p>
+            <div class="sras-details">
+                <img src="icons/blue-document-text.png" alt="File" />
+                File in <a class="sras-searchfooterlinks" href="#">Some Community Name</a>
+                modified <em>8 minutes ago</em>
+                by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
+            </div>
+        </div>
+        
+        <div class="sras-result">
+            <a class="sras-result-title" href="#">Some Document in a Community</a>
+            <p class="sras-summary">
+                Lots of stuff here about the contextual summary
+                of <span class="sras-highlight">somesearch</span>es, stuff that will wrap,
+                stuff that will go on and on.  Even more stuff, fills up
+                an entire screen before it decides to wrap to a new
+                line.
+            </p>
+            <div class="sras-details">
+                <img src="icons/blog-blue.png" alt="Wiki" />
+                Wiki in <a class="sras-searchfooterlinks" href="#">Some Community Name</a>
+                modified <em>8 minutes ago</em>
+                by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
+            </div>
+        </div>
+        
+        <div class="sras-result">
+            <a class="sras-result-title" href="#">Some Document in a Community</a>
+            <p class="sras-summary">
+                Lots of stuff here about the contextual summary
+                of <span class="sras-highlight">somesearch</span>es, stuff that will wrap,
+                stuff that will go on and on.  Even more stuff, fills up
+                an entire screen before it decides to wrap to a new
+                line.
+            </p>
+            <div class="sras-details">
+                <img src="icons/blog.png" alt="Blog" />
+                Blog in <a class="sras-searchfooterlinks" href="#">Some Community Name</a>
+                modified <em>8 minutes ago</em>
+                by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
+            </div>
+        </div>
+        
+        <div class="sras-result">
+            <a class="sras-result-title" href="#">Some Document in a Community</a>
+            <p class="sras-summary">
+                Lots of stuff here about the contextual summary
+                of <span class="sras-highlight">somesearch</span>es, stuff that will wrap,
+                stuff that will go on and on.  Even more stuff, fills up
+                an entire screen before it decides to wrap to a new
+                line.
+            </p>
+            <div class="sras-details">
+                <img src="icons/calendar-select.png" alt="Event" />
+                Event in <a class="sras-searchfooterlinks" href="#">Some Community Name</a>
+                modified <em>8 minutes ago</em>
+                by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
+            </div>
+        </div>
 
-	      <p>
-		<div>Tag</div>
-		<div><input style="font-size: 0.7em" value="justonetag" size="20" /><button style="font-size: 0.6em; padding:0; margin-left: -0.5em"
-	   class="ui-ls-gobtn">Search</button></div>
-	      </p>
-
-	    </div>
-
-	  </td>
-
-	  <td style="padding-left: 1em">
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-	    <div class="sras-searchresult">
-	      <div style="font-size: larger; font-weight:
-	      bold"><a href="#">Some Document in a Community</a></div>
-	      <p style="margin-top: 0.2em; margin-bottom: 0.2em">Lots
-	      of stuff here about the contextual summary
-	      of <strong>somesearches</strong>, stuff that will wrap,
-	      stuff that will go on and on.  Even more stuff, fills up
-	      an entire screen before it decides to wrap to a new
-	      line.
-	      </p>
-	      <div style="color: gray; font-weight: 200;">
-		<img src="xls_small.gif" height="12" width="12"
-		alt="File icon" /> File
-		in <a class="sras-searchfooterlinks" href="#">Some
-		Community Name</a> modified <em>8 minutes ago</em>
-		by <a class="sras-searchfooterlinks" href="#">Paul Everitt</a>
-	      </div>
-	    </div>
-
-
-
-	  </td>
-	</tr>
-      </tbody>
-      <tfoot>
-	<tr style="margin-top: 3em">
-	  <td></td>
-	  <td style="background-color: lightgray; text-align: right; padding: 0.4em">pagination box</td>
-	</tr>
-      </tfoot>
-    </table>
+	    
+	  </div>
+	  
+	<div id="sras-pagination">
+	  pagination box
+	</div>
+	
   </div>
 
 </body>
