@@ -22,7 +22,7 @@ $.widget("bottlecap.livesearch", {
             {queue: true, cacheResponse: true}
         );
         this.cookieName = o.cookieName;
-        //this.cookieValue = $.cookie(o.cookieName);
+        this.cookieValue = $.cookie(o.cookieName);
 
         // store references to elements
         this.selectList = el.prev('ul');
