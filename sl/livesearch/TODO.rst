@@ -3,8 +3,6 @@ High Priority
 
 - (Robert) Handle multi-word searchterms with globbing.
 
-- (Robert) Automatically trigger new search when user changes category.
-
 Medium Priority
 ===============
 
@@ -85,3 +83,5 @@ Completed
 - (Robert) Wire up activation, meaning, navigate to other pages.  Enter,
   click, click on button, or click on "more".  Make sure to pack into
   the search which contextmenu item was chosen.
+
+- (Robert) Automatically trigger new search when user changes category.

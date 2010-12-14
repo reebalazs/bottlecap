@@ -103,6 +103,17 @@ $.widget("bottlecap.livesearch", {
             item: item,
             text: text
         });
+
+        // when the menu changes, we should also trigger a search
+        var searchText = this.element.val();
+        if (searchText) {
+            // this should trigger the entire search, beginning with
+            // the ajax query
+            this.autoCompleteWidget.search();
+            // focus the element to rely on the widget's blur handler
+            // to fix menus and interaction properly
+            this.element.focus();
+        }
     },
 
     selectButtonClicked: function() {
