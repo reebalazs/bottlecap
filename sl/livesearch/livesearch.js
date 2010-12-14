@@ -59,8 +59,8 @@ $.widget("bottlecap.livesearch", {
         // plug in rendering function when results come in
         // first save the default
         this._defaultRenderCompletions = this.autoCompleteWidget._renderMenu;
-        if (typeof this.options.renderCompletions === 'function') {
-            this.autoCompleteWidget._renderMenu = this.options.renderCompletions;
+        if (typeof o.renderCompletions === 'function') {
+            this.autoCompleteWidget._renderMenu = o.renderCompletions;
         }
 
         // search handlers
