@@ -85,3 +85,8 @@ Completed
   the search which contextmenu item was chosen.
 
 - (Robert) Automatically trigger new search when user changes category.
+
+- (Robert) When pressing enter on selected item, don't execute the search
+  handler on the text field. Otherwise two event handlers would get fired, one
+  for the selected item being selected, and another for the keydown in the text
+  field.

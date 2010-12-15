@@ -64,10 +64,13 @@ $.widget("bottlecap.livesearch", {
         }
 
         // search handlers
+        // this one is if somebody clicks on the search icon
         this.searchButton.click($.proxy(this.searchButtonClicked, this));
-        el.keypress($.proxy(this.keyPressed, this));
+        // this one is if somebody hits the enter key on the keyboard
+        el.bind('keydown.autocomplete', $.proxy(this.keyPressed, this));
 
-        // if the cookie exists, we need to select the appropriate element
+        // if the cookie exists, we need to select the appropriate
+        // category in the context menu
         if (this.cookieValue) {
             var searchType = this.cookieValue;
             var liNodes = this.selectList.find('li');
@@ -166,9 +169,15 @@ $.widget("bottlecap.livesearch", {
     },
 
     keyPressed: function(e) {
-        // on enter key, we want to search
-        if (e.keyCode === 13) {
-            // close the selections first
+        // In the case when an element is highlighted in the
+        // suggestion dropdown and enter is pressed, this event gets
+        // fired as well, but after the auto complete handler. If that
+        // handler is called, it prevents the default action, in which
+        // case we want to ignore our search handler.
+        if (!e.isDefaultPrevented() &&
+            (e.keyCode === $.ui.keyCode.ENTER ||
+             e.keyCode === $.ui.keyCode.NUMPAD_ENTER)) {
+            // close the selections first if necessary
             this.autoCompleteWidget.close();
 
             this.performSearch(this.element.val());
