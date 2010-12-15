@@ -19,9 +19,6 @@ Medium Priority
   Similar to "When keypresses..." above.  Provide an error message if
   the server is down or the payload broken.
 
-- (Chrissy) Fix display of livesearch results box for when there is
-  only one results http://imagebin.ca/view/GOUcbK.html
-
 Low Priority
 ============
 
@@ -90,3 +87,6 @@ Completed
   handler on the text field. Otherwise two event handlers would get fired, one
   for the selected item being selected, and another for the keydown in the text
   field.
+  
+- (Chrissy) Fix display of livesearch results box for when there is
+  only one results http://imagebin.ca/view/GOUcbK.html
