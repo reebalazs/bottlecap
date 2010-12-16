@@ -165,7 +165,11 @@ $.widget("bottlecap.livesearch", {
             }
             pos--;
         }
-        return query.substring(0, pos) + "*" + query.substring(pos);
+        query = query.substring(0, pos) + "*" + query.substring(pos);
+        // trim and normalize spaces
+        query = $.trim(query);
+        query = query.replace(/\s+/, ' ');
+        return query;
     },
 
     queryData: function(request, response) {
