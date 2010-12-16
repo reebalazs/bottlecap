@@ -1,8 +1,3 @@
-High Priority
-=============
-
-- (Robert) Handle multi-word searchterms with globbing.
-
 Medium Priority
 ===============
 
@@ -87,6 +82,8 @@ Completed
   handler on the text field. Otherwise two event handlers would get fired, one
   for the selected item being selected, and another for the keydown in the text
   field.
-  
+
 - (Chrissy) Fix display of livesearch results box for when there is
   only one results http://imagebin.ca/view/GOUcbK.html
+
+- (Robert) Handle multi-word searchterms with globbing.
