@@ -1,10 +1,6 @@
 Medium Priority
 ===============
 
-- (Robert) When the resultsbox is visible, clicking in the contextmenu should
-  make the resultsbox vanish and the contextmenu appear. I can only get this to
-  happen when tabbing over after selecting an item from the context menu.
-
 - (Paul) When keypresses don't yield enough characters to trigger a
   search, display a small box telling them they need to type in some
   more characters.  This has to also work in a multiword scenerio,
@@ -87,3 +83,7 @@ Completed
   only one results http://imagebin.ca/view/GOUcbK.html
 
 - (Robert) Handle multi-word searchterms with globbing.
+
+- (Robert) When the resultsbox is visible, clicking in the contextmenu should
+  make the resultsbox vanish and the contextmenu appear. I can only get this to
+  happen when tabbing over after selecting an item from the context menu.

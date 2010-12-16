@@ -175,7 +175,8 @@ $.widget("bottlecap.livesearch", {
     queryData: function(request, response) {
         var term = request.term,
             query = this.transformQuery(term),
-            url = this.urlfn.call(this, query);
+            url = this.urlfn.call(this, query),
+            contextmenu = this.selectList;
 
         $.manageAjax.add(
             'livesearch',
@@ -184,7 +185,12 @@ $.widget("bottlecap.livesearch", {
              maxRequests: 1,
              queue: 'clear',
              abortOld: true,
-             success: function(data) { response(data); },
+             success: function(data) {
+                 // ensure that the context menu isn't displayed when
+                 // showing completion results
+                 contextmenu.hide();
+                 response(data);
+             },
              error: function (xhr, status, exc) {
                  if (console && console.log) {
                      console.log(status);
