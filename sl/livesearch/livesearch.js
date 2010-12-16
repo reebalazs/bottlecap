@@ -8,7 +8,9 @@ $.widget("bottlecap.livesearch", {
         urlfn: null,
         // function to call to render items from ajax request
         renderCompletions: null,
-        cookieName: 'bottlecap.livesearch.searchType'
+        // to transform the query before the ajax call
+        queryTransformFn: null,
+        cookieName: 'bottlecap.livesearch.searchType',
     },
 
     _create: function () {
@@ -17,6 +19,8 @@ $.widget("bottlecap.livesearch", {
 
         // store state on plugin widget itself
         this.urlfn = o.urlfn;
+        this.transformQuery = (o.queryTransformFn ||
+                               function(query) { return query; });
         this.ajaxManager = $.manageAjax.create(
             'livesearch',
             {queue: true, cacheResponse: true}
@@ -143,9 +147,31 @@ $.widget("bottlecap.livesearch", {
         }
     },
 
+    // add a * for globbing to the query where the cursor is
+    globQueryTransform: function(query) {
+        var caretPosition = this.element.caret().start,
+            length = query.length;
+
+        // go to the end of the current word
+        for (var pos = caretPosition; pos < length; pos++) {
+            if (query.charAt(pos) === " ") {
+                break;
+            }
+        }
+        // but also make sure that we are not right after some whitespace
+        while (pos >= 0) {
+            if (query.charAt(pos-1) !== " ") {
+                break;
+            }
+            pos--;
+        }
+        return query.substring(0, pos) + "*" + query.substring(pos);
+    },
+
     queryData: function(request, response) {
         var term = request.term,
-             url = this.urlfn.call(this, term);
+            query = this.transformQuery(term),
+            url = this.urlfn.call(this, query);
 
         $.manageAjax.add(
             'livesearch',
@@ -164,7 +190,8 @@ $.widget("bottlecap.livesearch", {
     },
 
     searchButtonClicked: function() {
-        this.performSearch(this.element.val());
+        var val = this.transformQuery(this.element.val());
+        this.performSearch(val);
         return false;
     },
 
@@ -180,7 +207,8 @@ $.widget("bottlecap.livesearch", {
             // close the selections first if necessary
             this.autoCompleteWidget.close();
 
-            this.performSearch(this.element.val());
+            var val = this.transformQuery(this.element.val());
+            this.performSearch(val);
             return false;
         }
         return true;
