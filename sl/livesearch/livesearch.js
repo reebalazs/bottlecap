@@ -10,7 +10,7 @@ $.widget("bottlecap.livesearch", {
         renderCompletions: null,
         // to transform the query before the ajax call
         queryTransformFn: null,
-        cookieName: 'bottlecap.livesearch.searchType',
+        cookieName: 'bottlecap.livesearch.searchType'
     },
 
     _create: function () {
@@ -83,7 +83,7 @@ $.widget("bottlecap.livesearch", {
                 var li = $(liArray[i]);
                 if (li.text() === searchType) {
                     var dontSaveCookie = true;
-                    this.menuSelected(0, {item: li}, dontSaveCookie)
+                    this.menuSelected(0, {item: li}, dontSaveCookie);
                     break;
                 }
             }
