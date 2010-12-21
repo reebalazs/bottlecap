@@ -10,6 +10,11 @@ $.widget("bottlecap.livesearch", {
         renderCompletions: null,
         // to transform the query before the ajax call
         queryTransformFn: null,
+        // validation to run before the query is transformed
+        validationFn: null,
+        // display an error to the user if validation fails
+        errorFn: null,
+        // name of cookie to save context menu search under
         cookieName: 'bottlecap.livesearch.searchType',
     },
 
@@ -21,6 +26,8 @@ $.widget("bottlecap.livesearch", {
         this.urlfn = o.urlfn;
         this.transformQuery = (o.queryTransformFn ||
                                function(query) { return query; });
+        this.validateFn = o.validationFn || function() { return true; };
+        this.errorFn = o.errorFn || function() {};
         this.ajaxManager = $.manageAjax.create(
             'livesearch',
             {queue: true, cacheResponse: true}
@@ -179,8 +186,8 @@ $.widget("bottlecap.livesearch", {
     },
 
     // validate that the word the cursor is on has at least 3 characters
-    numCharsValidate: function(query) {
-        var nChars = 3;
+    numCharsValidate: function(query, nChars) {
+        nChars = nChars || 3;
         var caretPosition = this.element.caret().start;
         var pos = this._findGlobPosition(query, caretPosition);
         if (pos < nChars) {
@@ -200,8 +207,8 @@ $.widget("bottlecap.livesearch", {
 
     queryData: function(request, response) {
         var query = request.term;
-        if (!this.numCharsValidate(query)) {
-            this.displayError();
+        if (!this.validateFn(query)) {
+            this.errorFn();
             return;
         }
         query = this.transformQuery(query);
