@@ -210,20 +210,50 @@ $.widget("bottlecap.livesearch", {
     validateAndHandleError: function(event) {
         var query = this.element.val();
         if (this.validateFn(query)) {
-            this.errorFn(null);
+            this.errorFn.call(this, null);
             return true;
         } else {
-            this.errorFn(query);
+            this.errorFn.call(this, query);
             return false;
         }
+    },
+
+    _displayError: function(msg) {
+        // XXX should display this error to the user
+        console.log(msg);
+    },
+
+    _clearError: function() {
+        // XXX here we would clear any errors that are shown
+        console.log("validation passed: clearing error");
     },
 
     displayError: function(err) {
         // an err of null signals that we should clear the error message
         if (err === null) {
-            console.log("validation passed: clearing error");
+            this._clearError();
         } else {
-            console.log("num chars validation error " + err);
+            var caretPosition = this.element.caret().start,
+                query = err,
+                pos = this._findGlobPosition(query, caretPosition);
+            if (pos === -1) {
+                // cursor is after whitespace,
+                // but we don't have enough characters
+                this._displayError("not enough characters entered");
+            } else {
+                // find the offending substring that failed validation
+                var nChars = 3,
+                    startPos = 0;
+                for (var i = 0; i < nChars; i++) {
+                    if (query.charAt(pos-1-i) === " ") {
+                        startPos = pos-i;
+                        break;
+                    }
+                }
+                var errorSubstring = query.substring(startPos, pos);
+                this._displayError("num chars validation error: "
+                                   + errorSubstring);
+            }
         }
     },
 
