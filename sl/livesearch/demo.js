@@ -9,7 +9,7 @@ function createUrlFn(urlPrefix) {
 $(function() {
 
     $('.ui-ls-autocomplete').livesearch({
-        urlfn: createUrlFn('data.json'),
+        urlFn: createUrlFn('data.json'),
         search: function(event, ui) {
             $('<p>Search for ' + ui.query + '</p>')
                 .prependTo($('.bc-content-frame'));
@@ -18,8 +18,11 @@ $(function() {
             var text = ui.text;
             var urlFn = createUrlFn(
                 text === 'People' ? 'data-people.json' : 'data.json');
-            $('.ui-ls-autocomplete').livesearch('option', 'urlfn', urlFn);
+            $('.ui-ls-autocomplete').livesearch('option', 'urlFn', urlFn);
         },
+        validationFn: $.bottlecap.livesearch.prototype.numCharsValidate,
+        queryTransformFn: $.bottlecap.livesearch.prototype.globQueryTransform,
+        errorFn: $.bottlecap.livesearch.prototype.displayError,
         renderCompletions: renderCompletions
     });
 

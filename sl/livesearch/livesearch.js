@@ -5,7 +5,7 @@ $.widget("bottlecap.livesearch", {
     options: {
         // function to call for ajax url request
         // scope is set to this widget
-        urlfn: null,
+        urlFn: null,
         // function to call to render items from ajax request
         renderCompletions: null,
         // to transform the query before the ajax call
@@ -23,7 +23,7 @@ $.widget("bottlecap.livesearch", {
              o = this.options;
 
         // store state on plugin widget itself
-        this.urlfn = o.urlfn;
+        this.urlFn = o.urlFn;
         this.transformQuery = (o.queryTransformFn ||
                                function(query) { return query; });
         this.validateFn = o.validationFn || function() { return true; };
@@ -227,7 +227,7 @@ $.widget("bottlecap.livesearch", {
 
     queryData: function(request, response) {
         var query = this.transformQuery(request.term),
-            url = this.urlfn.call(this, query),
+            url = this.urlFn.call(this, query),
             contextmenu = this.selectList;
 
         $.manageAjax.add(
@@ -281,8 +281,8 @@ $.widget("bottlecap.livesearch", {
     },
 
     _setOption: function(key, value) {
-        if (key === 'urlfn') {
-            this.urlfn = value;
+        if (key === 'urlFn') {
+            this.urlFn = value;
         } else if (key === 'renderCompletions') {
             if (typeof value === 'function') {
                 this.autoCompleteWidget._renderMenu = value;
