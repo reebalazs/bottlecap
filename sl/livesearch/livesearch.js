@@ -14,6 +14,8 @@ $.widget("bottlecap.livesearch", {
         validationFn: null,
         // display an error to the user if validation fails
         errorFn: null,
+        // called when there is an ajax error
+        ajaxErrorFn: null,
         // name of cookie to save context menu search under
         cookieName: 'bottlecap.livesearch.searchType',
     },
@@ -28,6 +30,7 @@ $.widget("bottlecap.livesearch", {
                                function(query) { return query; });
         this.validateFn = o.validationFn || function() { return true; };
         this.errorFn = o.errorFn || function() {};
+        this.ajaxErrorFn = o.ajaxErrorFn ? o.ajaxErrorFn : this._ajaxErrorFn;
         this.ajaxManager = $.manageAjax.create(
             'livesearch',
             {queue: true, cacheResponse: true}
@@ -257,10 +260,16 @@ $.widget("bottlecap.livesearch", {
         }
     },
 
+    _ajaxErrorFn: function(xhr, status, exc) {
+        if (console && console.log) {
+            console.log(status);
+        }
+    },
+
     queryData: function(request, response) {
         var query = this.transformQuery(request.term),
             url = this.urlFn.call(this, query),
-            contextmenu = this.selectList;
+            self = this;
 
         $.manageAjax.add(
             'livesearch',
@@ -272,13 +281,11 @@ $.widget("bottlecap.livesearch", {
              success: function(data) {
                  // ensure that the context menu isn't displayed when
                  // showing completion results
-                 contextmenu.hide();
+                 self.selectList.hide();
                  response(data);
              },
              error: function (xhr, status, exc) {
-                 if (console && console.log) {
-                     console.log(status);
-                 }
+                 self.ajaxErrorFn.apply(self, arguments);
              }
         });
     },
