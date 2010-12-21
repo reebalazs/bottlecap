@@ -147,13 +147,12 @@ $.widget("bottlecap.livesearch", {
         }
     },
 
-    // add a * for globbing to the query where the cursor is
-    globQueryTransform: function(query) {
-        var caretPosition = this.element.caret().start,
-            length = query.length;
+    _findGlobPosition: function(query, caretPosition) {
+        var length = query.length,
+            pos = -1;
 
         // go to the end of the current word
-        for (var pos = caretPosition; pos < length; pos++) {
+        for (pos = caretPosition; pos < length; pos++) {
             if (query.charAt(pos) === " ") {
                 break;
             }
@@ -165,6 +164,13 @@ $.widget("bottlecap.livesearch", {
             }
             pos--;
         }
+        return pos;
+    },
+
+    // add a * for globbing to the query where the cursor is
+    globQueryTransform: function(query) {
+        var caretPosition = this.element.caret().start;
+        var pos = this._findGlobPosition(query, caretPosition);
         query = query.substring(0, pos) + "*" + query.substring(pos);
         // trim and normalize spaces
         query = $.trim(query);
@@ -172,10 +178,34 @@ $.widget("bottlecap.livesearch", {
         return query;
     },
 
+    // validate that the word the cursor is on has at least 3 characters
+    numCharsValidate: function(query) {
+        var nChars = 3;
+        var caretPosition = this.element.caret().start;
+        var pos = this._findGlobPosition(query, caretPosition);
+        if (pos < nChars) {
+            return false;
+        }
+        for (var i = 0; i < nChars; i++) {
+            if (query.charAt(pos-1-i) === " ") {
+                return false;
+            }
+        }
+        return true;
+    },
+
+    displayError: function() {
+        console.log("num chars validation error");
+    },
+
     queryData: function(request, response) {
-        var term = request.term,
-            query = this.transformQuery(term),
-            url = this.urlfn.call(this, query),
+        var query = request.term;
+        if (!this.numCharsValidate(query)) {
+            this.displayError();
+            return;
+        }
+        query = this.transformQuery(query);
+        var url = this.urlfn.call(this, query),
             contextmenu = this.selectList;
 
         $.manageAjax.add(
