@@ -17,7 +17,7 @@ $.widget("bottlecap.livesearch", {
         // called when there is an ajax error
         ajaxErrorFn: null,
         // name of cookie to save context menu search under
-        cookieName: 'bottlecap.livesearch.searchType',
+        cookieName: 'bottlecap.livesearch.searchType'
     },
 
     _create: function () {
@@ -94,7 +94,7 @@ $.widget("bottlecap.livesearch", {
                 var li = $(liArray[i]);
                 if (li.text() === searchType) {
                     var dontSaveCookie = true;
-                    this.menuSelected(0, {item: li}, dontSaveCookie)
+                    this.menuSelected(0, {item: li}, dontSaveCookie);
                     break;
                 }
             }
