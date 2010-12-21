@@ -55,8 +55,9 @@ $.widget("bottlecap.livesearch", {
         // set up auto complete behavior
         el.autocomplete({
             delay: 300,
-            minLength: 3,
+            minLength: 0,
             source: $.proxy(this.queryData, this),
+            search: $.proxy(this.validateAndHandleError, this),
             position: {
                 my: "right top",
                 at: "right bottom",
@@ -188,6 +189,9 @@ $.widget("bottlecap.livesearch", {
     // validate that the word the cursor is on has at least 3 characters
     numCharsValidate: function(query, nChars) {
         nChars = nChars || 3;
+        if (query.length < nChars) {
+            return false;
+        }
         var caretPosition = this.element.caret().start;
         var pos = this._findGlobPosition(query, caretPosition);
         if (pos < nChars) {
@@ -201,18 +205,29 @@ $.widget("bottlecap.livesearch", {
         return true;
     },
 
-    displayError: function() {
-        console.log("num chars validation error");
+    validateAndHandleError: function(event) {
+        var query = this.element.val();
+        if (this.validateFn(query)) {
+            this.errorFn(null);
+            return true;
+        } else {
+            this.errorFn(query);
+            return false;
+        }
+    },
+
+    displayError: function(err) {
+        // an err of null signals that we should clear the error message
+        if (err === null) {
+            console.log("validation passed: clearing error");
+        } else {
+            console.log("num chars validation error " + err);
+        }
     },
 
     queryData: function(request, response) {
-        var query = request.term;
-        if (!this.validateFn(query)) {
-            this.errorFn();
-            return;
-        }
-        query = this.transformQuery(query);
-        var url = this.urlfn.call(this, query),
+        var query = this.transformQuery(request.term),
+            url = this.urlfn.call(this, query),
             contextmenu = this.selectList;
 
         $.manageAjax.add(
