@@ -165,24 +165,23 @@ $.widget("bottlecap.livesearch", {
                 break;
             }
         }
-        // but also make sure that we are not right after some whitespace
-        while (pos >= 0) {
-            if (query.charAt(pos-1) !== " ") {
-                break;
-            }
-            pos--;
-        }
-        return pos;
+        // if we are right after some whitespace, then we return -1
+        // which signals that we don't want to add a glob
+        return (pos == 0 || query.charAt(pos-1) === " ")
+               ? -1
+               : pos;
     },
 
     // add a * for globbing to the query where the cursor is
     globQueryTransform: function(query) {
         var caretPosition = this.element.caret().start;
         var pos = this._findGlobPosition(query, caretPosition);
-        query = query.substring(0, pos) + "*" + query.substring(pos);
-        // trim and normalize spaces
+        if (pos !== -1) {
+            query = query.substring(0, pos) + "*" + query.substring(pos);
+            // normalize spaces
+            query = query.replace(/\s+/, ' ');
+        }
         query = $.trim(query);
-        query = query.replace(/\s+/, ' ');
         return query;
     },
 
@@ -194,6 +193,9 @@ $.widget("bottlecap.livesearch", {
         }
         var caretPosition = this.element.caret().start;
         var pos = this._findGlobPosition(query, caretPosition);
+        if (pos === -1) {
+            return $.trim(query).length >= nChars;
+        }
         if (pos < nChars) {
             return false;
         }
