@@ -53,21 +53,17 @@ body {
     font-size: x-small;
 }
 
-.x {
-    padding: 0;
-    margin: 0;
-    width: 100px;
-    background-color: white;
-    font-size: x-small;
+.ui-autocomplete-msgicon {
+    display: inline-block;
 }
 
-.ui-autocomplete-msgicon {
-    xdisplay: inline-block;
+.ui-autocomplete-message {
+    display: inline-block;
 }
 
 .ui-autocomplete-notification {
     zmargin: 0;
-    xdisplay: inline-block;
+    display: inline-block;
     margin-top: -2em;
 }
 
