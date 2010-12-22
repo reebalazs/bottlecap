@@ -51,9 +51,8 @@ body {
     width: 190px;
     background-color: white;
     font-size: x-small;
-    zmargin: 0;
-    display: inline-block;
-    margin-top: -2em;
+    display: block;
+    position: absolute;
 }
 
 .ui-autocomplete-msgicon {

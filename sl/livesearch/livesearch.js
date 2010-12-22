@@ -227,7 +227,7 @@ $.widget("bottlecap.livesearch", {
     displayError: function(err) {
         // cache the reference to the error displayer on the widget itself
         var errorDisplayer = this._errorDisplayer;
-        if (!errorDisplayer) {
+	if  (!errorDisplayer) {
             // use a closure to wrap the errorbox and message
             errorDisplayer = this._errorDisplayer = (function() {
                 var msg = $('<span class="ui-autocomplete-message"></span>');
@@ -237,17 +237,17 @@ $.widget("bottlecap.livesearch", {
                     '<div><span class="ui-autocomplete-msgicon ' +
                         'ui-icon ui-icon-info"></span>' +
                         '</div>')
-                    .append(msg)
-                    .addClass('ui-autocomplete-notification')
-                    .addClass('ui-state-error')
-                    .addClass('ui-icon-notice')
-                    .width(250)
-                    .appendTo('body')
-                    .position({
-                        my: "left top",
-                        at: "left bottom",
-                        of: $('.bc-header-toolbox')
-                    });
+                .append(msg)
+                .addClass('ui-autocomplete-notification')
+                .addClass('ui-state-error')
+                .addClass('ui-icon-notice')
+                .width(250)
+                .appendTo('.bc-header')
+                .position({
+                    my: "left top",
+                    at: "left bottom",
+                    of: $('.bc-header-toolbox')
+                });
                 // expose functions to show/hide the error box
                 return {
                     hide: function() { errorBox.hide(); },
