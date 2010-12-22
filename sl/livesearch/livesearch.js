@@ -232,30 +232,28 @@ $.widget("bottlecap.livesearch", {
     displayError: function(err) {
         // an err of null signals that we should clear the error message
 
-	var self = this;
-	function _displayError (msg) {
+        var self = this;
+        function _displayError (msg) {
             // XXX should display this error to the user
-	    
-	};
+        };
 
-	// A box, hidden initially, to show error messages such as
-	// "you didn't type enough characters
-	this.errorBox2 = $(
-	    '<div><span class="ui-autocomplete-msgicon ' + 
-		'ui-icon ui-icon-info"></span>' + 
-		'<span class="ui-autocomplete-message">' + 'msg' + '</span>' + 
-		'</div>')
-	.addClass('ui-autocomplete-notification')
-	.addClass('ui-state-error')
-	.addClass('ui-icon-notice')
-	.width(250)
-	.appendTo('body')
-	.position({
-	    my: "left top",
-	    at: "left bottom",
-	    of: $('.bc-header-toolbox')
-
-	});
+        // A box, hidden initially, to show error messages such as
+        // "you didn't type enough characters
+        this.errorBox2 = $(
+            '<div><span class="ui-autocomplete-msgicon ' +
+                'ui-icon ui-icon-info"></span>' +
+                '<span class="ui-autocomplete-message">' + 'msg' + '</span>' +
+                '</div>')
+            .addClass('ui-autocomplete-notification')
+            .addClass('ui-state-error')
+            .addClass('ui-icon-notice')
+            .width(250)
+            .appendTo('body')
+            .position({
+                my: "left top",
+                at: "left bottom",
+                of: $('.bc-header-toolbox')
+            });
 
         if (err === null) {
             this._clearError();
