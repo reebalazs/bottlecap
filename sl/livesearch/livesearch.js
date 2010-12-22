@@ -224,39 +224,46 @@ $.widget("bottlecap.livesearch", {
         }
     },
 
-    _clearError: function() {
-        // XXX here we would clear any errors that are shown
-        console.log("validation passed: clearing error");
-    },
-
     displayError: function(err) {
-        // an err of null signals that we should clear the error message
-
-        var self = this;
-        function _displayError (msg) {
-            // XXX should display this error to the user
-        };
-
-        // A box, hidden initially, to show error messages such as
-        // "you didn't type enough characters
-        this.errorBox2 = $(
-            '<div><span class="ui-autocomplete-msgicon ' +
-                'ui-icon ui-icon-info"></span>' +
-                '<span class="ui-autocomplete-message">' + 'msg' + '</span>' +
-                '</div>')
-            .addClass('ui-autocomplete-notification')
-            .addClass('ui-state-error')
-            .addClass('ui-icon-notice')
-            .width(250)
-            .appendTo('body')
-            .position({
-                my: "left top",
-                at: "left bottom",
-                of: $('.bc-header-toolbox')
-            });
+        // cache the reference to the error displayer on the widget itself
+        var errorDisplayer = this._errorDisplayer;
+        if (!errorDisplayer) {
+            // use a closure to wrap the errorbox and message
+            errorDisplayer = this._errorDisplayer = (function() {
+                var msg = $('<span class="ui-autocomplete-message"></span>');
+                // A box, hidden initially, to show error messages such as
+                // "you didn't type enough characters"
+                var errorBox = $(
+                    '<div><span class="ui-autocomplete-msgicon ' +
+                        'ui-icon ui-icon-info"></span>' +
+                        '</div>')
+                    .append(msg)
+                    .addClass('ui-autocomplete-notification')
+                    .addClass('ui-state-error')
+                    .addClass('ui-icon-notice')
+                    .width(250)
+                    .appendTo('body')
+                    .position({
+                        my: "left top",
+                        at: "left bottom",
+                        of: $('.bc-header-toolbox')
+                    });
+                // expose functions to show/hide the error box
+                return {
+                    hide: function() { errorBox.hide(); },
+                    show: function(text) {
+                        if (text) {
+                            msg.text(text);
+                        }
+                        errorBox.show();
+                    }
+                };
+            })();
+        }
 
         if (err === null) {
-            this._clearError();
+            // an err of null signals that we should clear the error message
+            errorDisplayer.hide();
         } else {
             var caretPosition = this.element.caret().start,
                 query = err,
@@ -264,7 +271,7 @@ $.widget("bottlecap.livesearch", {
             if (pos === -1) {
                 // cursor is after whitespace,
                 // but we don't have enough characters
-                _displayError("not enough characters entered");
+                errorDisplayer.show('not enough characters entered');
             } else {
                 // find the offending substring that failed validation
                 var nChars = 3,
@@ -276,8 +283,8 @@ $.widget("bottlecap.livesearch", {
                     }
                 }
                 var errorSubstring = query.substring(startPos, pos);
-                _displayError("num chars validation error: "
-                                   + errorSubstring);
+                errorDisplayer.show('num chars validation error: '
+                                    + errorSubstring);
             }
         }
     },
