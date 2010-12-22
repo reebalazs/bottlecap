@@ -71,34 +71,6 @@ $.widget("bottlecap.livesearch", {
         });
         this.autoCompleteWidget = el.data('autocomplete');
 
-	// A box, hidden initially, to show error messages such as
-	// "you didn't type enough characters
-//	this.errorBox2 = $(
-//	    '<div><span class="ui-autocomplete-msgicon ' + 
-//		'ui-icon ui-icon-info"></span>' + 
-//		'<span class="ui-autocomplete-message">' + 'msg' + '</span>' + 
-//		'</div>');
-//	.addClass('ui-autocomplete-notification')
-//	.addClass('ui-state-error')
-//	.addClass('ui-icon-notice')
-	//.appendTo('body')
-//	.position({
-//	    my: "left top",
-//	    at: "right bottom",
-//	    of: $(this.selectButton)
-
-//	});
-
-	this.errorBox = $(
-	    '<div class="x">Notification</div>'
-	).appendTo('body')
-	.position({
-	    my: "right top",
-	    at: "right bottom",
-	    of: $('.bc-header-toolbox')
-	});
-
-
         // plug in rendering function when results come in
         // first save the default
         this._defaultRenderCompletions = this.autoCompleteWidget._renderMenu;
@@ -262,6 +234,25 @@ $.widget("bottlecap.livesearch", {
             // XXX should display this error to the user
 	    
 	};
+
+	// A box, hidden initially, to show error messages such as
+	// "you didn't type enough characters
+	this.errorBox2 = $(
+	    '<div><span class="ui-autocomplete-msgicon ' + 
+		'ui-icon ui-icon-info"></span>' + 
+		'<span class="ui-autocomplete-message">' + 'msg' + '</span>' + 
+		'</div>')
+	.addClass('ui-autocomplete-notification')
+	.addClass('ui-state-error')
+	.addClass('ui-icon-notice')
+	.width(250)
+	.appendTo('body')
+	.position({
+	    my: "left top",
+	    at: "left bottom",
+	    of: $('.bc-header-toolbox')
+
+	});
 
         if (err === null) {
             this._clearError();
