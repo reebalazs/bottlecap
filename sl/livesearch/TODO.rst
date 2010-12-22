@@ -1,3 +1,10 @@
+High Priority
+=============
+
+- IE 8 testing
+
+- (Robert) create egg
+
 Medium Priority
 ===============
 
