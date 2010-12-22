@@ -71,6 +71,34 @@ $.widget("bottlecap.livesearch", {
         });
         this.autoCompleteWidget = el.data('autocomplete');
 
+	// A box, hidden initially, to show error messages such as
+	// "you didn't type enough characters
+//	this.errorBox2 = $(
+//	    '<div><span class="ui-autocomplete-msgicon ' + 
+//		'ui-icon ui-icon-info"></span>' + 
+//		'<span class="ui-autocomplete-message">' + 'msg' + '</span>' + 
+//		'</div>');
+//	.addClass('ui-autocomplete-notification')
+//	.addClass('ui-state-error')
+//	.addClass('ui-icon-notice')
+	//.appendTo('body')
+//	.position({
+//	    my: "left top",
+//	    at: "right bottom",
+//	    of: $(this.selectButton)
+
+//	});
+
+	this.errorBox = $(
+	    '<div class="x">Notification</div>'
+	).appendTo('body')
+	.position({
+	    my: "right top",
+	    at: "right bottom",
+	    of: $('.bc-header-toolbox')
+	});
+
+
         // plug in rendering function when results come in
         // first save the default
         this._defaultRenderCompletions = this.autoCompleteWidget._renderMenu;
@@ -221,11 +249,6 @@ $.widget("bottlecap.livesearch", {
         }
     },
 
-    _displayError: function(msg) {
-        // XXX should display this error to the user
-        console.log(msg);
-    },
-
     _clearError: function() {
         // XXX here we would clear any errors that are shown
         console.log("validation passed: clearing error");
@@ -233,6 +256,13 @@ $.widget("bottlecap.livesearch", {
 
     displayError: function(err) {
         // an err of null signals that we should clear the error message
+
+	var self = this;
+	function _displayError (msg) {
+            // XXX should display this error to the user
+	    
+	};
+
         if (err === null) {
             this._clearError();
         } else {
@@ -242,7 +272,7 @@ $.widget("bottlecap.livesearch", {
             if (pos === -1) {
                 // cursor is after whitespace,
                 // but we don't have enough characters
-                this._displayError("not enough characters entered");
+                _displayError("not enough characters entered");
             } else {
                 // find the offending substring that failed validation
                 var nChars = 3,
@@ -254,7 +284,7 @@ $.widget("bottlecap.livesearch", {
                     }
                 }
                 var errorSubstring = query.substring(startPos, pos);
-                this._displayError("num chars validation error: "
+                _displayError("num chars validation error: "
                                    + errorSubstring);
             }
         }

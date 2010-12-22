@@ -6,12 +6,11 @@ Medium Priority
   more characters.  This has to also work in a multiword scenerio,
   when the cursor is positioned in a word without enough characters.
 
-- (Paul) Some notice message saying results are being retrieved.
-  Similar to "When keypresses..." above.  Provide an error message if
-  the server is down or the payload broken.
-
 Low Priority
 ============
+
+- (Chrissy) A more color-approprate pb-anim.gif animated progress
+  meter.  The curent one is orange.
 
 - (Robert) Context Menu dropdown does not allow cursor movement to select.
 
@@ -87,3 +86,7 @@ Completed
 - (Robert) When the resultsbox is visible, clicking in the contextmenu should
   make the resultsbox vanish and the contextmenu appear. I can only get this to
   happen when tabbing over after selecting an item from the context menu.
+
+- (Paul) When waiting on the server, give a visual indicator such as
+  an animated progress meter.
+
