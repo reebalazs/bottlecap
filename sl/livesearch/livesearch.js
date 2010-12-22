@@ -216,6 +216,9 @@ $.widget("bottlecap.livesearch", {
             this.errorFn.call(this, null);
             return true;
         } else {
+            // ensure results box is closed first on error
+            this.autoCompleteWidget.close();
+
             this.errorFn.call(this, query);
             return false;
         }
