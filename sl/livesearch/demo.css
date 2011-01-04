@@ -30,6 +30,7 @@ body {
     position: absolute; 
     margin-right:0;
     border-radius: 4px 0px 0px 4px;
+    z-index: 1;
 }
 
 .ui-ls-autocomplete-first {
@@ -53,6 +54,7 @@ body {
     font-size: x-small;
     display: block;
     position: absolute;
+    z-index: 0;
 }
 
 .ui-autocomplete-msgicon {
