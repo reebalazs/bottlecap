@@ -123,16 +123,41 @@ body {
 }
 
 .ui-ls-profile img {
-    float: left; 
+    float: left;
     margin-right: 10px;
     height: 32px;
     width: 32px;
 }
 
+.ui-ls-profile .user {
+    float: left;
+    width: 100px;
+}
+
+.ui-ls-profile .contact {
+    float: right;
+    width: 100px;
+}
+
+.ui-ls-profile .contact a {
+    color: blue;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ui-ls-profile .contact a:hover {
+    border: none;
+    text-decoration: underline;
+}
+
+/*
 .ui-ls-profilelabel {
     display: inline-block;
     width: 250px;
 }
+*/
 
 .ui-ls-category-text {
     position: absolute;
