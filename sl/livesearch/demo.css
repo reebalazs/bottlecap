@@ -152,12 +152,24 @@ body {
     text-decoration: underline;
 }
 
-/*
-.ui-ls-profilelabel {
-    display: inline-block;
-    width: 250px;
+.ui-ls-page .discreet {
+    font-size: 100%;
 }
-*/
+
+.ui-ls-post .discreet {
+    font-size: 100%;
+}
+
+.ui-ls-file .discreet {
+    font-size: 100%;
+}
+
+.ui-ls-file img {
+    float: left;
+    margin-right: 10px;
+    height: 32px;
+    width: 32px;
+}
 
 .ui-ls-category-text {
     position: absolute;
