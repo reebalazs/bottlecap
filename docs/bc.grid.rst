@@ -35,21 +35,21 @@ Existing KARL Features
 New Features
 ============
 
-- Column picker.
-
-- Column resizing.
-
 - Multiple row selection.
 
 - Cut/copy/delete/moveto operations on selections.
 
 - Quick Add (see below)
 
+- Actions for both "open" and "download"
+
+  - Column picker.
+
+- Column resizing.
+
 - In-place renaming
 
 - Quick drill-down on title
-
-- Actions for both "open" and "download"
 
 Quick Add Folder
 ================

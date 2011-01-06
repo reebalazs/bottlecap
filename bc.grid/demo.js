@@ -1,12 +1,9 @@
-var grid;
+var grid, dataView;
 
 var columns = [
-    {id:"title", name:"Title", field:"title"},
-    {id:"duration", name:"Duration", field:"duration"},
-    {id:"%", name:"% Complete", field:"percentComplete"},
-    {id:"start", name:"Start", field:"start"},
-    {id:"finish", name:"Finish", field:"finish"},
-    {id:"effort-driven", name:"Effort Driven", field:"effortDriven"}
+    {id:"type", name:"Type", field:"type", width: 40, cssClass: "cell-type"},
+    {id:"title", name:"Title", field:"title", width: 400},
+    {id:"modified", name:"Modified", field:"modified"}
 ];
 
 var options = {
@@ -18,18 +15,26 @@ $(function() {
     var data = [];
     for (var i = 0; i < 500; i++) {
         data[i] = {
+            id: "id_" + i,
             title: "Task " + i,
-            duration: "5 days",
-            percentComplete: Math.round(Math.random() * 100),
-            start: "01/01/2009",
-            finish: "01/05/2009",
-            effortDriven: (i % 5 == 0)
+            type: '',
+            modified: "01/01/2009"
         };
     }
 
-    grid = new Slick.Grid("#myGrid", data, columns, options);
+    dataView = new Slick.Data.DataView();
+    grid = new Slick.Grid(".grid-body", dataView, columns, options);
 
-    $("#myGrid").show();
+    // wire up model events to drive the grid
+    dataView.onRowCountChanged.subscribe(function(e, args) {
+        grid.updateRowCount();
+        grid.render();
+    });
+
+    dataView.beginUpdate();
+    dataView.setItems(data);
+    dataView.endUpdate();
+
 })
 
 window._karl_client_data = {"filegrid": {"sortColumn": "modified_date", "totalRecords": 5, "sortDirection": "desc", "columns": [
