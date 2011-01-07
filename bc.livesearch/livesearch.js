@@ -100,6 +100,21 @@ $.widget("bottlecap.livesearch", {
             }
         }
 
+        // Set the magnifying glass button on the right
+        this.searchButton.button({
+            text: false,
+            icons: {primary: "ui-icon-search"}
+        });
+
+        // dynamically set the positioning on the autocomplete dropdown
+        el
+            .height($('.ui-ls-menu').height())
+            .focus()
+            .position({
+                of: $('.ui-ls-menu'),
+                at: "right top",
+                my: "left top"
+            });
     },
 
     // called when a particular category menu item is selected from the ul

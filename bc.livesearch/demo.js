@@ -26,22 +26,6 @@ $(function() {
         renderCompletions: renderCompletions
     });
 
-    // The magnifying glass button on the right
-    $(".ui-ls-gobtn").button({
-        text: false,
-        icons: {primary: "ui-icon-search"}
-    });
-
-    // XXX should this be in the livesearch widget itself?
-    // Dynamically set some positioning
-    $('.ui-ls-autocomplete')
-        .height($('.ui-ls-menu').height())
-        .focus();
-    $('.ui-ls-autocomplete').position({
-        of: $('.ui-ls-menu'),
-        at: "right top",
-        my: "left top"
-    });
 });
 
 function renderCompletions(ul, items) {
