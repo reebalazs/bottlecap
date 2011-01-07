@@ -39,9 +39,9 @@ $.widget("bottlecap.livesearch", {
         this.cookieValue = $.cookie(o.cookieName);
 
         // store references to elements
-        this.selectList = el.prev('ul');
-        this.selectButton = this.selectList.prev('button');
-        this.searchButton = el.next('button.ui-ls-gobtn');
+        this.selectList = el.prev('ul').first();
+        this.selectButton = this.selectList.prev('button').first();
+        this.searchButton = el.next('button').first();
 
         // set up select button behavior
         this.selectButton.button({
@@ -70,6 +70,8 @@ $.widget("bottlecap.livesearch", {
             select: $.proxy(this.completionSelected, this)
         });
         this.autoCompleteWidget = el.data('autocomplete');
+        this.autoCompleteWidget.menu.element
+            .addClass('bc-livesearch-autocomplete-results');
 
         // plug in rendering function when results come in
         // first save the default
@@ -106,15 +108,16 @@ $.widget("bottlecap.livesearch", {
             icons: {primary: "ui-icon-search"}
         });
 
-        // dynamically set the positioning on the autocomplete dropdown
-        el
-            .height($('.ui-ls-menu').height())
-            .focus()
-            .position({
-                of: $('.ui-ls-menu'),
-                at: "right top",
-                my: "left top"
-            });
+        // add in classes on appropriate elements
+        el.addClass('bc-livesearch bc-livesearch-autocomplete');
+        this.selectList.addClass('bc-livesearch bc-livesearch-menu');
+        this.selectButton.addClass(
+            'bc-livesearch bc-livesearch-btn bc-livesearch-btn-select');
+        this.searchButton.addClass(
+            'bc-livesearch bc-livesearch-btn bc-livesearch-btn-search');
+
+        // dynamically set height to match
+        el.height(this.selectButton.height());
     },
 
     // called when a particular category menu item is selected from the ul
@@ -242,20 +245,21 @@ $.widget("bottlecap.livesearch", {
     displayError: function(err) {
         // cache the reference to the error displayer on the widget itself
         var errorDisplayer = this._errorDisplayer;
-	if  (!errorDisplayer) {
+        if  (!errorDisplayer) {
             // use a closure to wrap the errorbox and message
             errorDisplayer = this._errorDisplayer = (function() {
-                var msg = $('<span class="ui-autocomplete-message"></span>');
+                var msg = $('<span>')
+                    .addClass('bc-livesearch-autocomplete-message');
                 // A box, hidden initially, to show error messages such as
                 // "you didn't type enough characters"
                 var errorBox = $(
-                    '<div><span class="ui-autocomplete-msgicon ' +
+                    '<div><span class="bc-livesearch-autocomplete-msgicon ' +
                         'ui-icon ui-icon-info"></span>' +
                         '</div>')
                 .append(msg)
-                .addClass('ui-autocomplete-notification')
-                .addClass('ui-state-error')
-                .addClass('ui-icon-notice')
+                .addClass(
+                    'bc-livesearch-autocomplete-notification ui-state-error'
+                    + ' ui-icon-notice')
                 .width(250)
                 .appendTo('.bc-header')
                 .position({

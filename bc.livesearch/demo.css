@@ -4,40 +4,11 @@ body {
     font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 }
 
-.ui-state-default,
-.ui-widget-content .ui-state-default,
-.ui-widget-header .ui-state-default {
-    background-image: url("ui-bg_glass_75_f0f2f4_1x400.png");
-}
-
-.ui-widget-content,
-.ui-widget-content a {
-    color: #333333;
-}
-
-.ui-autocomplete-category {
-    font-weight: bold;
-    padding: 6px 364px 0 0;
-    margin: 4px 0 0 -102px;
-    line-height: 1.5;
-    border-top: solid #a3a3a3 1px;
-    text-align: right;
-    height: 0px;
-}
-
-.ui-menu { 
-    width: 100px; 
-    position: absolute; 
-    margin-right:0;
-    border-radius: 4px 0px 0px 4px;
-    z-index: 1;
-}
-
-.ui-ls-autocomplete-first {
+.bc-livesearch-autocomplete-first {
     border: none;
 }
 
-#ui-menu-1 {
+.bc-livesearch-autocomplete-results {
     width: 350px;
     padding-left: 104px;
     background: #ffffff url(livesearch_bg.gif) repeat-y top left;
@@ -46,7 +17,7 @@ body {
     min-height: 55px;
 }
 
-.ui-autocomplete-notification {
+.bc-livesearch-autocomplete-notification {
     padding: 0;
     margin: 0;
     width: 190px;
@@ -57,11 +28,11 @@ body {
     z-index: 0;
 }
 
-.ui-autocomplete-msgicon {
+.bc-livesearch-autocomplete-msgicon {
     display: inline-block;
 }
 
-.ui-autocomplete-message {
+.bc-livesearch-autocomplete-message {
     display: inline-block;
 }
 
@@ -71,9 +42,12 @@ body {
     padding: 0.5em;
 }
 
+/*
+  was overriding a separate class
 .ui-widget {
     font-size: 1.2em;
 }
+*/
 
 .bc-header h1 {
     margin-top: 0;
@@ -86,13 +60,13 @@ body {
     font-size: 10px;
 }
 
-.bc-header-toolbox .ui-ls-menu {
+.bc-header-toolbox .bc-livesearch-menu {
     -moz-border-radius: 4px 0 0 4px;
     border-radius: 4px 0 0 4px;
     border-color: #cecece;
 }
 
-.bc-header-toolbox .ui-ls-autocomplete {
+.bc-header-toolbox .bc-livesearch-autocomplete {
     border-width: 1px 0;
     border-color: #cecece;
     border-style: solid;
@@ -101,7 +75,7 @@ body {
     margin: 0 -3px 0 0;
 }
 
-.bc-header-toolbox .ui-ls-gobtn {
+.bc-header-toolbox .bc-livesearch-btn-search {
     -moz-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
     border-color: #cecece;
@@ -111,35 +85,36 @@ body {
     margin: 2em;
 }
 
-.ui-menu .ui-menu-item a {
+.bc-livesearch-menu a,
+.bc-livesearch-autocomplete-results a {
     border: 1px solid #ffffff;
 }
 
-.ui-menu .ui-menu-item a:hover,
-.ui-menu .ui-menu-item a.ui-state-hover {
+.bc-livesearch-menu .ui-menu-item a:hover,
+.bc-livesearch-autocomplete-results .ui-menu-item a.ui-state-hover {
     margin: 0;
     border: 1px solid #999999;
     background: #e1e1e1 url('../images/ui-bg_glass_75_dadada_1x400.png') repeat-x scroll 50% 50%;
 }
 
-.ui-ls-profile img {
+.bc-livesearch-profile img {
     float: left;
     margin-right: 10px;
     height: 32px;
     width: 32px;
 }
 
-.ui-ls-profile .user {
+.bc-livesearch-profile .user {
     float: left;
     width: 100px;
 }
 
-.ui-ls-profile .contact {
+.bc-livesearch-profile .contact {
     float: right;
     width: 100px;
 }
 
-.ui-ls-profile .contact a {
+.bc-livesearch-profile .contact a {
     color: blue;
     background: none;
     border: none;
@@ -147,30 +122,30 @@ body {
     padding: 0;
 }
 
-.ui-ls-profile .contact a:hover {
+.bc-livesearch-profile .contact a:hover {
     border: none;
     text-decoration: underline;
 }
 
-.ui-ls-page .discreet {
+.bc-livesearch-page .discreet {
     font-size: 100%;
 }
 
-.ui-ls-post .discreet {
+.bc-livesearch-post .discreet {
     font-size: 100%;
 }
 
-.ui-ls-file .discreet {
+.bc-livesearch-file .discreet {
     font-size: 100%;
 }
 
-.ui-ls-category-text {
+.bc-livesearch-category-text {
     position: absolute;
     left: 0;
     width: 91px;
 }
 
-.ui-ls-more {
+.bc-livesearch-more {
     color: #999999;
     display: block;
     position: absolute;
@@ -179,9 +154,18 @@ body {
     left: 0;
 }
 
-.ui-ls-more:hover {
+.bc-livesearch-more:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.discreet {
+    font-size: 65%;
+    color: #999999;
+}
+
+.bc-livesearch.ui-autocomplete-loading {
+    background-image: url('pbar-ani.gif');
 }
 
 /* search results page */
@@ -201,11 +185,6 @@ body {
 .sras-header button {
     -moz-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
-}
-
-.discreet {
-    font-size: 65%;
-    color: #999999;
 }
 
 .sras-header .discreet {
@@ -228,7 +207,7 @@ body {
 }
 
 .sras-searchknobgroup {
-    border-bottom: solid #A3A3A3 1px; 
+    border-bottom: solid #A3A3A3 1px;
     padding: 1em 0;
 }
 .sras-searchknobs a,
@@ -322,8 +301,4 @@ body {
     background-color: lightgray;
     text-align: right;
     padding: 0.4em
-}
-
-.ui-autocomplete-loading {
-    background-image: url('pbar-ani.gif');
 }

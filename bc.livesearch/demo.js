@@ -8,7 +8,7 @@ function createUrlFn(urlPrefix) {
 
 $(function() {
 
-    $('.ui-ls-autocomplete').livesearch({
+    $('.bc-livesearch').livesearch({
         urlFn: createUrlFn('data.json'),
         search: function(event, ui) {
             $('<p>Search for ' + ui.query + '</p>')
@@ -18,14 +18,13 @@ $(function() {
             var text = ui.text;
             var urlFn = createUrlFn(
                 text === 'People' ? 'data-people.json' : 'data.json');
-            $('.ui-ls-autocomplete').livesearch('option', 'urlFn', urlFn);
+            $('.bc-livesearch').livesearch('option', 'urlFn', urlFn);
         },
         validationFn: $.bottlecap.livesearch.prototype.numCharsValidate,
         queryTransformFn: $.bottlecap.livesearch.prototype.globQueryTransform,
         errorFn: $.bottlecap.livesearch.prototype.displayError,
         renderCompletions: renderCompletions
     });
-
 });
 
 function renderCompletions(ul, items) {
@@ -37,13 +36,13 @@ function renderCompletions(ul, items) {
         item.data_value = item.value;
         item.value = self.term;
          if (item.category !== currentCategory) {
-            var li = $('<li class="ui-autocomplete-category"></li>');
+            var li = $('<li class="bc-livesearch-autocomplete-category"></li>');
             li.append(
-                $('<span class="ui-ls-category-text"></span>')
+                $('<span class="bc-livesearch-category-text"></span>')
                     .text(item.category)
             );
             li.append(
-                $('<span class="ui-ls-more"></span>')
+                $('<span class="bc-livesearch-more"></span>')
                     .attr('href', '/search/more')
                     .text('more')
                     .click((function(category) {
@@ -62,7 +61,7 @@ function renderCompletions(ul, items) {
     });
     // Set a class on the first item, to remove a border on
     // the first row
-    ul.find('li:first').addClass('ui-ls-autocomplete-first');
+    ul.find('li:first').addClass('bc-livesearch-autocomplete-first');
 }
 
 var renderDispatchTable = {
@@ -74,7 +73,7 @@ var renderDispatchTable = {
 };
 
 function renderPersonEntry(item) {
-    var entry = $('<a class="ui-ls-profile"></a>');
+    var entry = $('<a class="bc-livesearch-profile"></a>');
     entry.append($('<img>')
                  .attr('src', item.icon));
     var wrapDiv = $('<div>');
@@ -101,7 +100,7 @@ function renderGenericEntry(item) {
 }
 
 function renderPageEntry(item) {
-    var entry = $('<a class="ui-ls-page">');
+    var entry = $('<a class="bc-livesearch-page">');
     entry
         .append($('<div>')
                 .append($('<span>').text(item.label))
@@ -112,7 +111,7 @@ function renderPageEntry(item) {
 }
 
 function renderPostEntry(item) {
-    var entry = $('<a class="ui-ls-post">');
+    var entry = $('<a class="bc-livesearch-post">');
     entry
         .append($('<div>')
                 .append($('<span>').text(item.label))
@@ -123,7 +122,7 @@ function renderPostEntry(item) {
 }
 
 function renderFileEntry(item) {
-    var entry = $('<a class="ui-ls-file">');
+    var entry = $('<a class="bc-livesearch-file">');
     entry
         .append($('<div>').text(item.label))
         .append($('<div class="discreet">').text(
