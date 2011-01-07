@@ -3,7 +3,21 @@ High Priority
 
 - IE 8 testing
 
-- (Robert) create egg
+- (Robert) Convert to new namespaced filename, selector scheme, widget
+  self-contained.
+
+- (Robert) Finish up adding in the new resultitem layouts.
+
+- (Balazs) Get jq-core-1.0.0.js and .css checked in.
+
+- (Balazs) Get bc-core-1.0.0.js and .css checked in
+
+- (Balazs) Get the minimal qUnit for bc.livesearch.
+
+- (Balazs) Fix the new resultitem layouts across browsers
+           (after Robert checks them in).
+
+- (Balazs) Change the throbber.
 
 Medium Priority
 ===============
@@ -96,4 +110,3 @@ Completed
 
 - (Paul) When waiting on the server, give a visual indicator such as
   an animated progress meter.
-
