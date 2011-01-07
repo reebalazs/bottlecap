@@ -92,7 +92,7 @@ var renderDispatchTable = {
 function renderPersonEntry(item) {
     var entry = $('<a class="ui-ls-profile"></a>');
     entry.append($('<img>')
-                 .attr('src', '/bottlecap/sl/livesearch/' + item.icon));
+                 .attr('src', item.icon));
     var wrapDiv = $('<div>');
     var userInfoDiv = $('<div class="user">')
         .append($('<div>').text(item.label))
