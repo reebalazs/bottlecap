@@ -164,13 +164,6 @@ body {
     font-size: 100%;
 }
 
-.ui-ls-file img {
-    float: left;
-    margin-right: 10px;
-    height: 32px;
-    width: 32px;
-}
-
 .ui-ls-category-text {
     position: absolute;
     left: 0;

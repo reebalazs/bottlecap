@@ -81,33 +81,83 @@ function renderCompletions(ul, items) {
     ul.find('li:first').addClass('ui-ls-autocomplete-first');
 }
 
-function renderItem(ul, item) {
-    var li = $('<li>');
-    var entry, div;
-     // Render different items in different ways
-    switch (item.type) {
-        case 'profile': {
-            entry = $('<a class="ui-ls-profile"></a>');
-            entry.append($('<img>').attr('src', item.icon));
-            div = entry.append($('<div>'));
-            div.append(
-                $('<span class="ui-ls-profilelabel"></span>')
-                    .text(item.label)
-            );
-            div.append($('<span>')
-                       .text(item.extension));
-            entry.append($('<div>').text(item.department));
-            break;
-        };
-         default: {
-            entry = $( "<a></a>" ).text( item.label );
-        };
-    };
-    return $( "<li></li>" )
-        .data( "item.autocomplete", item )
-        .append( entry )
-        .appendTo( ul );
+var renderDispatchTable = {
+    "profile":   renderPersonEntry,
+    "wikipage":  renderPageEntry,
+    "blogentry": renderPostEntry,
+    "file":      renderFileEntry,
+    "folder":    renderFileEntry
+};
+
+function renderPersonEntry(item) {
+    var entry = $('<a class="ui-ls-profile"></a>');
+    entry.append($('<img>')
+                 .attr('src', '/bottlecap/sl/livesearch/' + item.icon));
+    var wrapDiv = $('<div>');
+    var userInfoDiv = $('<div class="user">')
+        .append($('<div>').text(item.label))
+        .append($('<div>').text(item.department));
+    var contactDiv = $('<div class="contact">')
+        .append($('<div>')
+                .append($('<a>')
+                        .attr('href', 'mailto:' + item.email)
+                        .text(item.email)
+                        .click(function() {
+                            window.location = 'mailto:' + item.email;
+                            return false;
+                        })))
+        .append($('<div>').text(item.extension));
+    wrapDiv.append(userInfoDiv).append(contactDiv);
+    entry.append(wrapDiv).append($('<div style="clear: both">'));
+    return entry;
 }
 
+function renderGenericEntry(item) {
+    return $("<a></a>").text(item.label);
+}
+
+function renderPageEntry(item) {
+    var entry = $('<a class="ui-ls-page">');
+    entry
+        .append($('<div>')
+                .append($('<span>').text(item.label))
+                .append($('<span class="discreet">').text(
+                    ' - by ' + item.author + ' on ' + item.modified)))
+        .append($('<div>').text(item.community));
+    return entry;
+}
+
+function renderPostEntry(item) {
+    var entry = $('<a class="ui-ls-post">');
+    entry
+        .append($('<div>')
+                .append($('<span>').text(item.label))
+                .append($('<span class="discreet">').text(
+                    ' - by ' + item.author + ' on ' + item.created)))
+        .append($('<div>').text(item.community));
+    return entry;
+}
+
+function renderFileEntry(item) {
+    var entry = $('<a class="ui-ls-file">');
+    entry
+        .append($('<div>').text(item.label))
+        .append($('<div class="discreet">').text(
+            'by ' + item.author + ' on ' + item.modified));
+    return entry;
+}
+
+function renderItem(ul, item) {
+    var li = $('<li>');
+    // Render different items in different ways
+    // dispatch based on the type of the item
+    var type     = item.type,
+        renderFn = renderDispatchTable[type] || renderGenericEntry,
+        entry    = renderFn(item);
+    return $("<li></li>")
+        .data("item.autocomplete", item)
+        .append(entry)
+        .appendTo(ul);
+}
 
 })(jQuery);
