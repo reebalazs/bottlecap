@@ -1,107 +1,122 @@
 [
 
-    {"category": "People", "type": "profile", 
+    {"category": "People", "type": "profile",
      "label": "Paul Everitt",
      "icon": "headshot.jpg", "department": "Human Resources",
      "extension": "x7984",
+     "email": "paul@example.com",
      "url": ""},
 
-    {"category": "People", "type": "profile", 
+    {"category": "People", "type": "profile",
      "label": "Robert Marianski",
      "icon": "headshot.jpg", "department": "Human Resources",
      "extension": "x7984",
+     "email": "rob@example.com",
      "url": ""},
 
-    {"category": "People", "type": "profile", 
+    {"category": "People", "type": "profile",
      "label": "Chris Rossi",
      "icon": "headshot.jpg", "department": "Human Resources",
      "extension": "x7984",
+     "email": "chris@example.com",
      "url": ""},
 
-    {"category": "People", "type": "profile", 
+    {"category": "People", "type": "profile",
      "label": "Chris McDonough",
      "icon": "headshot.jpg", "department": "Human Resources",
      "extension": "x7984",
+     "email": "mcdonc@example.com",
      "url": ""},
 
-    {"category": "Pages", "type": "wikipage", 
+    {"category": "Pages", "type": "wikipage",
      "label": "Online Media Directories Monitoring",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Johnny",
      "url": ""},
 
-
-    {"category": "Pages", "type": "wikipage", 
+    {"category": "Pages", "type": "wikipage",
      "label": "Memo on Political Activities",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Johnny",
      "url": ""},
 
-
-    {"category": "Pages", "type": "wikipage", 
+    {"category": "Pages", "type": "wikipage",
      "label": "Useful Communications Resources",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Johnny",
      "url": "Open Activity Updates"},
 
-
-    {"category": "Pages", "type": "wikipage", 
+    {"category": "Pages", "type": "wikipage",
      "label": "Guatemala Initiatives FY2010",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Johnny",
      "url": ""},
 
-
-
-    {"category": "Posts", "type": "forumpost", 
+    {"category": "Posts", "type": "forumpost",
      "label": "Re: UCB Lecture Stats",
+     "community": "awesome community", "created": "01/23/11 3pm",
+     "author": "Sammy",
      "url": ""},
 
-
-    {"category": "Posts", "type": "blogentry", 
+    {"category": "Posts", "type": "blogentry",
      "label": "Changes and improvements abroad",
+     "community": "awesome community", "created": "01/23/11 3pm",
+     "author": "Sammy",
      "url": ""},
 
-
-    {"category": "Posts", "type": "blogcomment", 
+    {"category": "Posts", "type": "blogcomment",
      "label": "Re: Consortium planning and updates",
+     "community": "awesome community", "created": "01/23/11 3pm",
+     "author": "Sammy",
      "url": ""},
 
-
-    {"category": "Files", "type": "folder", 
+    {"category": "Files", "type": "folder",
      "label": "Recent Updates Folder",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Sammy",
      "url": ""},
 
-
-    {"category": "Files", "type": "file", 
+    {"category": "Files", "type": "file",
      "label": "Sample Media Alert",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Sammy",
      "url": ""},
 
-
-    {"category": "Files", "type": "file", 
+    {"category": "Files", "type": "file",
      "label": "Communications Overview v9",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Sammy",
      "url": ""},
 
-
-    {"category": "Files", "type": "file", 
+    {"category": "Files", "type": "file",
      "label": "press_european.pdf",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Sammy",
      "url": ""},
 
-
-    {"category": "Files", "type": "file", 
+    {"category": "Files", "type": "file",
      "label": "governmental_action_by_sector.xls",
+     "community": "awesome community", "modified": "01/23/11 3pm",
+     "author": "Sammy",
      "url": ""},
 
-
-    {"category": "Other", "type": "community", 
+    {"category": "Other", "type": "community",
      "label": "Brown-Bag Lunch: 'How to Reduce Crime'",
      "url": ""},
 
-    {"category": "Other", "type": "community", 
+    {"category": "Other", "type": "community",
      "label": "Brown-Bag Lunch: 'The Liberian Diaspora'",
      "url": ""},
 
-    {"category": "Other", "type": "community", 
+    {"category": "Other", "type": "community",
      "label": "Consortium Activities",
      "url": ""},
 
-    {"category": "Other", "type": "community", 
+    {"category": "Other", "type": "community",
      "label": "Developer Team",
      "url": ""},
 
-    {"category": "Other", "type": "community", 
+    {"category": "Other", "type": "community",
      "label": "HR Initiatives",
      "url": ""}
 ]
