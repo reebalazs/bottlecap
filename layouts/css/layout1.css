@@ -1,0 +1,143 @@
+body {
+	margin: 0;
+	padding: 0;
+	font: 12px/14px "Lucida Grande", Lucida, Verdana, sans-serif;
+}
+
+.bc-wrapper {
+	width: 100%;
+	clear: both;
+}
+
+#bc-container {
+	text-align: left;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+#bc-header {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: silver;
+	overflow: hidden;
+}
+
+.bc-header-identity-wrapper {
+	width: auto;
+	margin: 0;
+	padding: 0;
+	float: left;
+	position: relative;
+}
+
+#bc-header #bc-logo {
+	width: 200px;
+	margin: 0;
+	padding: 0;
+	float: left;
+	position: relative;
+}
+
+#bc-header #bc-sitetitle {
+	width: auto;
+	margin: 0;
+	padding: 0;
+	float: right;
+	position: relative;
+}
+
+#bc-header #bc-userpanel {
+	width: 200px;
+	margin: 0;
+	padding: 0;
+	float: left;
+	position: relative;
+	background-color: yellow;
+}
+
+#bc-header #bc-sitepanel {
+	width: 200px;
+	margin: 0;
+	padding: 0;
+	float: right;
+	position: relative;
+	background-color: #dcd927;
+}
+
+.bc-header-panels-wrapper {
+	width: 400px;
+	margin: 0;
+	padding: 0;
+	float: right;
+	position: relative;
+}
+
+#bc-navbar {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: orange;
+	overflow: hidden;
+}
+
+#bc-navbar #bc-breadcrumbs {
+	width: auto;
+	margin: 0;
+	padding: 0;
+	float: left;
+	position: relative;
+}
+
+.bc-navbar-links-wrapper {
+	width: 400px;
+	margin: 0;
+	padding: 0;
+	float: right;
+	position: relative;
+}
+
+#bc-navbar #bc-subsitelinks {
+	width: 200px;
+	margin: 0;
+	padding: 0;
+	float: left;
+	position: relative;
+	background-color: #dcd927;
+}
+
+#bc-navbar #bc-sitelinks {
+	width: 200px;
+	margin: 0;
+	padding: 0;
+	float: right;
+	position: relative;
+	background-color: yellow;
+}
+
+#bc-content {
+	width: auto;
+	margin: 0;
+	padding: 0;
+	float: left;
+	overflow: hidden;
+}
+
+#bc-sidebar {
+	width: 200px;
+	margin: 0;
+	padding: 0;
+	float: right;
+	background-color: silver;
+	overflow: hidden;
+}
+
+#bc-footer {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: orange;
+	overflow: hidden;
+}
