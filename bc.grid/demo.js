@@ -4,7 +4,9 @@ var data = [];
 var columns = [];
 var columnpicker;
 
-var options = {};
+var options = {
+    editable: true
+};
 
 var sortcol = "title";
 var sortdir = 1;
@@ -42,7 +44,6 @@ $(function() {
 
     columns = [
         checkboxColumn,
-//        {id:"sel", name:"#", field:"num", cssClass:"cell-selection", width:40, resizable:false, unselectable:true },
         {id:"type", name:"Type", field:"type", width:40, minWidth:40, cssClass:"cell-type", sortable:true},
         {id:"title", name:"Title", field:"title", width:320, cssClass:"cell-title",
             sortable:true, formatter:TitleFormatter, editor:TextCellEditor},
