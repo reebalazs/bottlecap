@@ -3,9 +3,7 @@ var grid;
 var data = [];
 var columns = [];
 
-var options = {
-    enableCellNavigation: true
-};
+var options = {};
 
 var sortcol = "title";
 var sortdir = 1;
@@ -31,6 +29,7 @@ $(function() {
     var checkboxSelector = new Slick.CheckboxSelectColumn({
         cssClass: "slick-cell-checkboxsel"
     });
+       
 
     var columns = [
         checkboxSelector.getColumnDefinition(),
@@ -39,7 +38,6 @@ $(function() {
         {id:"title", name:"Title", field:"title", width:320, minWidth:320, cssClass:"cell-title", sortable:true},
         {id:"modified", name:"Modified", field:"modified", sortable:true}
     ];
-
 
 
     dataView = new Slick.Data.DataView();
@@ -69,5 +67,35 @@ $(function() {
     dataView.beginUpdate();
     dataView.setItems(data);
     dataView.endUpdate();
+
+    // Custom
+    $("#bc-grid-actions").buttonset();
+    $('#bc-grid-delete')
+            .button(
+        {icons: {
+        primary: "ui-icon-trash"
+    },
+            text: false}
+            )
+            .bind('click', function () {
+        selectedRowIds = [];
+        var rows = grid.getSelectedRows();
+        for (var i = 0, l = rows.length; i < l; i++) {
+            var item = dataView.getItem(rows[i]);
+            if (item) selectedRowIds.push(item.id);
+        }
+        console.log(selectedRowIds);
+    });
+    $('#bc-grid-moveto')
+            .button(
+        {icons: {
+        primary: "ui-icon-circle-arrow-e"
+    },
+            text: false}
+            )
+            .bind('click', function () {
+        console.log("moveto");
+    });
+
 
 })
