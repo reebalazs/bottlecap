@@ -29,13 +29,13 @@ $(function() {
     var checkboxSelector = new Slick.CheckboxSelectColumn({
         cssClass: "slick-cell-checkboxsel"
     });
-       
+
 
     var columns = [
         checkboxSelector.getColumnDefinition(),
 //        {id:"sel", name:"#", field:"num", cssClass:"cell-selection", width:40, resizable:false, unselectable:true },
         {id:"type", name:"Type", field:"type", width:40, minWidth:40, cssClass:"cell-type", sortable:true},
-        {id:"title", name:"Title", field:"title", width:320, minWidth:320, cssClass:"cell-title", sortable:true},
+        {id:"title", name:"Title", field:"title", width:320, cssClass:"cell-title", sortable:true},
         {id:"modified", name:"Modified", field:"modified", sortable:true}
     ];
 
@@ -44,7 +44,7 @@ $(function() {
     grid = new Slick.Grid("#myGrid", dataView, columns, options);
     grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow:false}));
     grid.registerPlugin(checkboxSelector);
-
+    
     grid.onSort.subscribe(function(e, args) {
         sortdir = args.sortAsc ? 1 : -1;
         sortcol = args.sortCol.field;
@@ -69,6 +69,22 @@ $(function() {
     dataView.endUpdate();
 
     // Custom
+
+    function delete_items() {
+        dataView.beginUpdate();
+        var rows = grid.getSelectedRows();
+        for (var i = 0, l = rows.length; i < l; i++) {
+            var item = dataView.getItem(rows[i]);
+            if (item) dataView.deleteItem(item.id);
+        }
+        grid.setSelectedRows([]);
+        dataView.endUpdate();
+    }
+
+    function moveto_items() {
+        console.log("moveto");
+    }
+
     $("#bc-grid-actions").buttonset();
     $('#bc-grid-delete')
             .button(
@@ -77,15 +93,7 @@ $(function() {
     },
             text: false}
             )
-            .bind('click', function () {
-        selectedRowIds = [];
-        var rows = grid.getSelectedRows();
-        for (var i = 0, l = rows.length; i < l; i++) {
-            var item = dataView.getItem(rows[i]);
-            if (item) selectedRowIds.push(item.id);
-        }
-        console.log(selectedRowIds);
-    });
+            .bind('click', delete_items);
     $('#bc-grid-moveto')
             .button(
         {icons: {
@@ -93,9 +101,6 @@ $(function() {
     },
             text: false}
             )
-            .bind('click', function () {
-        console.log("moveto");
-    });
+            .bind('click', moveto_items);
 
-
-})
+});
