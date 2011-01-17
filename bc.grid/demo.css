@@ -28,7 +28,7 @@ h2 {
     height: 44px;
     line-height: 44px;
     width: 100%;
-    background-color: #add8e6;
+    background-color: silver    ;
     vertical-align: middle;
 }
 
@@ -49,4 +49,6 @@ h2 {
     padding: 8px 8px;
 }
 
-.ui-button-text {font-size: 0.68em;}
+.ui-button-text {
+    font-size: 0.68em;
+}
