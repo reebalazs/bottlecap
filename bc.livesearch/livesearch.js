@@ -1,5 +1,18 @@
 (function($) {
 
+// A console.log replacement that works on all browsers
+// // If the browser does not have a console, it's silent
+//
+// usage: log('This happened.');
+// or:    log('Variables:', var1, var2, var3);
+//
+var log = function() {
+    if (window.console && console.log) {
+        // log for FireBug or WebKit console
+        console.log(Array.prototype.slice.call(arguments));
+    }
+};
+
 $.widget("bottlecap.livesearch", {
 
     options: {
@@ -323,9 +336,7 @@ $.widget("bottlecap.livesearch", {
     },
 
     _ajaxErrorFn: function(xhr, status, exc) {
-        if (console && console.log) {
-            console.log(status);
-        }
+        log('bc.livesearch', status);
     },
 
     queryData: function(request, response) {
