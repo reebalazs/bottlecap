@@ -30,6 +30,7 @@ body {
 
 .bc-livesearch-autocomplete-msgicon {
     display: inline-block;
+    float: left;
 }
 
 .bc-livesearch-autocomplete-message {

@@ -275,7 +275,7 @@ $.widget("bottlecap.livesearch", {
         if  (!errorDisplayer) {
             // use a closure to wrap the errorbox and message
             errorDisplayer = this._errorDisplayer = (function() {
-                var msg = $('<span>')
+                var msg = $('<span></span>')
                     .addClass('bc-livesearch-autocomplete-message');
                 // A box, hidden initially, to show error messages such as
                 // "you didn't type enough characters"
