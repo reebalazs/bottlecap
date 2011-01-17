@@ -9,7 +9,7 @@ function createUrlFn(urlPrefix) {
 $(function() {
 
     $('.bc-livesearch').livesearch({
-        urlFn: createUrlFn('data.json'),
+        urlFn: createUrlFn('/data.json'),
         search: function(event, ui) {
             $('<p>Search for ' + ui.query + '</p>')
                 .prependTo($('.bc-content-frame'));
@@ -17,7 +17,7 @@ $(function() {
         menu: function(event, ui) {
             var text = ui.text;
             var urlFn = createUrlFn(
-                text === 'People' ? 'data-people.json' : 'data.json');
+                text === 'People' ? '/data-people.json' : '/data.json');
             $('.bc-livesearch').livesearch('option', 'urlFn', urlFn);
         },
         validationFn: $.bottlecap.livesearch.prototype.numCharsValidate,
@@ -76,22 +76,22 @@ function renderPersonEntry(item) {
     var entry = $('<a class="bc-livesearch-profile"></a>');
     entry.append($('<img>')
                  .attr('src', item.icon));
-    var wrapDiv = $('<div>');
-    var userInfoDiv = $('<div class="user">')
-        .append($('<div>').text(item.label))
-        .append($('<div>').text(item.department));
-    var contactDiv = $('<div class="contact">')
-        .append($('<div>')
-                .append($('<a>')
+    var wrapDiv = $('<div></div>');
+    var userInfoDiv = $('<div class="user"></div>')
+        .append($('<div></div>').text(item.label))
+        .append($('<div></div>').text(item.department));
+    var contactDiv = $('<div class="contact"></div>')
+        .append($('<div></div>')
+                .append($('<a></a>')
                         .attr('href', 'mailto:' + item.email)
                         .text(item.email)
                         .click(function() {
                             window.location = 'mailto:' + item.email;
                             return false;
                         })))
-        .append($('<div>').text(item.extension));
+        .append($('<div></div>').text(item.extension));
     wrapDiv.append(userInfoDiv).append(contactDiv);
-    entry.append(wrapDiv).append($('<div style="clear: both">'));
+    entry.append(wrapDiv).append($('<div style="clear: both"></div>'));
     return entry;
 }
 
@@ -100,38 +100,37 @@ function renderGenericEntry(item) {
 }
 
 function renderPageEntry(item) {
-    var entry = $('<a class="bc-livesearch-page">');
+    var entry = $('<a class="bc-livesearch-page"></a>');
     entry
-        .append($('<div>')
-                .append($('<span>').text(item.label))
-                .append($('<span class="discreet">').text(
+        .append($('<div></div>')
+                .append($('<span></span>').text(item.label))
+                .append($('<span class="discreet"></span>').text(
                     ' - by ' + item.author + ' on ' + item.modified)))
-        .append($('<div>').text(item.community));
+        .append($('<div></div>').text(item.community));
     return entry;
 }
 
 function renderPostEntry(item) {
-    var entry = $('<a class="bc-livesearch-post">');
+    var entry = $('<a class="bc-livesearch-post"></a>');
     entry
-        .append($('<div>')
-                .append($('<span>').text(item.label))
-                .append($('<span class="discreet">').text(
+        .append($('<div></div>')
+                .append($('<span></span>').text(item.label))
+                .append($('<span class="discreet"></span>').text(
                     ' - by ' + item.author + ' on ' + item.created)))
-        .append($('<div>').text(item.community));
+        .append($('<div></div>').text(item.community));
     return entry;
 }
 
 function renderFileEntry(item) {
-    var entry = $('<a class="bc-livesearch-file">');
+    var entry = $('<a class="bc-livesearch-file"></a>');
     entry
-        .append($('<div>').text(item.label))
-        .append($('<div class="discreet">').text(
+        .append($('<div></div>').text(item.label))
+        .append($('<div class="discreet"></div>').text(
             'by ' + item.author + ' on ' + item.modified));
     return entry;
 }
 
 function renderItem(ul, item) {
-    var li = $('<li>');
     // Render different items in different ways
     // dispatch based on the type of the item
     var type     = item.type,
