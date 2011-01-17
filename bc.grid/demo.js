@@ -18,6 +18,11 @@ function comparer(a, b) {
 
 
 $(function() {
+
+
+    $("#bc-grid-addfolderdialog").dialog({autoOpen: false});
+    $("#bc-grid-addfiledialog").dialog({autoOpen: false});
+
     // prepare the data
     for (var i = 0; i < 100; i++) {
         var d = (data[i] = {});
@@ -32,12 +37,12 @@ $(function() {
 
     // Setup the columns
     var checkboxSelector = new Slick.CheckboxSelectColumn({
-        cssClass: "slick-cell-checkboxsel",
+        cssClass: "slick-cell-checkboxsel"
     });
     var checkboxColumn = checkboxSelector.getColumnDefinition();
     checkboxColumn['unselectable'] = false;
 
-    function TitleFormatter (row, cell, value, columnDef, dataContext) {
+    function TitleFormatter(row, cell, value, columnDef, dataContext) {
         var href = dataContext['href'];
         return '<a href="' + href + '">' + value + '</a>';
     }
@@ -82,6 +87,22 @@ $(function() {
     dataView.endUpdate();
 
     // Custom
+    function add_folder() {
+        var ab = $('#bc-grid-addfolder');
+        var left = ab.position().left;
+        var top = ab.position().top + ab.height();
+        $("#bc-grid-addfolderdialog").dialog({position: [left, top]});
+        $("#bc-grid-addfolderdialog").dialog("open");
+        console.log('add_folder');
+    }
+    function add_file() {
+        var ab = $('#bc-grid-addfile');
+        var left = ab.position().left;
+        var top = ab.position().top + ab.height();
+        $("#bc-grid-addfiledialog").dialog({position: [left, top]});
+        $("#bc-grid-addfiledialog").dialog("open");
+        console.log('add_file');
+    }
 
     function delete_items() {
         dataView.beginUpdate();
@@ -98,6 +119,23 @@ $(function() {
         console.log("moveto");
     }
 
+    $("#bc-grid-addables").buttonset();
+    $('#bc-grid-addfolder')
+            .button(
+        {icons: {
+        primary: "ui-icon-plus"
+    },
+            text: true}
+            )
+            .bind('click', add_folder);
+    $('#bc-grid-addfile')
+            .button(
+        {icons: {
+        primary: "ui-icon-plus"
+    },
+            text: true}
+            )
+            .bind('click', add_file);
     $("#bc-grid-actions").buttonset();
     $('#bc-grid-delete')
             .button(
@@ -115,5 +153,4 @@ $(function() {
             text: false}
             )
             .bind('click', moveto_items);
-
 });

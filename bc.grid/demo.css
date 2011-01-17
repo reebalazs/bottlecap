@@ -25,8 +25,8 @@ h2 {
 .bc-grid-header, .grid-footer {
     border: 1px solid gray;
     color: black;
-    height: 44px;
-    line-height: 44px;
+    height: 38px;
+    line-height: 38px;
     width: 100%;
     background-color: silver    ;
     vertical-align: middle;
