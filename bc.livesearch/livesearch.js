@@ -117,7 +117,21 @@ $.widget("bottlecap.livesearch", {
             'bc-livesearch bc-livesearch-btn bc-livesearch-btn-search');
 
         // dynamically set height to match
-        el.height(this.selectButton.height());
+        var height = this.selectButton.outerHeight() - 2; 
+        var wrapper = $('<span></span>');
+        wrapper
+            .css('display', 'inline-block')
+            .css('margin', '0')
+            .css('padding', '0')
+            .css('border', '0')
+            .css('height', height + 'px');
+            
+        el
+            .wrap(wrapper)
+            .css('marginTop', '-4px')
+            .css('height', height + 'px')
+            .css('lineHeight', height + 'px');
+
     },
 
     // called when a particular category menu item is selected from the ul
