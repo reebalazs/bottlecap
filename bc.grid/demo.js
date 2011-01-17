@@ -2,6 +2,7 @@ var dataView;
 var grid;
 var data = [];
 var columns = [];
+var columnpicker;
 
 var options = {};
 
@@ -23,20 +24,24 @@ $(function() {
         d["type"] = '';
         d["title"] = "Task " + i;
         d["modified"] = '01/01/2011';
+        d["author"] = "repaul";
     }
 
     // Setup the columns
     var checkboxSelector = new Slick.CheckboxSelectColumn({
-        cssClass: "slick-cell-checkboxsel"
+        cssClass: "slick-cell-checkboxsel",
     });
+    var checkboxColumn = checkboxSelector.getColumnDefinition();
+    checkboxColumn['unselectable'] = false;
 
 
-    var columns = [
-        checkboxSelector.getColumnDefinition(),
+    columns = [
+        checkboxColumn,
 //        {id:"sel", name:"#", field:"num", cssClass:"cell-selection", width:40, resizable:false, unselectable:true },
         {id:"type", name:"Type", field:"type", width:40, minWidth:40, cssClass:"cell-type", sortable:true},
         {id:"title", name:"Title", field:"title", width:320, cssClass:"cell-title", sortable:true},
-        {id:"modified", name:"Modified", field:"modified", sortable:true}
+        {id:"modified", name:"Modified", field:"modified", sortable:true},
+        {id:"author", name:"Author", field:"author", visible: false, sortable: true}
     ];
 
 
@@ -44,6 +49,7 @@ $(function() {
     grid = new Slick.Grid("#myGrid", dataView, columns, options);
     grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow:false}));
     grid.registerPlugin(checkboxSelector);
+    columnpicker = new Slick.Controls.ColumnPicker(columns, grid, options);
     
     grid.onSort.subscribe(function(e, args) {
         sortdir = args.sortAsc ? 1 : -1;
