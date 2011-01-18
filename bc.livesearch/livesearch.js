@@ -16,6 +16,8 @@ $.widget("bottlecap.livesearch", {
         errorFn: null,
         // called when there is an ajax error
         ajaxErrorFn: null,
+        // called when an item is selected from the list
+        selectedFn: null,
         // name of cookie to save context menu search under
         cookieName: 'bottlecap.livesearch.searchType'
     },
@@ -171,8 +173,8 @@ $.widget("bottlecap.livesearch", {
 
     completionSelected: function(event, ui) {
         var item = ui.item;
-        if (this._trigger('complete', 0, {item: item}) !== false) {
-            this.performSearch(item.label);
+        if (this._trigger('selectedFn', event, item) !== false) {
+            this.performSearch(item.label || '');
         }
     },
 
