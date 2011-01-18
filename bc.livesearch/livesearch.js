@@ -141,7 +141,7 @@ $.widget("bottlecap.livesearch", {
             
         el
             .wrap(wrapper)
-            .css('marginTop', '-4px')
+            .css('marginTop', '-6px')   /// XXX IE7: 8px... FF: 6px... IE8: 6px... was: 4px... ???
             .css('height', height + 'px')
             .css('lineHeight', height + 'px');
 
