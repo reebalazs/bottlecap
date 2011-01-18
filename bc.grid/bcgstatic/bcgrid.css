@@ -1,0 +1,58 @@
+* {
+    font-family: arial;
+    font-size: 8pt;
+}
+
+h2 {
+    font-size: 10pt;
+    border-bottom: 1px dotted gray;
+}
+
+#myGrid {
+    background: white;
+    outline: 0;
+    border: 1px solid gray;
+}
+
+.grid-body {
+    background: white;
+    outline: 0;
+    border: 1px solid gray;
+    width: 100%;
+    height: 500px;
+}
+
+.bc-grid-header, .grid-footer {
+    border: 1px solid gray;
+    color: black;
+    height: 38px;
+    line-height: 38px;
+    width: 100%;
+    background-color: silver    ;
+    vertical-align: middle;
+}
+
+.bc-grid-header label {
+    display: inline-block;
+    font-weight: bold;
+    vertical-align: middle;
+    font-size: 1.4em;
+    margin-left: 1em;
+}
+
+#bc-grid-toolbar {
+    padding: 8px 8px;
+}
+
+#bc-grid-toolbar .ui-button-text {
+    font-size: 0.8em;
+}
+
+#bc-grid-reloadframe {
+    display: inline-block;
+    float:right;
+}
+
+.slick-cell img {
+    vertical-align: middle;
+}
