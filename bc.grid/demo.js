@@ -23,6 +23,7 @@ $(function() {
     $("#bc-grid-addfolderdialog").dialog({autoOpen: false});
     $("#bc-grid-addfiledialog").dialog({autoOpen: false});
 
+
     // prepare the data
     for (var i = 0; i < 100; i++) {
         var d = (data[i] = {});
@@ -47,9 +48,17 @@ $(function() {
         return '<a href="' + href + '">' + value + '</a>';
     }
 
+    function TypeFormatter(row, cell, value, columnDef, dataContext) {
+        var type = dataContext['type'];
+        var src = 'images/files_folder_small.png';
+        return '<img src="' + src + '" height="16" width="16" alt="icon" />';
+    }
+
+
     columns = [
         checkboxColumn,
-        {id:"type", name:"Type", field:"type", width:40, minWidth:40, cssClass:"cell-type", sortable:true},
+        {id:"type", name:"Type", field:"type", width:40, minWidth:40, formatter:TypeFormatter,
+            sortable:true},
         {id:"title", name:"Title", field:"title", width:320, cssClass:"cell-title",
             sortable:true, formatter:TitleFormatter, editor:TextCellEditor},
         {id:"modified", name:"Modified", field:"modified", sortable:true},
@@ -81,21 +90,48 @@ $(function() {
         grid.render();
     });
 
-    // initialize the model after all the events have been hooked up
-    dataView.beginUpdate();
-    dataView.setItems(data);
-    dataView.endUpdate();
+    function reload_grid() {
+        // Fetch data via ajax
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "data1.json",
+            success: function (data) {
+                // initialize the model after all the events have been hooked up
+                dataView.beginUpdate();
+                dataView.setItems(data);
+                dataView.endUpdate();
+                grid.invalidate();
+                console.log(data);
+            },
+            error: function (xhr, status, error) {
+                console.log(status);
+            }
+        });
+    }
+
+    reload_grid();
 
     // Custom
+    function close_all_dialogs() {
+        $('.bc-dialog').each(function (index, value) {
+            $(value).dialog('close');
+        })
+    }
+
     function add_folder() {
+        close_all_dialogs();
         var ab = $('#bc-grid-addfolder');
         var left = ab.position().left;
         var top = ab.position().top + ab.height();
         $("#bc-grid-addfolderdialog").dialog({position: [left, top]});
         $("#bc-grid-addfolderdialog").dialog("open");
-        console.log('add_folder');
+        $("#modalIframeId").attr("src", "/static/bc.grid/form1.html");
+        return false;
     }
+
     function add_file() {
+        close_all_dialogs();
         var ab = $('#bc-grid-addfile');
         var left = ab.position().left;
         var top = ab.position().top + ab.height();
@@ -153,4 +189,12 @@ $(function() {
             text: false}
             )
             .bind('click', moveto_items);
+    $('#bc-grid-reload').button({
+        icons: {primary: "ui-icon-arrowrefresh-1-w", text: false}
+    }).bind('click', reload_grid)
+
+
+
+    $.getJSON('sitemodel.json');
+
 });

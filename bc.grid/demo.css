@@ -40,15 +40,19 @@ h2 {
     margin-left: 1em;
 }
 
-.cell-type {
-    background: url('images/files_folder_small.png') no-repeat center;
-
-}
-
-#toolbar {
+#bc-grid-toolbar {
     padding: 8px 8px;
 }
 
-.ui-button-text {
-    font-size: 0.68em;
+#bc-grid-toolbar .ui-button-text {
+    font-size: 0.8em;
+}
+
+#bc-grid-reloadframe {
+    display: inline-block;
+    float:right;
+}
+
+.slick-cell img {
+    vertical-align: middle;
 }

@@ -5,12 +5,16 @@
     <link rel="stylesheet" href="slick.min.css"/>
     <link rel="stylesheet" href="../sl/jquery-ui-1.9m3.custom.css"/>
     <link rel="stylesheet" href="demo.css"/>
+    <link href="http://www.pylonsproject.org/projects/pyramid/dev/_static/pyramid.ico" rel="shortcut icon">
 </head>
 <body>
-<div style="width:580px;float:left;">
+<div style="width:570px;float:left;">
     <div class="bc-grid-header" style="width:100%">
         <label>SlickGrid</label>
-        <span id="toolbar" class="ui-widget-header ui-corner-all">
+        <span id="bc-grid-toolbar">
+            <span id="bc-grid-reloadframe">
+                <button id="bc-grid-reload">Reload</button>
+            </span>
             <span id="bc-grid-addables">
                 <button id="bc-grid-addfolder">Folder</button>
                 <button id="bc-grid-addfile">File</button>
@@ -23,12 +27,15 @@
 
     </div>
     <div id="myGrid" style="width:100%;height:500px;"></div>
-    <div id="bc-grid-addfolderdialog" title="Add Folder">
-    	<p>This is the default dialog which is useful for displaying information. The dialog
-            window can be moved, resized and closed with the 'x' icon.</p>
+    <div id="bc-grid-addfolderdialog" class="bc-dialog" title="Add Folder">
+        <iframe id="modalIframeId" width="100%" height="100%"
+                marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"
+                title="Dialog Title">Your browser does not support
+        </iframe>
+
     </div>
-    <div id="bc-grid-addfiledialog" title="Add File">
-    	<p>This is the default dialog which is useful for displaying information. The dialog
+    <div id="bc-grid-addfiledialog" class="bc-dialog" title="Add File">
+        <p>This is the default dialog which is useful for displaying information. The dialog
             window can be moved, resized and closed with the 'x' icon.</p>
     </div>
 </div>
@@ -36,6 +43,7 @@
 <script src="../sl/jquery-1.4.3.min.js"></script>
 <script src="../sl/jquery-ui-1.9m3.custom.min.js"></script>
 <script src="slick.min.js"></script>
+<script src="jquery.form-2.43.js"></script>
 
 
 <script src="demo.js"></script>
