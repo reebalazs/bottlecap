@@ -1,5 +1,18 @@
 (function($) {
 
+// A console.log replacement that works on all browsers
+// // If the browser does not have a console, it's silent
+//
+// usage: log('This happened.');
+// or:    log('Variables:', var1, var2, var3);
+//
+var log = function() {
+    if (window.console && console.log) {
+        // log for FireBug or WebKit console
+        console.log(Array.prototype.slice.call(arguments));
+    }
+};
+
 $.widget("bottlecap.livesearch", {
 
     options: {
@@ -117,7 +130,21 @@ $.widget("bottlecap.livesearch", {
             'bc-livesearch bc-livesearch-btn bc-livesearch-btn-search');
 
         // dynamically set height to match
-        el.height(this.selectButton.height());
+        var height = this.selectButton.outerHeight() - 2; 
+        var wrapper = $('<span></span>');
+        wrapper
+            .css('display', 'inline-block')
+            .css('margin', '0')
+            .css('padding', '0')
+            .css('border', '0')
+            .css('height', height + 'px');
+            
+        el
+            .wrap(wrapper)
+            .css('marginTop', '-4px')
+            .css('height', height + 'px')
+            .css('lineHeight', height + 'px');
+
     },
 
     // called when a particular category menu item is selected from the ul
@@ -248,7 +275,7 @@ $.widget("bottlecap.livesearch", {
         if  (!errorDisplayer) {
             // use a closure to wrap the errorbox and message
             errorDisplayer = this._errorDisplayer = (function() {
-                var msg = $('<span>')
+                var msg = $('<span></span>')
                     .addClass('bc-livesearch-autocomplete-message');
                 // A box, hidden initially, to show error messages such as
                 // "you didn't type enough characters"
@@ -309,9 +336,7 @@ $.widget("bottlecap.livesearch", {
     },
 
     _ajaxErrorFn: function(xhr, status, exc) {
-        if (console && console.log) {
-            console.log(status);
-        }
+        log('bc.livesearch', status);
     },
 
     queryData: function(request, response) {

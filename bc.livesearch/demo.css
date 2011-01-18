@@ -30,6 +30,7 @@ body {
 
 .bc-livesearch-autocomplete-msgicon {
     display: inline-block;
+    float: left;
 }
 
 .bc-livesearch-autocomplete-message {
@@ -70,9 +71,7 @@ body {
     border-width: 1px 0;
     border-color: #cecece;
     border-style: solid;
-    *line-height: 14px;
     padding: 0;
-    margin: 0 -3px 0 0;
 }
 
 .bc-header-toolbox .bc-livesearch-btn-search {
