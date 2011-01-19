@@ -43,6 +43,14 @@ function renderDate(dateString) {
            d.getHours() + ':' + d.getMinutes();
 }
 
+var typeLookupDisplay = {
+    profile: "People",
+    page: "Pages",
+    post: "Posts",
+    file: "Files",
+    other: "Other"
+};
+
 function renderCompletions(ul, items) {
     var self = this,
         currentType = "";
@@ -55,7 +63,7 @@ function renderCompletions(ul, items) {
             var li = $('<li class="bc-livesearch-autocomplete-category"></li>');
             li.append(
                 $('<span class="bc-livesearch-category-text"></span>')
-                    .text(item.type)
+                    .text(typeLookupDisplay[item.type] || "Other")
             );
             li.append(
                 $('<span class="bc-livesearch-more"></span>')
