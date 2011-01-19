@@ -137,14 +137,17 @@ $.widget("bottlecap.livesearch", {
             .css('margin', '0')
             .css('padding', '0')
             .css('border', '0')
-            .css('height', height + 'px');
-            
+            .css('height', height + 'px')
+            .css('vertical-align', 'top');
         el
             .wrap(wrapper)
-            .css('marginTop', '-6px')   /// XXX IE7: 8px... FF: 6px... IE8: 6px... was: 4px... ???
             .css('height', height + 'px')
             .css('lineHeight', height + 'px');
 
+        // hack IE7 that handles top margin differently
+        if ($.browser.msie && parseInt($.browser.version) == 7) {
+            el.css('marginTop', '-1px');
+        }
     },
 
     // called when a particular category menu item is selected from the ul
