@@ -3,6 +3,7 @@ var grid;
 var data = [];
 var columns = [];
 var columnpicker;
+var resource_id = 'root';
 
 var options = {
     editable: true
@@ -54,13 +55,33 @@ $(function() {
         return '<img src="' + src + '" height="16" width="16" alt="icon" />';
     }
 
+    function titleValidator(value) {
+        if (value == null || value == undefined || !value.length)
+            return {valid:false, msg:"This is a required field"};
+        // Ping the server synchronously to change the title
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {resource_id: 'id001', value: value},
+            url: "change_title",
+            async: false,
+            success: function (data) {
+                //
+            },
+            error: function () {
+                return {valid:false, msg:"Server failed"};
+            }
+        })
+        return {valid:true, msg:null};
+    }
 
     columns = [
         checkboxColumn,
         {id:"type", name:"Type", field:"type", width:40, minWidth:40, formatter:TypeFormatter,
             sortable:true},
         {id:"title", name:"Title", field:"title", width:320, cssClass:"cell-title",
-            sortable:true, formatter:TitleFormatter, editor:TextCellEditor},
+            sortable:true, formatter:TitleFormatter, editor:TextCellEditor,
+            validator: titleValidator},
         {id:"modified", name:"Modified", field:"modified", sortable:true},
         {id:"author", name:"Author", field:"author", visible: false, sortable: true}
     ];
@@ -95,7 +116,7 @@ $(function() {
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "data1.json",
+            url: "list_items?resource_id=" + resource_id,
             success: function (data) {
                 // initialize the model after all the events have been hooked up
                 dataView.beginUpdate();
@@ -193,8 +214,5 @@ $(function() {
         icons: {primary: "ui-icon-arrowrefresh-1-w", text: false}
     }).bind('click', reload_grid)
 
-
-
-    $.getJSON('sitemodel');
 
 });

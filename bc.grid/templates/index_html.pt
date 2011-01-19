@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:tal="http://xml.zope.org/namespaces/tal"
+       xmlns:metal="http://xml.zope.org/namespaces/metal"
+        metal:use-macro="main.macros['wrapper']"
+        ><head>
+    <title>bc.grid Basic Example</title>
+</head>
+<body>
+<tal:block metal:fill-slot="content">
+<div style="width:570px;float:left;">
+    <div class="bc-grid-header" style="width:100%">
+        <label>SlickGrid</label>
+        <span id="bc-grid-toolbar">
+            <span id="bc-grid-reloadframe">
+                <button id="bc-grid-reload">Reload</button>
+            </span>
+            <span id="bc-grid-addables">
+                <button id="bc-grid-addfolder">Folder</button>
+                <button id="bc-grid-addfile">File</button>
+	        </span>
+            <span id="bc-grid-actions">
+                <button id="bc-grid-delete">Delete</button>
+                <button id="bc-grid-moveto">Move To</button>
+	        </span>
+        </span>
+
+    </div>
+    <div id="myGrid" style="width:100%;height:400px;"></div>
+    <div id="bc-grid-addfolderdialog" class="bc-dialog" title="Add Folder">
+        <iframe id="modalIframeId" width="100%" height="100%"
+                marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"
+                title="Dialog Title">Your browser does not support
+        </iframe>
+
+    </div>
+    <div id="bc-grid-addfiledialog" class="bc-dialog" title="Add File">
+        <p>This is the default dialog which is useful for displaying information. The dialog
+            window can be moved, resized and closed with the 'x' icon.</p>
+    </div>
+</div>
+</tal:block>
+
+</body>
+</html>

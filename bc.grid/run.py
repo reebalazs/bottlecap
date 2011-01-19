@@ -3,7 +3,7 @@ from pyramid.response import Response
 from paste.httpserver import serve
 from pyramid.view import view_config
 
-from models import Bottlecap
+from resources import Bottlecap
 
 if __name__ == '__main__':
     config = Configurator(root_factory=Bottlecap)

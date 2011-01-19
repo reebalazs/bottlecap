@@ -1,0 +1,10 @@
+root:
+  title: Root Folder
+  items:
+    id001:
+      id: id_001
+      title: Some Folder 2
+      type: folder
+      modified: "01/02/2011"
+      author: "repaul"
+      href: "http://www.google.com/"

@@ -1,0 +1,15 @@
+types:
+  folder:
+    title: Folder
+    icon: someicon.png
+    actions:
+      addfolder:
+        title: Add Folder
+        form: form1.html
+  file:
+     title: File
+     icon: foldericon.png
+     actions:
+      addfile:
+        title: Add File
+        form: form1.html
