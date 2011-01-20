@@ -139,7 +139,7 @@ function renderPageEntry(item) {
                 .append($('<span class="discreet" />').text(
                     ' - by ' + item.modified_by + ' ' +
                     renderDate(item.modified))))
-        .append($('<div />').text(item.community || ''));
+        .append($('<div class="discreet" />').text(item.community || ''));
     return entry;
 }
 
@@ -151,7 +151,7 @@ function renderBlogEntry(item) {
                 .append($('<span class="discreet" />').text(
                     ' - by ' + item.modified_by + ' ' +
                     renderDate(item.modified))))
-        .append($('<div />').text(item.community));
+        .append($('<div class="discreet" />').text(item.community));
     return entry;
 }
 
@@ -174,7 +174,7 @@ function renderForumTopicEntry(item) {
                 .append($('<span class="discreet" />').text(
                     ' - by ' + item.creator + ' ' +
                     renderDate(item.created))))
-        .append($('<div />').append(item.forum));
+        .append($('<div class="discreet" />').append(item.forum));
     return entry;
 }
 
@@ -186,7 +186,7 @@ function renderCommentEntry(item) {
                 .append($('<span class="discreet" />').text(
                     ' - by ' + item.creator + ' ' +
                     renderDate(item.created))))
-        .append($('<div />').text(
+        .append($('<div class="discreet" />').text(
             item.blog || item.forum || item.community || ''));
     return entry;
 }
@@ -216,10 +216,10 @@ function renderCalendarEventEntry(item) {
                     .text(item.title)
                 .append($('<span class="discreet" />')
                             .text(' - at ' + item.location)))
-        .append($('<div />').text(
+        .append($('<div class="discreet" />').text(
             _renderCalendarDate(item.start) + ' -> ' +
             _renderCalendarDate(item.end)))
-        .append($('<div />').text(item.community || ''));
+        .append($('<div class="discreet" />').text(item.community || ''));
     return entry;
 }
 
