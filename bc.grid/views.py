@@ -4,6 +4,18 @@ from pyramid.view import view_config
 
 from resources import Bottlecap
 
+form1_invalid = """
+<fieldset>
+            <input name="title"/>
+            <label for="title">Title ******</label>
+        </fieldset>
+        <fieldset>
+            <input name="author"/>
+            <label for="author">Author</label>
+        </fieldset>
+        <input type="submit" value="add"/>
+"""
+
 class BottlecapViews(object):
 
     def __init__(self, request):
@@ -39,3 +51,28 @@ class BottlecapViews(object):
     def sitemodel(self):
 
         return self.context.sitemodel
+
+    @view_config(name='delete_items', context=Bottlecap, renderer="json")
+    def delete_items(self):
+        root_items = self.content['root']['items']
+        target_ids = self.request.params.getall("target_ids[]")
+        for t in target_ids:
+            del root_items[t]
+
+
+    @view_config(name="add_file", context=Bottlecap)
+    def add_file(self):
+        title = self.request.params.get('title')
+        author = self.request.params.get('author')
+        if (not title) or (not author):
+            # Invalid form
+            response_html = form1_invalid
+        else:
+            # Valid form, add some data
+            items = self.content['root']['items']
+            new_item = {'id': title, 'title': title, 'type': 'folder',
+            'modified': '09/09/2009', 'author': 'paule', 'href': '#'}
+            items[title] = new_item
+            response_html = 'ok'
+
+        return Response(response_html)

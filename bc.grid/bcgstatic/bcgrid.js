@@ -123,7 +123,7 @@ $(function() {
                 dataView.setItems(data);
                 dataView.endUpdate();
                 grid.invalidate();
-                console.log(data);
+                //console.log(data);
             },
             error: function (xhr, status, error) {
                 console.log(status);
@@ -158,18 +158,48 @@ $(function() {
         var top = ab.position().top + ab.height();
         $("#bc-grid-addfiledialog").dialog({position: [left, top]});
         $("#bc-grid-addfiledialog").dialog("open");
-        console.log('add_file');
+
+        // Bind any ajax forms. TODO does this only need to be done once?
+        $('.bc-grid-ajaxform').ajaxForm({
+            'success': function (responseText, statusText, xhr, form) {
+                if (responseText == 'ok') {
+                    $("#bc-grid-addfiledialog").dialog("close");
+                    reload_grid();
+                } else {
+                    form.empty().html(responseText);
+                }
+            }
+        });
+
     }
 
     function delete_items() {
-        dataView.beginUpdate();
+        var row_ids = [];
         var rows = grid.getSelectedRows();
+
+        // First accummulate the ids to be deleted and contact server
         for (var i = 0, l = rows.length; i < l; i++) {
             var item = dataView.getItem(rows[i]);
-            if (item) dataView.deleteItem(item.id);
+            row_ids.push(item.id);
         }
-        grid.setSelectedRows([]);
-        dataView.endUpdate();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: {'target_ids': row_ids},
+            url: "delete_items?resource_id=" + resource_id,
+            success: function (data) {
+                dataView.beginUpdate();
+                for (var i = 0, l = rows.length; i < l; i++) {
+                    var item = dataView.getItem(rows[i]);
+                    if (item) dataView.deleteItem(item.id);
+                }
+                grid.setSelectedRows([]);
+                dataView.endUpdate();
+            },
+            error: function (xhr, status, error) {
+                console.log(status);
+            }
+        });
     }
 
     function moveto_items() {
@@ -214,5 +244,8 @@ $(function() {
         icons: {primary: "ui-icon-arrowrefresh-1-w", text: false}
     }).bind('click', reload_grid)
 
-
+    // Bind any ajax forms
+    $('.bc-grid-ajaxform').ajaxForm(function() {
+        alert('Done');
+    });
 });

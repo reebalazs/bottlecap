@@ -23,10 +23,6 @@
         <li>Click title link to visit resource</li>
         <li>In-place add forms</li>
         <li>Move-to on selected rows</li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
     </ul>
 </tal:block>
 
