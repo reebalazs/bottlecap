@@ -304,8 +304,8 @@ $.widget("bottlecap.livesearch", {
                     }
                 }
                 var errorSubstring = query.substring(startPos, pos);
-                errorDisplayer.show('num chars validation error: '
-                                    + errorSubstring);
+                errorDisplayer.show('Please add more characters to: "' +
+                                    errorSubstring + '"');
             }
         }
     },
