@@ -203,14 +203,22 @@ function renderFileEntry(item) {
     return entry;
 }
 
+function _renderCalendarDate(isoDateString) {
+    var d = new Date(isoDateString);
+    return (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear() + ' ' +
+           d.getHours() + ':' + d.getMinutes();
+}
+
 function renderCalendarEventEntry(item) {
     var entry = $('<a class="bc-livesearch-calendarevent" />');
     entry
-        .append($('<div />').text(item.title))
-        .append($('<div class="discreet" />').text(
-            renderDate(item.start) + ' - ' +
-            renderDate(item.end) +
-            (item.location ? ' at ' + item.location : '')))
+        .append($('<div />')
+                    .text(item.title)
+                .append($('<span class="discreet" />')
+                            .text(' - at ' + item.location)))
+        .append($('<div />').text(
+            _renderCalendarDate(item.start) + ' -> ' +
+            _renderCalendarDate(item.end)))
         .append($('<div />').text(item.community || ''));
     return entry;
 }
