@@ -134,7 +134,7 @@ $.widget("bottlecap.livesearch", {
         // don't want to resave the cookie at that point
         if (!dontSaveCookie) {
             this.cookieValue = text;
-            $.cookie(this.cookieName, this.cookieValue);
+            $.cookie(this.cookieName, this.cookieValue, {path: "/"});
         }
 
         this._trigger('menu', 0, {

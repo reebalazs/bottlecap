@@ -42,13 +42,6 @@ body {
     padding: 0.5em;
 }
 
-/*
-  was overriding a separate class
-.ui-widget {
-    font-size: 1.2em;
-}
-*/
-
 .bc-header h1 {
     margin-top: 0;
     margin-bottom: 0;
@@ -127,15 +120,15 @@ body {
     text-decoration: underline;
 }
 
-.bc-livesearch-page .discreet {
-    font-size: 100%;
-}
-
-.bc-livesearch-post .discreet {
-    font-size: 100%;
-}
-
-.bc-livesearch-file .discreet {
+.bc-livesearch-page .discreet,
+.bc-livesearch-blog .discreet,
+.bc-livesearch-comment .discreet,
+.bc-livesearch-file .discreet,
+.bc-livesearch-forum .discreet,
+.bc-livesearch-forumtopic .discreet,
+.bc-livesearch-forumtopic-comment .discreet,
+.bc-livesearch-calendarevent .discreet,
+.bc-livesearch-community .discreet {
     font-size: 100%;
 }
 
