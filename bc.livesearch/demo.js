@@ -37,10 +37,13 @@ $(function() {
     });
 });
 
-function renderDate(dateString) {
-    var d = new Date(dateString);
-    return (d.getMonth()+1) + '/' + d.getDate() + '/' + d.getFullYear() + ' ' +
-           d.getHours() + ':' + d.getMinutes();
+// for calendar dates in the future
+// maybe we should have our own explicit format for these?
+$.timeago.settings.allowFuture = true;
+
+function renderDate(isoDateString) {
+    var d = new Date(isoDateString);
+    return $.timeago(d);
 }
 
 var typeLookupDisplay = {
@@ -134,7 +137,7 @@ function renderPageEntry(item) {
         .append($('<div />')
                 .append($('<span />').text(item.title))
                 .append($('<span class="discreet" />').text(
-                    ' - by ' + item.modified_by + ' on ' +
+                    ' - by ' + item.modified_by + ' ' +
                     renderDate(item.modified))))
         .append($('<div />').text(item.community || ''));
     return entry;
@@ -146,7 +149,7 @@ function renderBlogEntry(item) {
         .append($('<div />')
                 .append($('<span />').text(item.title))
                 .append($('<span class="discreet" />').text(
-                    ' - by ' + item.modified_by + ' on ' +
+                    ' - by ' + item.modified_by + ' ' +
                     renderDate(item.modified))))
         .append($('<div />').text(item.community));
     return entry;
@@ -158,7 +161,7 @@ function renderForumEntry(item) {
         .append($('<div />')
                 .append($('<span />').text(item.title))
                 .append($('<span class="discreet" />').text(
-                    ' - by ' + item.creator + ' on ' +
+                    ' - by ' + item.creator + ' ' +
                     renderDate(item.created))));
     return entry;
 }
@@ -169,7 +172,7 @@ function renderForumTopicEntry(item) {
         .append($('<div />')
                 .append($('<span />').text(item.title))
                 .append($('<span class="discreet" />').text(
-                    ' - by ' + item.creator + ' on ' +
+                    ' - by ' + item.creator + ' ' +
                     renderDate(item.created))))
         .append($('<div />').append(item.forum));
     return entry;
@@ -181,7 +184,7 @@ function renderCommentEntry(item) {
         .append($('<div />')
                 .append($('<span />').text(item.title))
                 .append($('<span class="discreet" />').text(
-                    ' - by ' + item.creator + ' on ' +
+                    ' - by ' + item.creator + ' ' +
                     renderDate(item.created))))
         .append($('<div />').text(
             item.blog || item.forum || item.community || ''));
@@ -195,7 +198,7 @@ function renderFileEntry(item) {
         .append(
             $('<div />')
                 .append($('<span class="discreet" />').text(
-                    'by ' + item.modified_by + ' on ' +
+                    'by ' + item.modified_by + ' ' +
                         renderDate(item.modified))));
     return entry;
 }
