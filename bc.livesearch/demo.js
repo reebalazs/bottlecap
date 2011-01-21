@@ -9,6 +9,36 @@ function createUrlFn(urlPrefix, kind) {
     }
 }
 
+var advancedSearchUrl = "/searchresults.html";
+
+var typeLookupDisplay = {
+    profile: "People",
+    page: "Pages",
+    post: "Posts",
+    file: "Files",
+    other: "Other"
+};
+
+
+function getSearchValue() {
+    return $('.bc-livesearch-autocomplete').val();
+}
+
+function advancedSearchResultsUrl(query, type) {
+    if (query.length >= 3) {
+        query += "*";
+    }
+    if (!type) {
+        // grab current filter and use that
+        type = $('.bc-livesearch-btn-select').text();
+    }
+    var typeQueryString = (type === "All Content")
+                              ? ''
+                              : "&kind=" + escape(type);
+    var queryString = '?body=' + escape(query) + typeQueryString;
+    return advancedSearchUrl + queryString;
+}
+
 $(function() {
 
     $('.bc-livesearch').livesearch({
@@ -40,14 +70,6 @@ $(function() {
 function renderDate(isoDateString) {
     return $.timeago(isoDateString);
 }
-
-var typeLookupDisplay = {
-    profile: "People",
-    page: "Pages",
-    post: "Posts",
-    file: "Files",
-    other: "Other"
-};
 
 function renderCompletions(ul, items) {
     var self = this,
@@ -106,7 +128,7 @@ function renderPersonEntry(item) {
     var wrapDiv = $('<div />');
     var userInfoDiv = $('<div class="user" />')
         .append($('<div />').text(item.title))
-        .append($('<div />').text(item.department));
+        .append($('<div class="discreet" />').text(item.department));
     var contactDiv = $('<div class="contact" />')
         .append($('<div />')
                 .append($('<a />')
