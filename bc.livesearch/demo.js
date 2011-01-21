@@ -37,10 +37,6 @@ $(function() {
     });
 });
 
-// for calendar dates in the future
-// maybe we should have our own explicit format for these?
-$.timeago.settings.allowFuture = true;
-
 function renderDate(isoDateString) {
     var d = new Date(isoDateString);
     return $.timeago(d);
