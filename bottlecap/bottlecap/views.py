@@ -29,7 +29,7 @@ class BottlecapViews(object):
         #self.content = self.context.sitecontent
 
 
-    @view_config(context=Bottlecap, renderer="templates/index_html.pt")
+    @view_config(context=Folder, renderer="templates/index_html.pt")
     def index_view(self):
         return {'name': 99, 'main': self.main}
 
@@ -39,7 +39,7 @@ class BottlecapViews(object):
         page_title = 'About Bottlecap'
         return {'page_title': page_title, 'main': self.main}
 
-    @view_config(name="add_file", context=Bottlecap)
+    @view_config(name="add_file", context=Folder)
     def add_file(self):
         title = self.request.POST.get('title')
         author = self.request.POST.get('author')
@@ -67,7 +67,7 @@ class BottlecapJSON_API(object):
         self.request = request
         self.context = request.context
 
-    @view_config(name='list_items', context=Bottlecap, renderer='json')
+    @view_config(name='list_items', context=Folder, renderer='json')
     def list_items(self):
         return [{'id': key,
                  'title': getattr(value, 'title', key),
@@ -77,14 +77,14 @@ class BottlecapJSON_API(object):
                  'href': model_url(value, self.request),
                 } for key, value in self.context.items()]
 
-    @view_config(name='change_title', context=Bottlecap, renderer='json')
+    @view_config(name='change_title', context=Folder, renderer='json')
     def change_title(self):
         target_id = str(self.request.POST['resource_id'])
         new_title = self.request.POST['value']
         self.context[target_id].title = new_title
         return True
 
-    @view_config(name='delete_items', context=Bottlecap, renderer="json")
+    @view_config(name='delete_items', context=Folder, renderer="json")
     def delete_items(self):
         target_ids = self.request.POST.getall("target_ids[]")
         for t in target_ids:
