@@ -1,3 +1,4 @@
 *.pyc
 .coverage
 *.egg-info
+venv
