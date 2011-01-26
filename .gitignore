@@ -2,3 +2,4 @@
 .coverage
 *.egg-info
 venv
+Data.fs*
