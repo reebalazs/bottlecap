@@ -5,11 +5,11 @@
       metal:define-macro="wrapper">
 <head>
     <title>Bottlecap</title>
-    <link href="/bcgstatic/main.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="/bcgstatic/slick.min.css"/>
-    <link rel="stylesheet" href="/bcgstatic/jquery-ui-1.9m3.custom.css"/>
-    <link rel="stylesheet" href="/bcgstatic/bcgrid.css"/>
-    <link href="http://www.pylonsproject.org/projects/pyramid/dev/_static/pyramid.ico" rel="shortcut icon"/>
+    <link href="/static/main.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/bccore/slick.min.css"/>
+    <link rel="stylesheet" href="/bccore/jquery-ui-1.9m3.custom.css"/>
+    <link rel="stylesheet" href="/bcgrid/bcgrid.css"/>
+    <link href="static/pyramid.ico" rel="shortcut icon"/>
 </head>
 <body>
 
@@ -32,13 +32,13 @@
 </div>
 
 
-<script src="/bcgstatic/jquery-1.4.3.min.js"></script>
-<script src="/bcgstatic/jquery-ui-1.9m3.custom.min.js"></script>
-<script src="/bcgstatic/slick.min.js"></script>
-<script src="/bcgstatic/jquery.form-2.43.js"></script>
+<script src="/bccore/jquery-1.4.3.min.js"></script>
+<script src="/bccore/jquery-ui-1.9m3.custom.min.js"></script>
+<script src="/bccore/slick.min.js"></script>
+<script src="/bccore/jquery.form-2.43.js"></script>
 
 
-<script src="/bcgstatic/bcgrid.js"></script>
+<script src="/bcgrid/bcgrid.js"></script>
 
 </body>
 </html>

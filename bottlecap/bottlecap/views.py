@@ -1,8 +1,12 @@
+from datetime import datetime
+
 from pyramid.renderers import get_renderer
 from pyramid.response import Response
+from pyramid.url import model_url
 from pyramid.view import view_config
+from repoze.folder import Folder
 
-from resources import Bottlecap
+from bottlecap.models import Bottlecap
 
 form1_invalid = """
 <fieldset>
@@ -22,57 +26,66 @@ class BottlecapViews(object):
         self.request = request
         self.context = request.context
         self.main = get_renderer('templates/main.pt').implementation()
-        self.content = self.context.sitecontent
+        #self.content = self.context.sitecontent
 
 
     @view_config(context=Bottlecap, renderer="templates/index_html.pt")
     def index_view(self):
         return {'name': 99, 'main': self.main}
 
-    @view_config(context=Bottlecap, name="about", renderer="templates/about_view.pt")
+    @view_config(context=Bottlecap, name="about",
+                 renderer="templates/about_view.pt")
     def about_view(self):
         page_title = 'About Bottlecap'
         return {'page_title': page_title, 'main': self.main}
 
-    @view_config(name='list_items', context=Bottlecap, renderer='json')
-    def list_items(self):
-        resource_id = self.request.params['resource_id']
-        root = self.content[resource_id]
-        return root['items'].values()
-
-    @view_config(name='change_title', context=Bottlecap, renderer='json')
-    def change_title(self):
-        resource_id = str(self.request.params['resource_id'])
-        new_title = self.request.params['value']
-        self.content['root']['items'][resource_id]['title'] = new_title
-        return True
-
-    @view_config(name='sitemodel', context=Bottlecap, renderer="json")
-    def sitemodel(self):
-
-        return self.context.sitemodel
-
-    @view_config(name='delete_items', context=Bottlecap, renderer="json")
-    def delete_items(self):
-        root_items = self.content['root']['items']
-        target_ids = self.request.params.getall("target_ids[]")
-        for t in target_ids:
-            del root_items[t]
-
-
     @view_config(name="add_file", context=Bottlecap)
     def add_file(self):
-        title = self.request.params.get('title')
-        author = self.request.params.get('author')
+        title = self.request.POST.get('title')
+        author = self.request.POST.get('author')
         if (not title) or (not author):
             # Invalid form
             response_html = form1_invalid
         else:
             # Valid form, add some data
-            items = self.content['root']['items']
-            new_item = {'id': title, 'title': title, 'type': 'folder',
-            'modified': '09/09/2009', 'author': 'paule', 'href': '#'}
-            items[title] = new_item
+            folder = Folder()
+            folder.title = title
+            folder.type = 'folder',
+            folder.modified = datetime.now()
+            folder.author = 'paule'
+            self.context[_title_to_name(title, self.context)] = folder
             response_html = 'ok'
 
         return Response(response_html)
+
+def _title_to_name(title, container):
+    return title.lower().replace(' ', '-') # TODO:  check for dupes
+
+class BottlecapJSON_API(object):
+
+    def __init__(self, request):
+        self.request = request
+        self.context = request.context
+
+    @view_config(name='list_items', context=Bottlecap, renderer='json')
+    def list_items(self):
+        return [{'id': key,
+                 'title': getattr(value, 'title', key),
+                 'type': 'folder',
+                 'modified': value.modified.date().isoformat(),
+                 'author':  'repaul',
+                 'href': model_url(value, self.request),
+                } for key, value in self.context.items()]
+
+    @view_config(name='change_title', context=Bottlecap, renderer='json')
+    def change_title(self):
+        target_id = str(self.request.POST['resource_id'])
+        new_title = self.request.POST['value']
+        self.context[target_id].title = new_title
+        return True
+
+    @view_config(name='delete_items', context=Bottlecap, renderer="json")
+    def delete_items(self):
+        target_ids = self.request.POST.getall("target_ids[]")
+        for t in target_ids:
+            del self.context[t]
