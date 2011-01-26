@@ -1,0 +1,6 @@
+*.pyc
+.coverage
+*.egg-info
+venv
+Data.fs*
+*.pt.py
