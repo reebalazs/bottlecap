@@ -1,0 +1,7 @@
+``bottlecap_core`` Changelog
+============================
+
+0.1 (unreleased)
+----------------
+
+-  Initial version
