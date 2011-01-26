@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:tal="http://xml.zope.org/namespaces/tal"
+       xmlns:metal="http://xml.zope.org/namespaces/metal"
+        metal:use-macro="main.macros['wrapper']"
+        ><head>
+    <title>bc.grid Basic Example</title>
+</head>
+<body>
+<tal:block metal:fill-slot="content">
+
+    <h1>About Bottlecap</h1>
+
+    <h4>bc.grid Features</h4>
+    <ul>
+        <li>Column picker</li>
+        <li>Column resizing</li>
+        <li>Column sorting</li>
+        <li>"Virtual" paging</li>
+        <li>Multi-row selection</li>
+        <li>Delete selected rows</li>
+        <li>Edit title in place</li>
+        <li>Click title link to visit resource</li>
+        <li>In-place add forms</li>
+        <li>Move-to on selected rows</li>
+    </ul>
+</tal:block>
+
+</body>
+</html>
