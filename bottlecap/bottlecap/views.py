@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pyramid.renderers import get_renderer
 from pyramid.response import Response
-from pyramid.url import model_url
+from pyramid.url import resource_url
 from pyramid.view import view_config
 from repoze.folder import Folder
 
@@ -74,7 +74,7 @@ class BottlecapJSON_API(object):
                  'type': 'folder',
                  'modified': value.modified.date().isoformat(),
                  'author':  'repaul',
-                 'href': model_url(value, self.request),
+                 'href': resource_url(value, self.request),
                 } for key, value in self.context.items()]
 
     @view_config(name='change_title', context=Folder, renderer='json')
