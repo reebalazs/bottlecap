@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="/bccore/jquery-ui-1.9m3.custom.css"/>
     <link rel="stylesheet" href="/bcgrid/bcgrid.css"/>
     <link href="static/pyramid.ico" rel="shortcut icon"/>
+
+    <script src="/bccore/jquery-1.4.3.min.js"></script>
+    <script src="/bccore/jquery-ui-1.9m3.custom.min.js"></script>
 </head>
 <body>
 
@@ -31,14 +34,6 @@
     </tal:block>
 </div>
 
-
-<script src="/bccore/jquery-1.4.3.min.js"></script>
-<script src="/bccore/jquery-ui-1.9m3.custom.min.js"></script>
-<script src="/bccore/slick.min.js"></script>
-<script src="/bccore/jquery.form-2.43.js"></script>
-
-
-<script src="/bcgrid/bcgrid.js"></script>
 
 </body>
 </html>

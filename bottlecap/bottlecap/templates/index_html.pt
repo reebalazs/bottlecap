@@ -9,6 +9,10 @@
 </head>
 <body>
 <tal:block metal:fill-slot="content">
+
+    <div id="target"></div>
+    
+
     <div style="width:570px;float:left;">
         <div class="bc-grid-header" style="width:100%">
             <label>SlickGrid</label>
@@ -50,6 +54,21 @@
             </form>
         </div>
     </div>
+
+
+    <script src="/bccore/slick.min.js"></script>
+    <script src="/bccore/jquery.form-2.43.js"></script>
+
+    <script src="/bcgrid/bcgrid.js"></script>
+    <script src="/bcgrid/bc.grid.js"></script>
+
+    <script>
+$('#target').grid({
+	    message: 'Howdy World',
+	    width: 100
+	}).css('border', 'solid 1px green');
+    </script>
+
 </tal:block>
 
 </body>

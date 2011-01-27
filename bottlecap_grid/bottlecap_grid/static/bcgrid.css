@@ -1,17 +1,17 @@
-* {
+#myGrid * {
     font-family: arial;
     font-size: 8pt;
-}
-
-h2 {
-    font-size: 10pt;
-    border-bottom: 1px dotted gray;
 }
 
 #myGrid {
     background: white;
     outline: 0;
     border: 1px solid gray;
+}
+
+#myGrid h2 {
+    font-size: 10pt;
+    border-bottom: 1px dotted gray;
 }
 
 .grid-body {
