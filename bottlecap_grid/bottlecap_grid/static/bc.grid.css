@@ -1,15 +1,21 @@
-#myGrid * {
+.bc-grid-frame {
+    width: 570px;
+}
+
+.bc-grid-frame * {
     font-family: arial;
     font-size: 8pt;
 }
 
-#myGrid {
+.bc-grid-contents {
     background: white;
     outline: 0;
     border: 1px solid gray;
+    width: 100%;
+    height:400px;
 }
 
-#myGrid h2 {
+.bc-grid-contents h2 {
     font-size: 10pt;
     border-bottom: 1px dotted gray;
 }
@@ -28,7 +34,7 @@
     height: 38px;
     line-height: 38px;
     width: 100%;
-    background-color: silver    ;
+    background-color: silver;
     vertical-align: middle;
 }
 
@@ -50,7 +56,7 @@
 
 #bc-grid-reloadframe {
     display: inline-block;
-    float:right;
+    float: right;
 }
 
 .slick-cell img {

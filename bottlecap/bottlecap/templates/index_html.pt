@@ -10,10 +10,7 @@
 <body>
 <tal:block metal:fill-slot="content">
 
-    <div id="target"></div>
-    
-
-    <div style="width:570px;float:left;">
+    <div class="bc-grid-frame">
         <div class="bc-grid-header" style="width:100%">
             <label>SlickGrid</label>
         <span id="bc-grid-toolbar">
@@ -31,13 +28,8 @@
         </span>
 
         </div>
-        <div id="myGrid" style="width:100%;height:400px;"></div>
+        <div class="bc-grid-contents"></div>
         <div id="bc-grid-addfolderdialog" class="bc-dialog" title="Add Folder">
-            <iframe id="modalIframeId" width="100%" height="100%"
-                    marginWidth="0" marginHeight="0" frameBorder="0" scrolling="auto"
-                    title="Dialog Title">Your browser does not support
-            </iframe>
-
         </div>
         <div id="bc-grid-addfiledialog" class="bc-dialog" title="Add File">
             <form class="bc-grid-ajaxform" id="bc-grid-addfileform"
@@ -62,7 +54,7 @@
     <script src="/bcgrid/bc.grid.js"></script>
 
     <script>
-$('#target').grid({
+$('.bc-grid-frame').grid({
 	    message: 'Howdy World',
 	    width: 100
 	}).css('border', 'solid 1px green');

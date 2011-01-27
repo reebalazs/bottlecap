@@ -2,7 +2,6 @@ var dataView;
 var grid;
 var data = [];
 var columns = [];
-var columnpicker;
 var resource_id = 'root';
 
 var options = {
@@ -110,10 +109,10 @@ function comparer(a, b) {
 
 
             dataView = new Slick.Data.DataView();
-            grid = new Slick.Grid("#myGrid", dataView, columns, options);
+            grid = new Slick.Grid(".bc-grid-contents", dataView, columns, options);
             grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow:false}));
             grid.registerPlugin(checkboxSelector);
-            columnpicker = new Slick.Controls.ColumnPicker(columns, grid, options);
+            this.columnpicker = new Slick.Controls.ColumnPicker(columns, grid, options);
 
             grid.onSort.subscribe(function(e, args) {
                 sortdir = args.sortAsc ? 1 : -1;
@@ -164,13 +163,7 @@ function comparer(a, b) {
 
             function add_folder() {
                 close_all_dialogs();
-                var ab = $('#bc-grid-addfolder');
-                var left = ab.position().left;
-                var top = ab.position().top + ab.height();
-                $("#bc-grid-addfolderdialog").dialog({position: [left, top]});
-                $("#bc-grid-addfolderdialog").dialog("open");
-                $("#modalIframeId").attr("src", "/static/bc.grid/form1.html");
-                return false;
+                return; // For now, skip it until we figure out more
             }
 
             function add_file() {
