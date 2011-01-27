@@ -59,7 +59,6 @@
     <script src="/bccore/slick.min.js"></script>
     <script src="/bccore/jquery.form-2.43.js"></script>
 
-    <script src="/bcgrid/bcgrid.js"></script>
     <script src="/bcgrid/bc.grid.js"></script>
 
     <script>
