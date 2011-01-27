@@ -1,4 +1,3 @@
-var grid;
 var resource_id = 'root';
 
 var sortcol = "title";
@@ -30,7 +29,6 @@ function comparer(a, b) {
         // The constructor for our widget
         _create: function () {
             var o = this.options;
-            var el = this.element;
             var self = this;
 
             $("#bc-grid-addfolderdialog").dialog({autoOpen: false});
@@ -87,12 +85,12 @@ function comparer(a, b) {
 
 
             self.dataView = new Slick.Data.DataView();
-            grid = new Slick.Grid(".bc-grid-contents", self.dataView, this.columns, this.options);
-            grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow:false}));
-            grid.registerPlugin(checkboxSelector);
-            this.columnpicker = new Slick.Controls.ColumnPicker(this.columns, grid, this.options);
+            self.grid = new Slick.Grid(".bc-grid-contents", self.dataView, this.columns, this.options);
+            self.grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow:false}));
+            self.grid.registerPlugin(checkboxSelector);
+            this.columnpicker = new Slick.Controls.ColumnPicker(this.columns, self.grid, this.options);
 
-            grid.onSort.subscribe(function(e, args) {
+            self.grid.onSort.subscribe(function(e, args) {
                 sortdir = args.sortAsc ? 1 : -1;
                 sortcol = args.sortCol.field;
 
@@ -101,102 +99,16 @@ function comparer(a, b) {
 
             // wire up model events to drive the grid
             self.dataView.onRowCountChanged.subscribe(function(e, args) {
-                grid.updateRowCount();
-                grid.render();
+                self.grid.updateRowCount();
+                self.grid.render();
             });
 
             self.dataView.onRowsChanged.subscribe(function(e, args) {
-                grid.invalidateRows(args.rows);
-                grid.render();
+                self.grid.invalidateRows(args.rows);
+                self.grid.render();
             });
 
-            function reload_grid() {
-                // Fetch data via ajax
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: "list_items?resource_id=" + resource_id,
-                    success: function (data) {
-                        // initialize the model after all the events have been hooked up
-                        self.dataView.beginUpdate();
-                        self.dataView.setItems(data);
-                        self.dataView.endUpdate();
-                        self.grid.invalidate();
-                    },
-                    error: function (xhr, status, error) {
-                        log(status);
-                    }
-                });
-            }
-
-            reload_grid();
-
-            // Custom
-            function close_all_dialogs() {
-                $('.bc-dialog').each(function (index, value) {
-                    $(value).dialog('close');
-                })
-            }
-
-            function add_folder() {
-                close_all_dialogs();
-                return; // For now, skip it until we figure out more
-            }
-
-            function add_file() {
-                close_all_dialogs();
-                var ab = $('#bc-grid-addfile');
-                var left = ab.position().left;
-                var top = ab.position().top + ab.height();
-                $("#bc-grid-addfiledialog").dialog({position: [left, top]});
-                $("#bc-grid-addfiledialog").dialog("open");
-
-                // Bind any ajax forms. TODO does this only need to be done once?
-                $('.bc-grid-ajaxform').ajaxForm({
-                    'success': function (responseText, statusText, xhr, form) {
-                        if (responseText == 'ok') {
-                            $("#bc-grid-addfiledialog").dialog("close");
-                            reload_grid();
-                        } else {
-                            form.empty().html(responseText);
-                        }
-                    }
-                });
-
-            }
-
-            function delete_items() {
-                var row_ids = [];
-                var rows = grid.getSelectedRows();
-
-                // First accummulate the ids to be deleted and contact server
-                for (var i = 0, l = rows.length; i < l; i++) {
-                    var item = self.dataView.getItem(rows[i]);
-                    row_ids.push(item.id);
-                }
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    data: {'target_ids': row_ids},
-                    url: "delete_items?resource_id=" + resource_id,
-                    success: function (data) {
-                        self.dataView.beginUpdate();
-                        for (var i = 0, l = rows.length; i < l; i++) {
-                            var item = self.dataView.getItem(rows[i]);
-                            if (item) self.dataView.deleteItem(item.id);
-                        }
-                        grid.setSelectedRows([]);
-                        self.dataView.endUpdate();
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(status);
-                    }
-                });
-            }
-
-            function moveto_items() {
-                console.log("moveto");
-            }
+            this.reload_grid();
 
             $("#bc-grid-addables").buttonset();
             $('#bc-grid-addfolder')
@@ -206,7 +118,7 @@ function comparer(a, b) {
             },
                     text: true}
                     )
-                    .bind('click', add_folder);
+                    .click(function () {self.add_folder()});
             $('#bc-grid-addfile')
                     .button(
                 {icons: {
@@ -214,7 +126,9 @@ function comparer(a, b) {
             },
                     text: true}
                     )
-                    .bind('click', add_file);
+                    .click(function () {
+                self.add_file();
+            });
             $("#bc-grid-actions").buttonset();
             $('#bc-grid-delete')
                     .button(
@@ -223,7 +137,9 @@ function comparer(a, b) {
             },
                     text: false}
                     )
-                    .bind('click', delete_items);
+                    .click(function () {
+                self.delete_items()
+            });
             $('#bc-grid-moveto')
                     .button(
                 {icons: {
@@ -231,10 +147,12 @@ function comparer(a, b) {
             },
                     text: false}
                     )
-                    .bind('click', moveto_items);
+                    .click(function () {
+                self.moveto_items()
+            });
             $('#bc-grid-reload').button({
                 icons: {primary: "ui-icon-arrowrefresh-1-w", text: false}
-            }).bind('click', reload_grid)
+            }).bind('click', self.reload_grid)
 
             // Bind any ajax forms
             $('.bc-grid-ajaxform').ajaxForm(function() {
@@ -243,6 +161,103 @@ function comparer(a, b) {
 
 
         },
+
+        reload_grid: function () {
+            // Fetch data via ajax
+
+            var self = this;
+
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "list_items?resource_id=" + resource_id,
+                success: function (data) {
+                    // initialize the model after all the events have been hooked up
+                    self.dataView.beginUpdate();
+                    self.dataView.setItems(data);
+                    self.dataView.endUpdate();
+                    self.grid.invalidate();
+                },
+                error: function (xhr, status, error) {
+                    log(status);
+                }
+            });
+        },
+
+        close_all_dialogs: function () {
+            $('.bc-dialog').each(function (index, value) {
+                $(value).dialog('close');
+            })
+        },
+
+
+        add_file: function () {
+            // XXX Is there a better way to get to the widget instance
+            // than stashing it as data on the event?
+            var el = this.el;
+            var self = this;
+
+            self.close_all_dialogs();
+            var ab = $('#bc-grid-addfile');
+            var left = ab.position().left;
+            var top = ab.position().top + ab.height();
+            $("#bc-grid-addfiledialog").dialog({position: [left, top]});
+            $("#bc-grid-addfiledialog").dialog("open");
+
+            // Bind any ajax forms. TODO does this only need to be done once?
+            $('.bc-grid-ajaxform').ajaxForm({
+                'success': function (responseText, statusText, xhr, form) {
+                    if (responseText == 'ok') {
+                        $("#bc-grid-addfiledialog").dialog("close");
+                        self.reload_grid();
+                    } else {
+                        form.empty().html(responseText);
+                    }
+                }
+            });
+
+        },
+
+        delete_items: function () {
+            var self = this;
+
+            var row_ids = [];
+            var rows = self.grid.getSelectedRows();
+
+            // First accummulate the ids to be deleted and contact server
+            for (var i = 0, l = rows.length; i < l; i++) {
+                var item = self.dataView.getItem(rows[i]);
+                row_ids.push(item.id);
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {'target_ids': row_ids},
+                url: "delete_items?resource_id=" + resource_id,
+                success: function (data) {
+                    self.dataView.beginUpdate();
+                    for (var i = 0, l = rows.length; i < l; i++) {
+                        var item = self.dataView.getItem(rows[i]);
+                        if (item) self.dataView.deleteItem(item.id);
+                    }
+                    self.grid.setSelectedRows([]);
+                    self.dataView.endUpdate();
+                },
+                error: function (xhr, status, error) {
+                    console.log(status);
+                }
+            });
+        },
+
+        add_folder: function () {
+            this.close_all_dialogs();
+            return; // For now, skip it until we figure out more
+        },
+
+        moveto_items: function () {
+            log("moveto");
+        },
+
 
         _setOption: function (key, value) {
             // Handle post-init setting of an option via
