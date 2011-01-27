@@ -1,8 +1,3 @@
-var resource_id = 'root';
-
-var sortcol = "title";
-var sortdir = 1;
-
 function comparer(a, b) {
     var x = a[sortcol], y = b[sortcol];
     return (x == y ? 0 : (x > y ? 1 : -1));
@@ -46,16 +41,13 @@ function comparer(a, b) {
                 return '<a href="' + href + '">' + value + '</a>';
             }
 
-            function TypeFormatter(row, cell, value, columnDef, dataContext) {
-                var type = dataContext['type'];
-                var src = '/bcgstatic/images/files_folder_small.png';
-                return '<img src="' + src + '" height="16" width="16" alt="icon" />';
-            }
-
             function titleValidator(value) {
                 if (value == null || value == undefined || !value.length)
                     return {valid:false, msg:"This is a required field"};
                 // Ping the server synchronously to change the title
+                // XXX this is all wrong.  I have the resource_id hardwired.  We
+                // need access to that actually-edited dataView row.  Abusing a
+                // validator is the wrong approach.
                 $.ajax({
                     type: "POST",
                     dataType: "json",
@@ -74,7 +66,8 @@ function comparer(a, b) {
 
             this.columns = [
                 checkboxColumn,
-                {id:"type", name:"Type", field:"type", width:40, minWidth:40, formatter:TypeFormatter,
+                {id:"type", name:"Type", field:"type", width:40, minWidth:40,
+                    formatter:this.TypeFormatter,
                     sortable:true},
                 {id:"title", name:"Title", field:"title", width:320, cssClass:"cell-title",
                     sortable:true, formatter:TitleFormatter, editor:TextCellEditor,
@@ -170,7 +163,7 @@ function comparer(a, b) {
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "list_items?resource_id=" + resource_id,
+                url: "list_items",
                 success: function (data) {
                     // initialize the model after all the events have been hooked up
                     self.dataView.beginUpdate();
@@ -233,7 +226,7 @@ function comparer(a, b) {
                 type: "POST",
                 dataType: "json",
                 data: {'target_ids': row_ids},
-                url: "delete_items?resource_id=" + resource_id,
+                url: "delete_items",
                 success: function (data) {
                     self.dataView.beginUpdate();
                     for (var i = 0, l = rows.length; i < l; i++) {
@@ -257,6 +250,13 @@ function comparer(a, b) {
         moveto_items: function () {
             log("moveto");
         },
+
+    TypeFormatter: function (row, cell, value, columnDef, dataContext) {
+        var type = dataContext['type'];
+        var src = '/bccore/images/files_folder_small.png';
+        return '<img src="' + src + '" height="16" width="16" alt="icon" />';
+    },
+
 
 
         _setOption: function (key, value) {
