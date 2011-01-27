@@ -1,12 +1,5 @@
-var dataView;
 var grid;
-var data = [];
-var columns = [];
 var resource_id = 'root';
-
-var options = {
-    editable: true
-};
 
 var sortcol = "title";
 var sortdir = 1;
@@ -30,33 +23,18 @@ function comparer(a, b) {
         // Configuration knobs on our widget
         options: {
             message: 'Hello, World!',
-            width: 300
+            width: 300,
+            editable: true
         },
 
         // The constructor for our widget
         _create: function () {
-            // Note that "this" is a different "this"!!  In jQuery,
-            // "this" is a wrapped jQuery object.  Inside jQuery
-            // UI methods, "this" is the widget instance.
             var o = this.options;
-            var el = this.element;    // Grabs the jQuery object
-
+            var el = this.element;
+            var self = this;
 
             $("#bc-grid-addfolderdialog").dialog({autoOpen: false});
             $("#bc-grid-addfiledialog").dialog({autoOpen: false});
-
-
-            // prepare the data
-            for (var i = 0; i < 100; i++) {
-                var d = (data[i] = {});
-
-                d["id"] = "id_" + i;
-                d["type"] = '';
-                d["title"] = "Task " + i;
-                d["modified"] = '01/01/2011';
-                d["author"] = "repaul";
-                d["href"] = "http://www.google.com";
-            }
 
             // Setup the columns
             var checkboxSelector = new Slick.CheckboxSelectColumn({
@@ -96,7 +74,7 @@ function comparer(a, b) {
                 return {valid:true, msg:null};
             }
 
-            columns = [
+            this.columns = [
                 checkboxColumn,
                 {id:"type", name:"Type", field:"type", width:40, minWidth:40, formatter:TypeFormatter,
                     sortable:true},
@@ -108,26 +86,26 @@ function comparer(a, b) {
             ];
 
 
-            dataView = new Slick.Data.DataView();
-            grid = new Slick.Grid(".bc-grid-contents", dataView, columns, options);
+            self.dataView = new Slick.Data.DataView();
+            grid = new Slick.Grid(".bc-grid-contents", self.dataView, this.columns, this.options);
             grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow:false}));
             grid.registerPlugin(checkboxSelector);
-            this.columnpicker = new Slick.Controls.ColumnPicker(columns, grid, options);
+            this.columnpicker = new Slick.Controls.ColumnPicker(this.columns, grid, this.options);
 
             grid.onSort.subscribe(function(e, args) {
                 sortdir = args.sortAsc ? 1 : -1;
                 sortcol = args.sortCol.field;
 
-                dataView.sort(comparer, args.sortAsc);
+                self.dataView.sort(comparer, args.sortAsc);
             });
 
             // wire up model events to drive the grid
-            dataView.onRowCountChanged.subscribe(function(e, args) {
+            self.dataView.onRowCountChanged.subscribe(function(e, args) {
                 grid.updateRowCount();
                 grid.render();
             });
 
-            dataView.onRowsChanged.subscribe(function(e, args) {
+            self.dataView.onRowsChanged.subscribe(function(e, args) {
                 grid.invalidateRows(args.rows);
                 grid.render();
             });
@@ -140,14 +118,13 @@ function comparer(a, b) {
                     url: "list_items?resource_id=" + resource_id,
                     success: function (data) {
                         // initialize the model after all the events have been hooked up
-                        dataView.beginUpdate();
-                        dataView.setItems(data);
-                        dataView.endUpdate();
-                        grid.invalidate();
-                        //console.log(data);
+                        self.dataView.beginUpdate();
+                        self.dataView.setItems(data);
+                        self.dataView.endUpdate();
+                        self.grid.invalidate();
                     },
                     error: function (xhr, status, error) {
-                        console.log(status);
+                        log(status);
                     }
                 });
             }
@@ -194,7 +171,7 @@ function comparer(a, b) {
 
                 // First accummulate the ids to be deleted and contact server
                 for (var i = 0, l = rows.length; i < l; i++) {
-                    var item = dataView.getItem(rows[i]);
+                    var item = self.dataView.getItem(rows[i]);
                     row_ids.push(item.id);
                 }
                 $.ajax({
@@ -203,13 +180,13 @@ function comparer(a, b) {
                     data: {'target_ids': row_ids},
                     url: "delete_items?resource_id=" + resource_id,
                     success: function (data) {
-                        dataView.beginUpdate();
+                        self.dataView.beginUpdate();
                         for (var i = 0, l = rows.length; i < l; i++) {
-                            var item = dataView.getItem(rows[i]);
-                            if (item) dataView.deleteItem(item.id);
+                            var item = self.dataView.getItem(rows[i]);
+                            if (item) self.dataView.deleteItem(item.id);
                         }
                         grid.setSelectedRows([]);
-                        dataView.endUpdate();
+                        self.dataView.endUpdate();
                     },
                     error: function (xhr, status, error) {
                         console.log(status);
@@ -263,9 +240,6 @@ function comparer(a, b) {
             $('.bc-grid-ajaxform').ajaxForm(function() {
                 alert('Done');
             });
-
-
-
 
 
         },
