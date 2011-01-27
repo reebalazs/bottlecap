@@ -8,7 +8,7 @@
     <link href="/static/main.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/bccore/slick.min.css"/>
     <link rel="stylesheet" href="/bccore/jquery-ui-1.9m3.custom.css"/>
-    <link rel="stylesheet" href="/bcgrid/bcgrid.css"/>
+    <link rel="stylesheet" href="/bcgrid/bc.grid.css"/>
     <link href="static/pyramid.ico" rel="shortcut icon"/>
 
     <script src="/bccore/jquery-1.4.3.min.js"></script>
