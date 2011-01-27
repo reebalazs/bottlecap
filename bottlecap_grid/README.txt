@@ -1,5 +1,5 @@
 ``bottlecap_grid`` README
 =========================
 
-This package exists to provide a standard grid widget for ``bottlecap`` and
+This package provides a grid widget for use by  ``bottlecap`` and
 related applications.
