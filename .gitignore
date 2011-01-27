@@ -4,4 +4,4 @@
 venv
 Data.fs*
 *.pt.py
-_build/*
+*/docs/_build/*
