@@ -42,7 +42,7 @@ function advancedSearchResultsUrl(query, type) {
 $(function() {
 
     $('.bc-livesearch').livesearch({
-        urlFn: createUrlFn('/data.json'),
+        urlFn: createUrlFn('data.json'),
         search: function(event, ui) {
             $('<p>Search for ' + ui.query + '</p>')
                 .prependTo($('.bc-content-frame'));
@@ -50,7 +50,7 @@ $(function() {
         menu: function(event, ui) {
             var text = ui.text;
             var urlFn = createUrlFn(
-                text === 'People' ? '/data-people.json' : '/data.json');
+                text === 'People' ? 'data-people.json' : 'data.json');
             $('.bc-livesearch').livesearch('option', 'urlFn', urlFn);
         },
         validationFn: $.bottlecap.livesearch.prototype.numCharsValidate,
