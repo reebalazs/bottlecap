@@ -10,41 +10,16 @@ Interfaces
 
   .. autointerface:: IActionInfo
      :members:
-        action_type
-        token
-        title
-        description
-        icon_url
-        action_urls
-        __call__
+     :member-order: bysource
 
   .. autointerface:: IItemInfo
      :members:
-        key
-        item_url
-        title
-        icon_url
-        modified
-        creator
-        actions
-        __call__
+     :member-order: bysource
 
   .. autointerface:: IFactoryInfo
      :members:
-        token
-        title
-        description
-        icon_url
-        factory_urls
-        __call__
+     :member-order: bysource
 
   .. autointerface:: IContainerInfo
      :members:
-        parent_url
-        title
-        icon_url
-        modified
-        creator
-        actions
-        factories
-        __call__
+     :member-order: bysource
