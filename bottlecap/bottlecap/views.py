@@ -26,8 +26,6 @@ class BottlecapViews(object):
         self.request = request
         self.context = request.context
         self.main = get_renderer('templates/main.pt').implementation()
-        #self.content = self.context.sitecontent
-
 
     @view_config(context=Folder, renderer="templates/index_html.pt")
     def index_view(self):
