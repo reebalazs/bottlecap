@@ -1,5 +1,5 @@
-:mod:`bottlecap`:  Shared Javascript / CSS resources
-=========================================================
+:mod:`bottlecap`:  One View to Rule them All
+============================================
 
 This package provides two features:
 
