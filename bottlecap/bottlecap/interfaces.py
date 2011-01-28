@@ -69,9 +69,10 @@ class IItemInfo(Interface):
     def __call__(include_actions=True):
         """ -> mapping of attributes.
 
-        'actions' maps onto a sequence of mappings, one per 'IActionInfo'.
+        Map the item's actions onto a sequence of mappings, one per
+        'IActionInfo', under the key 'actions'.
 
-        Omit actions if 'include_actions' is False.
+        Omit 'actions' if 'include_actions' is False.
         """
 
 
@@ -111,15 +112,58 @@ class IContainerInfo(Interface):
                          "Sequence of 'IActionInfo'")
     factories = Attribute(u"Factories list\n\n"
                            "Sequence of 'IFactoryInfo'")
+    filter_schema = Attribute(u"Schema for filtering items\n\n"
+                               "Must be a :mod:`colander` schema")
+    sort_schema = Attribute(u"Schema for filtering items\n\n"
+                               "Must be a :mod:`colander` schema, typically a "
+                               "single multi-choice field")
 
-    def __call__(include_actions=True, include_factories=True):
+    def listItems(filter_spec=None,
+                  sort_spec=None,
+                  batch_start=None,
+                  batch_size=None,
+                 ):
+        """ -> sequence of 'IItemInfo'
+
+        'filter_spec' is a :mod:`colander` appstruct, corresponding to
+        the container's 'filter_schema', or None.  If not None, the container
+        returns only items which match the supplied filter.
+
+        'sort_spec' is a :mod:`colander` appstruct, corresponding to
+        the container's 'sort_schema', or None.  If not None, the container
+        sorts the returned items accordingly.
+
+        'batch_start', if supplied, must be a non-negative integer which
+        is the index of the first item returned in the (filtered/sorted)
+        sequence.
+
+        'batch_size', if supplied, must be a positive integer which
+        is the maximum number of items returned from the (filtered/sorted)
+        sequence.
+        """
+
+    def __call__(filter_spec=None,
+                 sort_spec=None,
+                 batch_start=None,
+                 batch_size=None,
+                 include_actions=True,
+                 include_factories=True,
+                ):
         """ -> mapping of attributes.
 
-        'actions' maps onto a sequence of mappings, one per 'IActionInfo'.
+        The container's items are returned as a sequence of mappings under
+        the key 'items'.  They may be filtered, sorted, and batched.
 
-        Omit actions if 'include_actions' is False.
+        Each of 'filter_spec', 'sort_spec', 'batch_start', and 'batch_size'
+        have the same semantics as they do for 'listItems()'.
 
-        'factories' maps onto a sequence of mappings, one per 'IFactoryInfo'.
+        Map the container's actions onto a sequence of mappings, one per
+        'IActionInfo', under the key 'actions'.
 
-        Omit factories if 'include_factories' is False.
+        Omit 'actions' if 'include_actions' is False.
+
+        Map the factories usable in the container onto a sequence of
+        mappings, one per 'IFactoryInfo', under the key 'factories'.
+
+        Omit 'factories' if 'include_factories' is False.
         """
