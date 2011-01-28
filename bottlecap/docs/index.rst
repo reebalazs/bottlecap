@@ -9,10 +9,10 @@ This package provides two features:
 - a sample WSGI application demonstrating use of the framework.
 
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
+
+   api
 
 Indices and tables
 ==================
