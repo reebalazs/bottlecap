@@ -12,6 +12,7 @@ This package provides two features:
 .. toctree::
    :maxdepth: 2
 
+   architecture
    api
 
 Indices and tables
