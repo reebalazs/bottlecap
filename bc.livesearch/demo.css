@@ -15,6 +15,7 @@ body {
     font-size: .7em;
     border-color: #a3a3a3;
     min-height: 55px;
+    overflow: hidden;
 }
 
 .bc-livesearch-autocomplete-notification {
@@ -30,6 +31,7 @@ body {
 
 .bc-livesearch-autocomplete-msgicon {
     display: inline-block;
+    float: left;
 }
 
 .bc-livesearch-autocomplete-message {
@@ -63,9 +65,8 @@ body {
     border-width: 1px 0;
     border-color: #cecece;
     border-style: solid;
-    *line-height: 14px;
     padding: 0;
-    margin: 0 -3px 0 0;
+    width: 150px;
 }
 
 .bc-header-toolbox .bc-livesearch-btn-search {
