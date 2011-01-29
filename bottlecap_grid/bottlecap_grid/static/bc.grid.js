@@ -26,6 +26,13 @@ function comparer(a, b) {
             var o = this.options;
             var self = this;
 
+            // The resource path is something like '' (empty string for root) or
+            // 'subfolder1' or 'subfolder1/anotherfolder2'.  We add '/list_items'
+            // onto it when asking for grid contents.  We store this as state
+            // so the reload button knows where we are.
+            this.resource_path = '';
+
+
             $("#bc-grid-addfolderdialog").dialog({autoOpen: false});
             $("#bc-grid-addfiledialog").dialog({autoOpen: false});
 
@@ -36,42 +43,14 @@ function comparer(a, b) {
             var checkboxColumn = checkboxSelector.getColumnDefinition();
             checkboxColumn['unselectable'] = false;
 
-            function TitleFormatter(row, cell, value, columnDef, dataContext) {
-                var href = dataContext['href'];
-                return '<a href="' + href + '">' + value + '</a>';
-            }
-
-            function titleValidator(value) {
-                if (value == null || value == undefined || !value.length)
-                    return {valid:false, msg:"This is a required field"};
-                // Ping the server synchronously to change the title
-                // XXX this is all wrong.  I have the resource_id hardwired.  We
-                // need access to that actually-edited dataView row.  Abusing a
-                // validator is the wrong approach.
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    data: {resource_id: 'id001', value: value},
-                    url: "change_title",
-                    async: false,
-                    success: function (data) {
-                        //
-                    },
-                    error: function () {
-                        return {valid:false, msg:"Server failed"};
-                    }
-                })
-                return {valid:true, msg:null};
-            }
-
             this.columns = [
                 checkboxColumn,
                 {id:"type", name:"Type", field:"type", width:40, minWidth:40,
                     formatter:this.TypeFormatter,
                     sortable:true},
                 {id:"title", name:"Title", field:"title", width:320, cssClass:"cell-title",
-                    sortable:true, formatter:TitleFormatter, editor:TextCellEditor,
-                    validator: titleValidator},
+                    sortable:true, formatter:this.TitleFormatter, editor:TextCellEditor,
+                    validator: this.titleValidator},
                 {id:"modified", name:"Modified", field:"modified", sortable:true},
                 {id:"author", name:"Author", field:"author", visible: false, sortable: true}
             ];
@@ -111,7 +90,9 @@ function comparer(a, b) {
             },
                     text: true}
                     )
-                    .click(function () {self.add_folder()});
+                    .click(function () {
+                self.add_folder()
+            });
             $('#bc-grid-addfile')
                     .button(
                 {icons: {
@@ -145,14 +126,29 @@ function comparer(a, b) {
             });
             $('#bc-grid-reload').button({
                 icons: {primary: "ui-icon-arrowrefresh-1-w", text: false}
-            }).bind('click', self.reload_grid)
+            }).bind('click', function () {self.reload_grid()});
 
             // Bind any ajax forms
             $('.bc-grid-ajaxform').ajaxForm(function() {
                 alert('Done');
             });
 
+            // Handle the grid's anchors in the title column
+            $(this.element).delegate(
+                    ".bc-grid-titlecell", "click",
+                                    function(evt) {
+                                        evt.preventDefault();
+                                        var href = $(evt.target).attr('href');
+                                        self.load_resource(href);
+                                    })
 
+        },
+
+        load_resource: function (href) {
+            // When you click on a hyperlink in the title column, load the
+            // contents for that resource and display it
+            this.resource_path = href;
+            this.reload_grid();
         },
 
         reload_grid: function () {
@@ -163,7 +159,7 @@ function comparer(a, b) {
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "list_items",
+                url: self.resource_path + '/list_items',
                 success: function (data) {
                     // initialize the model after all the events have been hooked up
                     self.dataView.beginUpdate();
@@ -251,11 +247,42 @@ function comparer(a, b) {
             log("moveto");
         },
 
-    TypeFormatter: function (row, cell, value, columnDef, dataContext) {
-        var type = dataContext['type'];
-        var src = '/bccore/images/files_folder_small.png';
-        return '<img src="' + src + '" height="16" width="16" alt="icon" />';
-    },
+        // Formatters and validators
+
+        TitleFormatter: function (row, cell, value, columnDef, dataContext) {
+            var href = dataContext['href'];
+            return '<a class="bc-grid-titlecell" href="' + href + '">' + value + '</a>';
+        },
+
+
+        TypeFormatter: function (row, cell, value, columnDef, dataContext) {
+            var type = dataContext['type'];
+            var src = '/bccore/images/files_folder_small.png';
+            return '<img src="' + src + '" height="16" width="16" alt="icon" />';
+        },
+
+        titleValidator: function (value) {
+            if (value == null || value == undefined || !value.length)
+                return {valid:false, msg:"This is a required field"};
+            // Ping the server synchronously to change the title
+            // XXX this is all wrong.  I have the resource_id hardwired.  We
+            // need access to that actually-edited dataView row.  Abusing a
+            // validator is the wrong approach.
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {resource_id: 'id001', value: value},
+                url: "change_title",
+                async: false,
+                success: function (data) {
+                    //
+                },
+                error: function () {
+                    return {valid:false, msg:"Server failed"};
+                }
+            })
+            return {valid:true, msg:null};
+        },
 
 
 
