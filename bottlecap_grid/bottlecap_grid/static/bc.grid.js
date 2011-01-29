@@ -82,6 +82,22 @@ function comparer(a, b) {
 
             this.reload_grid();
 
+
+            $("#bc-grid-gotoparent").button(
+            {icons: {
+                primary: "ui-icon-arrowthick-1-nw"
+            },
+                text: true}
+                    )
+                    .click(function () {
+                // Set current title, remove last hop in current
+                // URL, and load parent
+                // TODO fix the protocol to send back the current title
+                // in the data.  Until then, this won't work.
+                var p = self.resource_path.split('/');
+                var href = p.slice(0, p.length - 1).join('/');
+                self.load_resource(href)
+            })
             $("#bc-grid-addables").buttonset();
             $('#bc-grid-addfolder')
                     .button(
@@ -126,7 +142,9 @@ function comparer(a, b) {
             });
             $('#bc-grid-reload').button({
                 icons: {primary: "ui-icon-arrowrefresh-1-w", text: false}
-            }).bind('click', function () {self.reload_grid()});
+            }).bind('click', function () {
+                self.reload_grid()
+            });
 
             // Bind any ajax forms
             $('.bc-grid-ajaxform').ajaxForm(function() {
@@ -138,7 +156,11 @@ function comparer(a, b) {
                     ".bc-grid-titlecell", "click",
                                     function(evt) {
                                         evt.preventDefault();
-                                        var href = $(evt.target).attr('href');
+                                        // Update title in header
+                                        var tgt = $(evt.target);
+                                        $('#bc-grid-currenttitle').text(tgt.text());
+
+                                        var href = tgt.attr('href');
                                         self.load_resource(href);
                                     })
 
@@ -147,6 +169,12 @@ function comparer(a, b) {
         load_resource: function (href) {
             // When you click on a hyperlink in the title column, load the
             // contents for that resource and display it
+
+            // If the href has a slash at the end, remove it.  We need
+            // some kind of normalization system.
+            if (href[href.length - 1] == '/') {
+                href = href.slice(0, href.length - 1);
+            }
             this.resource_path = href;
             this.reload_grid();
         },
