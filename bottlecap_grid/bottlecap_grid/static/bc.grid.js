@@ -195,6 +195,7 @@ function comparer(a, b) {
 
             // Bind any ajax forms. TODO does this only need to be done once?
             $('.bc-grid-ajaxform').ajaxForm({
+                'url': self.resource_path + '/add_file',
                 'success': function (responseText, statusText, xhr, form) {
                     if (responseText == 'ok') {
                         $("#bc-grid-addfiledialog").dialog("close");
