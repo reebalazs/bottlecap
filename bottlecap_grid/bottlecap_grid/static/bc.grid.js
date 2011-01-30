@@ -1,7 +1,4 @@
-function comparer(a, b) {
-    var x = a[sortcol], y = b[sortcol];
-    return (x == y ? 0 : (x > y ? 1 : -1));
-}
+
 
 (function($, undefined) {
 
@@ -9,6 +6,11 @@ function comparer(a, b) {
         if (window.console && console.log) {
             console.log(Array.prototype.slice.call(arguments));
         }
+    }
+
+    function comparer(a, b) {
+        var x = a[sortcol], y = b[sortcol];
+        return (x == y ? 0 : (x > y ? 1 : -1));
     }
 
     // Register a "namespaced" widget with the widget factory
@@ -30,21 +32,42 @@ function comparer(a, b) {
             // 'subfolder1' or 'subfolder1/anotherfolder2'.  We add '/list_items'
             // onto it when asking for grid contents.  We store this as state
             // so the reload button knows where we are.
-            this.resource_path = '';
+            this.update_resource_path('');
 
+            this._create_dialogs();
+            this._create_columns();
+            this._create_grid();
+            this._create_buttons();
+            this._create_forms();
 
-            $("#bc-grid-addfolderdialog").dialog({autoOpen: false});
-            $("#bc-grid-addfiledialog").dialog({autoOpen: false});
+        },
 
+        _create_dialogs: function() {
+            var self = this;
+        
+            this.dialogAddFolder =
+                $("#bc-grid-addfolderdialog").dialog({
+                    autoOpen: false
+                });
+            this.dialogAddFile =
+                $("#bc-grid-addfiledialog").dialog({
+                    autoOpen: false
+                });
+
+        },
+
+        _create_columns: function() {
+            var self = this;
+        
             // Setup the columns
-            var checkboxSelector = new Slick.CheckboxSelectColumn({
+            this.checkboxSelector = new Slick.CheckboxSelectColumn({
                 cssClass: "slick-cell-checkboxsel"
             });
-            var checkboxColumn = checkboxSelector.getColumnDefinition();
-            checkboxColumn['unselectable'] = false;
+            this.checkboxColumn = this.checkboxSelector.getColumnDefinition();
+            this.checkboxColumn['unselectable'] = false;
 
             this.columns = [
-                checkboxColumn,
+                this.checkboxColumn,
                 {id:"type", name:"Type", field:"type", width:40, minWidth:40,
                     formatter:this.TypeFormatter,
                     sortable:true},
@@ -55,14 +78,18 @@ function comparer(a, b) {
                 {id:"author", name:"Author", field:"author", visible: false, sortable: true}
             ];
 
+        },
 
-            self.dataView = new Slick.Data.DataView();
-            self.grid = new Slick.Grid(".bc-grid-contents", self.dataView, this.columns, this.options);
-            self.grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow:false}));
-            self.grid.registerPlugin(checkboxSelector);
+        _create_grid: function() {
+            var self = this;
+
+            this.dataView = new Slick.Data.DataView();
+            this.grid = new Slick.Grid(".bc-grid-contents", self.dataView, this.columns, this.options);
+            this.grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow:false}));
+            this.grid.registerPlugin(this.checkboxSelector);
             this.columnpicker = new Slick.Controls.ColumnPicker(this.columns, self.grid, this.options);
 
-            self.grid.onSort.subscribe(function(e, args) {
+            this.grid.onSort.subscribe(function(e, args) {
                 sortdir = args.sortAsc ? 1 : -1;
                 sortcol = args.sortCol.field;
 
@@ -70,85 +97,14 @@ function comparer(a, b) {
             });
 
             // wire up model events to drive the grid
-            self.dataView.onRowCountChanged.subscribe(function(e, args) {
+            this.dataView.onRowCountChanged.subscribe(function(e, args) {
                 self.grid.updateRowCount();
                 self.grid.render();
             });
 
-            self.dataView.onRowsChanged.subscribe(function(e, args) {
+            this.dataView.onRowsChanged.subscribe(function(e, args) {
                 self.grid.invalidateRows(args.rows);
                 self.grid.render();
-            });
-
-            this.reload_grid();
-
-
-            $("#bc-grid-gotoparent").button(
-            {icons: {
-                primary: "ui-icon-arrowthick-1-nw"
-            },
-                text: true}
-                    )
-                    .click(function () {
-                // Set current title, remove last hop in current
-                // URL, and load parent
-                // TODO fix the protocol to send back the current title
-                // in the data.  Until then, this won't work.
-                var p = self.resource_path.split('/');
-                var href = p.slice(0, p.length - 1).join('/');
-                self.load_resource(href)
-            })
-            $("#bc-grid-addables").buttonset();
-            $('#bc-grid-addfolder')
-                    .button(
-                {icons: {
-                primary: "ui-icon-plus"
-            },
-                    text: true}
-                    )
-                    .click(function () {
-                self.add_folder()
-            });
-            $('#bc-grid-addfile')
-                    .button(
-                {icons: {
-                primary: "ui-icon-plus"
-            },
-                    text: true}
-                    )
-                    .click(function () {
-                self.add_file();
-            });
-            $("#bc-grid-actions").buttonset();
-            $('#bc-grid-delete')
-                    .button(
-                {icons: {
-                primary: "ui-icon-trash"
-            },
-                    text: false}
-                    )
-                    .click(function () {
-                self.delete_items()
-            });
-            $('#bc-grid-moveto')
-                    .button(
-                {icons: {
-                primary: "ui-icon-circle-arrow-e"
-            },
-                    text: false}
-                    )
-                    .click(function () {
-                self.moveto_items()
-            });
-            $('#bc-grid-reload').button({
-                icons: {primary: "ui-icon-arrowrefresh-1-w", text: false}
-            }).bind('click', function () {
-                self.reload_grid()
-            });
-
-            // Bind any ajax forms
-            $('.bc-grid-ajaxform').ajaxForm(function() {
-                alert('Done');
             });
 
             // Handle the grid's anchors in the title column
@@ -164,18 +120,147 @@ function comparer(a, b) {
                                         self.load_resource(href);
                                     })
 
+            this.reload_grid();
+
         },
+
+        _create_buttons: function() {
+            var self = this;
+
+            this.buttonGotoParent =
+                $("#bc-grid-gotoparent").button({
+                    icons: {
+                        primary: "ui-icon-arrowthick-1-nw"
+                    },
+                    text: true
+                })
+                .click(function () {
+                    // Set current title, remove last hop in current
+                    // URL, and load parent
+                    // TODO fix the protocol to send back the current title
+                    // in the data.  Until then, this won't work.
+                    var p = self.resource_path.split('/');
+                    var href = p.slice(0, p.length - 1).join('/');
+                    self.load_resource(href)
+                });
+
+            this.buttonsetAddables = $("#bc-grid-addables").buttonset();
+            this.buttonAddFolder =
+                $('#bc-grid-addfolder').button({
+                    icons: {
+                        primary: "ui-icon-plus"
+                    },
+                    text: true
+                })
+                .click(function () {
+                    self.add_folder()
+                });
+            this.buttonAddFile =
+                $('#bc-grid-addfile').button({
+                    icons: {
+                        primary: "ui-icon-plus"
+                    },
+                    text: true
+                })
+                .click(function () {
+                    self.add_file();
+                });
+
+            this.buttonsetActions = $("#bc-grid-actions").buttonset();
+            this.buttonDelete = 
+                $('#bc-grid-delete').button({
+                    icons: {
+                        primary: "ui-icon-trash"
+                    },
+                    text: false
+                })
+                .click(function () {
+                    self.delete_items()
+                });
+            this.buttonMoveTo =
+                $('#bc-grid-moveto').button({
+                    icons: {
+                        primary: "ui-icon-circle-arrow-e"
+                    },
+                    text: false
+                })
+                .click(function () {
+                    self.moveto_items()
+                });
+            this.buttonReload =
+                $('#bc-grid-reload').button({
+                    icons: {
+                        primary: "ui-icon-arrowrefresh-1-w",
+                        text: false
+                    }
+                })
+                .click(function () {
+                    self.reload_grid()
+                });
+
+        },
+
+        _create_forms: function() {
+            var self = this;
+        
+            // XXX ajaxForm is unable to update its url option. So,
+            // we have to rebind it again and again and again
+            // from update_resource_path.
+
+            // Bind any ajax forms
+            //this.ajaxForm =
+            //    $('.bc-grid-ajaxform').ajaxForm({
+            //        // url will be set dynamically
+            //        'success': function (responseText, statusText, xhr, form) {
+            //            if (responseText == 'ok') {
+            //                self.dialogAddFile.dialog('close');
+            //                self.reload_grid();
+            //            } else {
+            //                form.empty().html(responseText);
+            //            }
+            //        }
+            //    });
+
+        },
+
+        update_resource_path: function(url) {
+            var self = this;
+        
+            // XXX ajaxForm is unable to update its url option. So,
+            // we have to rebind it again and again and again
+            //
+            // this.ajaxForm('option', 'url', this.resource_path + '/add_file');
+
+            this.resource_path = url;
+
+            // Bind any ajax forms
+            this.ajaxForm =
+                $('.bc-grid-ajaxform').ajaxForm({
+                    // url will be set dynamically
+                    url:  this.resource_path + '/add_file',
+                    'success': function (responseText, statusText, xhr, form) {
+                        if (responseText == 'ok') {
+                            self.dialogAddFile.dialog('close');
+                            self.reload_grid();
+                        } else {
+                            form.empty().html(responseText);
+                        }
+                    }
+                });
+
+        },
+
 
         load_resource: function (href) {
             // When you click on a hyperlink in the title column, load the
             // contents for that resource and display it
 
-            // If the href has a slash at the end, remove it.  We need
+            // Isf the href has a slash at the end, remove it.  We need
             // some kind of normalization system.
             if (href[href.length - 1] == '/') {
                 href = href.slice(0, href.length - 1);
             }
-            this.resource_path = href;
+            this.update_resource_path(href);
             this.reload_grid();
         },
 
@@ -196,43 +281,25 @@ function comparer(a, b) {
                     self.grid.invalidate();
                 },
                 error: function (xhr, status, error) {
-                    log(status);
+                    log('ERROR in reload_grid', status);
                 }
             });
         },
 
         close_all_dialogs: function () {
-            $('.bc-dialog').each(function (index, value) {
-                $(value).dialog('close');
-            })
+            $('.bc-dialog').dialog('close');
         },
 
-
         add_file: function () {
-            // XXX Is there a better way to get to the widget instance
-            // than stashing it as data on the event?
-            var el = this.el;
             var self = this;
 
-            self.close_all_dialogs();
-            var ab = $('#bc-grid-addfile');
-            var left = ab.position().left;
-            var top = ab.position().top + ab.height();
-            $("#bc-grid-addfiledialog").dialog({position: [left, top]});
-            $("#bc-grid-addfiledialog").dialog("open");
-
-            // Bind any ajax forms. TODO does this only need to be done once?
-            $('.bc-grid-ajaxform').ajaxForm({
-                'url': self.resource_path + '/add_file',
-                'success': function (responseText, statusText, xhr, form) {
-                    if (responseText == 'ok') {
-                        $("#bc-grid-addfiledialog").dialog("close");
-                        self.reload_grid();
-                    } else {
-                        form.empty().html(responseText);
-                    }
-                }
-            });
+            this.close_all_dialogs();
+            var ab = this.buttonAddFile;
+            var p_left = ab.position().left;
+            var p_top = ab.position().top + ab.height();
+            this.dialogAddFile
+                .dialog('option', 'position', [p_left, p_top])
+                .dialog('open');
 
         },
 
@@ -250,7 +317,9 @@ function comparer(a, b) {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                data: {'target_ids': row_ids},
+                data: {
+                    'target_ids': row_ids
+                },
                 url: "delete_items",
                 success: function (data) {
                     self.dataView.beginUpdate();
@@ -283,7 +352,6 @@ function comparer(a, b) {
             return '<a class="bc-grid-titlecell" href="' + href + '">' + value + '</a>';
         },
 
-
         TypeFormatter: function (row, cell, value, columnDef, dataContext) {
             var type = dataContext['type'];
             var src = '/bccore/images/files_folder_small.png';
@@ -300,24 +368,31 @@ function comparer(a, b) {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                data: {resource_id: 'id001', value: value},
+                data: {
+                    resource_id: 'id001',
+                    value: value
+                },
                 url: "change_title",
                 async: false,
                 success: function (data) {
                     //
                 },
                 error: function () {
-                    return {valid:false, msg:"Server failed"};
+                    return {
+                        valid: false,
+                        msg: "Server failed"
+                    };
                 }
             })
-            return {valid:true, msg:null};
+            return {
+                valid: true,
+                msg: null
+            };
         },
-
-
 
         _setOption: function (key, value) {
             // Handle post-init setting of an option via
-            // $(sel).helloworld("option", "key", "value)
+            // $(sel).grid("option", "key", "value)
 
             var el = this.element;
             if (key == 'message') {
@@ -325,7 +400,8 @@ function comparer(a, b) {
             } else if (key == 'width') {
                 el.width(value);
             }
-
+            
+            $.Widget.prototype._setOption.call( this, key, value );
         }
 
     });
