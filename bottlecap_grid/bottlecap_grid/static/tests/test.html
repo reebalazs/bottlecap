@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+      <title>bc.grid tests</title>
+
+      <!-- XXX Note: currently the test needs a server just for the resources.
+           XXX This probably needs to be changed.
+      -->
+
+      <link rel="stylesheet" href="/bccore/slick.min.css"/>
+      <link rel="stylesheet" href="/bccore/jquery-ui-1.9m3.custom.css"/>
+      <link rel="stylesheet" href="/bcgrid/bc.grid.css"/>
+
+      <script src="/bccore/jquery-1.5rc1.js" type="text/javascript"></script>
+      <script src="/bccore/jquery-ui-1.9m3.custom.min.js" type="text/javascript"></script>
+      <script src="/bccore/slick.min.js" type="text/javascript"></script>
+      <script src="/bccore/jquery.form-2.43.js" type="text/javascript" ></script>
+
+      <script src="http://jqueryui.com/themeroller/themeswitchertool/" type="text/javascript"></script>
+      
+      <!-- Mock http -->
+      <script type="text/javascript" src="http://github.com/philikon/MockHttpRequest/raw/master/lib/mock.js">//</script>
+      <script type="text/javascript" src="http://greenfinity.hu/pub/js.moremocks/trunk/moremockhttp.js"></script>
+      <script type="text/javascript" src="http://github.com/eduardolundgren/jquery-simulate/raw/master/jquery.simulate.js">//</script>
+    
+      <!-- Test suite -->
+      <script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+      <link rel="stylesheet" href="http://github.com/jquery/qunit/raw/master/qunit/qunit.css" />
+      <script type="text/javascript" src="http://soc.googlecode.com/hg/app/json.min/json2.js"></script>
+
+      <!-- The widget plugin JS and CSS -->
+      <script src="../bc.grid.js" type="text/javascript" ></script>
+
+      <!-- Page specific JS and CSS -->
+      <script src="test.js" type="text/javascript"></script>
+
+  </head>
+
+  <body>
+    <h1 id="qunit-header">bc.grid tests</h1>  
+    <h2 id="qunit-banner"></h2>  
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>  
+
+    <div id="main">
+        
+      <div class="bc-grid-frame">
+        <div class="bc-grid-header" style="width:100%">
+          <label>SlickGrid</label>
+          <span id="bc-grid-toolbar">
+              <span id="bc-grid-reloadframe">
+                  <button id="bc-grid-reload">Reload</button>
+              </span>
+              <span id="bc-grid-addables">
+                  <button id="bc-grid-addfolder">Folder</button>
+                  <button id="bc-grid-addfile">File</button>
+              </span>
+              <span id="bc-grid-actions">
+                  <button id="bc-grid-delete">Delete</button>
+                  <button id="bc-grid-moveto">Move To</button>
+              </span>
+          </span>
+
+        </div>
+        <div class="bc-grid-contents"></div>
+        <div id="bc-grid-addfolderdialog" class="bc-dialog" title="Add Folder">
+        </div>
+        <div id="bc-grid-addfiledialog" class="bc-dialog" title="Add File">
+            <form class="bc-grid-ajaxform" id="bc-grid-addfileform"
+                  action="/add_file" method="POST">
+                <fieldset>
+                    <input name="title"/>
+                    <label for="title">Title</label>
+                </fieldset>
+                <fieldset>
+                    <input name="author"/>
+                    <label for="author">Author</label>
+                </fieldset>
+                <input type="submit" value="add"/>
+            </form>
+        </div>
+      </div>
+
+    </div>
+  </body>
+
+</html>
