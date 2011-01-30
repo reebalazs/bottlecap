@@ -120,7 +120,8 @@
                                         self.load_resource(href);
                                     })
 
-            this.reload_grid();
+            /// XXX We do not load the grid content here.
+            /// reload_grid has to be called once, after binding the widget.
 
         },
 

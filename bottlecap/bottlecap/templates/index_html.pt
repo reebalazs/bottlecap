@@ -55,10 +55,14 @@
     <script src="/bcgrid/bc.grid.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-        $('.bc-grid-frame').grid({
+        $('.bc-grid-frame')
+          .grid({
             message: 'Howdy World',
             width: 100
-        }).css('border', 'solid 1px green');
+          })
+          .grid('reload_grid')
+          .css('border', 'solid 1px green');
+
     </script>
 
 </tal:block>
