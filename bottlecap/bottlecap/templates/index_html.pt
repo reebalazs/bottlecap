@@ -12,11 +12,12 @@
 
     <div class="bc-grid-frame">
         <div class="bc-grid-header" style="width:100%">
-            <label>SlickGrid</label>
         <span id="bc-grid-toolbar">
+            <label id="bc-grid-currenttitle">Root Folder</label>
             <span id="bc-grid-reloadframe">
                 <button id="bc-grid-reload">Reload</button>
             </span>
+                <button id="bc-grid-gotoparent">Up</button>
             <span id="bc-grid-addables">
                 <button id="bc-grid-addfolder">Folder</button>
                 <button id="bc-grid-addfile">File</button>
@@ -48,16 +49,20 @@
     </div>
 
 
-    <script src="/bccore/slick.min.js"></script>
-    <script src="/bccore/jquery.form-2.43.js"></script>
+    <script src="/bccore/slick.min.js" type="text/javascript"></script>
+    <script src="/bccore/jquery.form-2.43.js" type="text/javascript"></script>
 
-    <script src="/bcgrid/bc.grid.js"></script>
+    <script src="/bcgrid/bc.grid.js" type="text/javascript"></script>
 
-    <script>
-$('.bc-grid-frame').grid({
-	    message: 'Howdy World',
-	    width: 100
-	}).css('border', 'solid 1px green');
+    <script type="text/javascript">
+        $('.bc-grid-frame')
+          .grid({
+            message: 'Howdy World',
+            width: 100
+          })
+          .grid('reload_grid')
+          .css('border', 'solid 1px green');
+
     </script>
 
 </tal:block>
