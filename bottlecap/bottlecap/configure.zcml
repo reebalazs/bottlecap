@@ -1,0 +1,110 @@
+<configure xmlns="http://pylonshq.com/pyramid">
+  <include package="pyramid_zcml" file="meta.zcml"/>
+
+  <static name="static" path="bottlecap:static" />
+  <static name="bcgrid" path="bottlecap_grid:static" />
+  <static name="bccore" path="bottlecap_core:static" />
+
+  <!-- sample retail UI view -->
+  <view
+    for="bottlecap.interfaces.IBottlecap"
+    view="bottlecap.views.BottlecapViews"
+    attr="default_view"
+    renderer="templates/retail_html.pt"
+    />
+
+  <!-- main bottlecap UI -->
+  <view
+    for="bottlecap.interfaces.IBottlecap"
+    view="bottlecap.views.BottlecapViews"
+    attr="bottlecap_view"
+    name="bottlecap.html"
+    renderer="templates/index_html.pt"
+    />
+
+  <!-- "about bottlecap" -->
+  <view
+    for="bottlecap.interfaces.IBottlecap"
+    view="bottlecap.views.BottlecapViews"
+    attr="about_view"
+    name="about"
+    renderer="templates/about_view.pt"
+    />
+
+  <!-- add a folder -->
+  <view
+    for="repoze.folder.Folder"
+    view="bottlecap.views.BottlecapViews"
+    attr="add_folder"
+    name="add_folder"
+    />
+
+  <!-- add a file -->
+  <view
+    for="repoze.folder.Folder"
+    view="bottlecap.views.BottlecapViews"
+    attr="add_file"
+    name="add_file"
+    />
+
+
+  <!-- Adapters needed by JSON API -->
+  <adapter
+    for="repoze.folder.Folder"
+    provides="bottlecap.interfaces.IContainerInfo"
+    factory="bottlecap.adapters.FolderContainerInfo"
+    />
+
+  <adapter
+    for="repoze.folder.Folder"
+    provides="bottlecap.interfaces.IItemInfo"
+    factory="bottlecap.adapters.FolderItemInfo"
+    />
+
+  <adapter
+    for="repoze.folder.Folder"
+    provides="bottlecap.interfaces.IActionInfo"
+    factory="bottlecap.adapters.RetailViewActionInfo"
+    name="retail"
+    />
+
+  <adapter
+    for="repoze.folder.Folder"
+    provides="bottlecap.interfaces.IActionInfo"
+    factory="bottlecap.adapters.EditViewActionInfo"
+    name="edit"
+    />
+
+  <adapter
+    for="repoze.folder.Folder"
+    provides="bottlecap.interfaces.IFactoryInfo"
+    factory="bottlecap.adapters.FolderFactoryInfo"
+    name="folder"
+    />
+
+  <!-- JSON API views -->
+  <view
+    for="*"
+    view="bottlecap.views.BottlecapJSON_API"
+    attr="list_items"
+    name="list_items"
+    renderer="json"
+    />
+
+  <view
+    for="*"
+    view="bottlecap.views.BottlecapJSON_API"
+    attr="change_title"
+    name="change_title"
+    renderer="json"
+    />
+
+  <view
+    for="*"
+    view="bottlecap.views.BottlecapJSON_API"
+    attr="delete_items"
+    name="delete_items"
+    renderer="json"
+    />
+
+</configure>

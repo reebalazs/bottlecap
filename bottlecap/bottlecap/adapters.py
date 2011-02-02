@@ -26,7 +26,7 @@ class FolderContainerInfo(object):
 
     modified = property(lambda self: _get_modified(self.context))
 
-    creator = property(lambda self: getattr(self.context, 'creator', None))
+    creator = property(lambda self: getattr(self.context, 'author', None))
 
     # We don't currently support filtering or sorting
     filter_schema = None
@@ -122,7 +122,7 @@ class FolderItemInfo(object):
 
     modified = property(lambda self: _get_modified(self.context))
 
-    creator = property(lambda self: getattr(self.context, 'creator', None))
+    creator = property(lambda self: getattr(self.context, 'author', None))
 
     def item_url(self, request):
         """ See IItemInfo.

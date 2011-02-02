@@ -1,4 +1,5 @@
 from pyramid.config import Configurator
+import pyramid_zcml
 from repoze.zodbconn.finder import PersistentApplicationFinder
 from bottlecap.models import appmaker
 
@@ -13,8 +14,6 @@ def main(global_config, **settings): #pragma NO COVER
     def get_root(request):
         return finder(request.environ)
     config = Configurator(root_factory=get_root, settings=settings)
-    config.add_static_view('static', 'bottlecap:static')
-    config.add_static_view('bcgrid', 'bottlecap_grid:static')
-    config.add_static_view('bccore', 'bottlecap_core:static')
-    config.scan('bottlecap')
+    config.include(pyramid_zcml)
+    config.load_zcml()
     return config.make_wsgi_app()
