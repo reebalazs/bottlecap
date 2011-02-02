@@ -4,6 +4,7 @@
 .coverage
 *.egg-info
 venv
-Data.fs*
+var/blobs/*
+var/*
 *.pt.py
 */docs/_build/*
