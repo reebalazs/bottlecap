@@ -42,6 +42,49 @@ class _Base(object):
         self.config.registry.registerAdapter(_ItemInfo, (None,), IItemInfo)
         return _ItemInfo
 
+    def _registerRetailViewInfoAdapter(self):
+        from zope.interface import implements
+        from bottlecap.interfaces import IActionInfo
+        class _RetailInfo(object):
+            implements(IActionInfo)
+            token = 'retail'
+            def __init__(self, context):
+                self.context = context
+            def __call__(self, request):
+                return {'for': 'testing only'}
+        self.config.registry.registerAdapter(_RetailInfo, (None,), IActionInfo,
+                                             name='retail')
+        return _RetailInfo
+
+    def _registerEditViewInfoAdapter(self):
+        from zope.interface import implements
+        from bottlecap.interfaces import IActionInfo
+        class _EditInfo(object):
+            implements(IActionInfo)
+            token = 'edit'
+            def __init__(self, context):
+                self.context = context
+            def __call__(self, request):
+                return {'for': 'testing only'}
+        self.config.registry.registerAdapter(_EditInfo, (None,), IActionInfo,
+                                             name='edit')
+        return _EditInfo
+
+    def _registerFolderFactoryInfoAdapter(self):
+        from zope.interface import implements
+        from bottlecap.interfaces import IFactoryInfo
+        class _FactoryInfo(object):
+            implements(IFactoryInfo)
+            token = 'folder'
+            def __init__(self, context):
+                self.context = context
+            def __call__(self, request):
+                return {'for': 'testing only'}
+        self.config.registry.registerAdapter(
+                                _FactoryInfo, (None,), IFactoryInfo,
+                                name='folder')
+        return _FactoryInfo
+
 
 class FolderContainerInfoTests(_Base, unittest.TestCase):
 
@@ -96,14 +139,6 @@ class FolderContainerInfoTests(_Base, unittest.TestCase):
         adapter = self._makeOne(context)
         self.assertEqual(adapter.creator, 'phred')
 
-    def test_actions(self):
-        adapter = self._makeOne()
-        self.assertEqual(len(adapter.actions), 0) # XXX
-
-    def test_factories(self):
-        adapter = self._makeOne()
-        self.assertEqual(len(adapter.factories), 0) # XXX
-
     def test_filter_schema(self):
         adapter = self._makeOne()
         self.assertEqual(adapter.filter_schema, None) # XXX
@@ -132,6 +167,25 @@ class FolderContainerInfoTests(_Base, unittest.TestCase):
         request = self._makeRequest()
         self.assertEqual(adapter.icon_url(request),
                          'http://example.com/static/folder_icon.png')
+
+    def test_actions(self):
+        from bottlecap.interfaces import IActionInfo
+        self._registerRetailViewInfoAdapter()
+        self._registerEditViewInfoAdapter()
+        adapter = self._makeOne()
+        actions = adapter.actions(self.config.registry)
+        self.assertEqual(len(actions), 2)
+        for action in actions:
+            self.failUnless(IActionInfo.providedBy(action))
+        self.assertEqual(actions[0].token, 'retail')
+        self.assertEqual(actions[1].token, 'edit')
+
+    def test_factories(self):
+        self._registerFolderFactoryInfoAdapter()
+        adapter = self._makeOne()
+        factories = adapter.factories(self.config.registry)
+        self.assertEqual(len(factories), 1)
+        self.assertEqual(factories[0].token, 'folder')
 
     def test_listItems_filter_spec_unsupported(self):
         adapter = self._makeOne()
@@ -178,6 +232,9 @@ class FolderContainerInfoTests(_Base, unittest.TestCase):
         import datetime
         WHEN = datetime.datetime(2011, 2, 2, 8, 1)
         self._set_NOW(WHEN)
+        self._registerRetailViewInfoAdapter()
+        self._registerEditViewInfoAdapter()
+        self._registerFolderFactoryInfoAdapter()
         self.config.add_static_view('static', 'bottlecap:static')
         adapter = self._makeOne()
         request = self._makeRequest()
@@ -188,8 +245,13 @@ class FolderContainerInfoTests(_Base, unittest.TestCase):
         self.assertEqual(info['icon_url'], 
                          'http://example.com/static/folder_icon.png')
         self.assertEqual(len(info['items']),  0)
-        self.assertEqual(len(info['actions']),  0)      # XXX
-        self.assertEqual(len(info['factories']),  0)    # XXX
+        actions = info['actions']
+        self.assertEqual(len(actions), 2)
+        for action in actions:
+            self.assertEqual(action, {'for': 'testing only'})
+        factories = info['factories']
+        self.assertEqual(len(factories), 1)
+        self.assertEqual(factories[0], {'for': 'testing only'})
 
     def test___call___w_items(self):
         self._registerItemInfoAdapter()
@@ -284,8 +346,16 @@ class FolderItemInfoTests(_Base, unittest.TestCase):
         self.assertEqual(adapter.creator, 'phred')
 
     def test_actions(self):
+        from bottlecap.interfaces import IActionInfo
+        self._registerRetailViewInfoAdapter()
+        self._registerEditViewInfoAdapter()
         adapter = self._makeOne()
-        self.assertEqual(len(adapter.actions), 0) # XXX
+        actions = adapter.actions(self.config.registry)
+        self.assertEqual(len(actions), 2)
+        for action in actions:
+            self.failUnless(IActionInfo.providedBy(action))
+        self.assertEqual(actions[0].token, 'retail')
+        self.assertEqual(actions[1].token, 'edit')
 
     def test_item_url_context_is_root(self):
         adapter = self._makeOne()
@@ -351,7 +421,7 @@ class RetailViewActionInfoTests(_Base, unittest.TestCase):
     def test_attrs(self):
         adapter = self._makeOne()
         self.assertEqual(adapter.action_type, 'external')
-        self.assertEqual(adapter.token, 'view')
+        self.assertEqual(adapter.token, 'retail')
         self.assertEqual(adapter.title, 'View')
         self.assertEqual(adapter.description, 'Retail (non-bottlecap) view')
 
@@ -374,7 +444,7 @@ class RetailViewActionInfoTests(_Base, unittest.TestCase):
         request = self._makeRequest()
         info = adapter(request)
         self.assertEqual(info['action_type'], 'external')
-        self.assertEqual(info['token'], 'view')
+        self.assertEqual(info['token'], 'retail')
         self.assertEqual(info['title'], 'View')
         self.assertEqual(info['description'], 'Retail (non-bottlecap) view')
         self.assertEqual(info['icon_url'],

@@ -28,16 +28,6 @@ class FolderContainerInfo(object):
 
     creator = property(lambda self: getattr(self.context, 'creator', None))
 
-    def _get_actions(self):
-        #return [ViewActionInfo(self.context)]
-        return []
-    actions = property(_get_actions)
-
-    def _get_factories(self):
-        #return [FolderFactoryInfo(self.context)]
-        return []
-    factories = property(_get_factories)
-
     # We don't currently support filtering or sorting
     filter_schema = None
     sort_schema = None
@@ -53,6 +43,16 @@ class FolderContainerInfo(object):
         """ See IContainerInfo.
         """
         return static_url('bottlecap:static/folder_icon.png', request)
+
+    def actions(self, registry):
+        return filter(None,
+                      [registry.queryAdapter(self.context, IActionInfo, name=x)
+                        for x in ['retail', 'edit']])
+
+    def factories(self, registry):
+        return filter(None,
+                      [registry.queryAdapter(self.context, IFactoryInfo, name=x)
+                        for x in ['folder']])
 
     def listItems(self,
                   registry,
@@ -102,10 +102,10 @@ class FolderContainerInfo(object):
                                                    filter_spec, sort_spec,
                                                    batch_start, batch_size)]
         if include_actions:
-            result['actions'] = [x(request) for x in self.actions]
+            result['actions'] = [x(request) for x in self.actions(registry)]
 
         if include_factories:
-            result['factories'] = [x(request) for x in self.actions]
+            result['factories'] = [x(request) for x in self.factories(registry)]
 
         return result
 
@@ -124,11 +124,6 @@ class FolderItemInfo(object):
 
     creator = property(lambda self: getattr(self.context, 'creator', None))
 
-    def _get_actions(self):
-        #return [ViewActionInfo(self.context)]
-        return []
-    actions = property(_get_actions)
-
     def item_url(self, request):
         """ See IItemInfo.
         """
@@ -138,6 +133,11 @@ class FolderItemInfo(object):
         """ See IItemInfo.
         """
         return static_url('bottlecap:static/folder_icon.png', request)
+
+    def actions(self, registry):
+        return filter(None,
+                      [registry.queryAdapter(self.context, IActionInfo, name=x)
+                        for x in ['retail', 'edit']])
 
     def __call__(self,
                  request,
@@ -154,7 +154,8 @@ class FolderItemInfo(object):
                  }
 
         if include_actions:
-            result['actions'] = [x(request) for x in self.actions]
+            registry = request.registry
+            result['actions'] = [x(request) for x in self.actions(registry)]
 
         return result
 
@@ -166,7 +167,7 @@ class RetailViewActionInfo(object):
         self.context = context
 
     action_type = 'external'
-    token = 'view'
+    token = 'retail'
     title = 'View'
     description = 'Retail (non-bottlecap) view'
 
