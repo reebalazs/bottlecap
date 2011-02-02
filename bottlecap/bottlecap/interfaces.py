@@ -38,12 +38,20 @@ class IActionInfo(Interface):
                        "Shown next to icon, or as popover")
     description = Attribute(u"Longer explanation\n\n"
                              "Shown in help text")
-    icon_url = Attribute(u"URL of icon\n\n"
-                          "Must be sized to fit bottlecap UI requirements")
-    action_urls = Attribute(u"Mapping of URLs relevant to the action\n\n"
-                             "Relevant keys are dictated by 'action_type' ")
+    def icon_url(request):
+        """ -> URL of icon
 
-    def __call__():
+            Must be sized to fit bottlecap UI requirements.
+        """
+
+    def action_urls(request):
+        """ -> mapping of URLs relevant to the action
+
+
+            Relevant keys are dictated by 'action_type'.
+        """
+
+    def __call__(request):
         """ -> mapping of attributes.
         """
 
@@ -53,12 +61,8 @@ class IItemInfo(Interface):
     """
     key = Attribute(u"Uniquely identify item within its container\n\n"
                      "Must be a string suitable for use as value of an input")
-    item_url = Attribute(u"Item URL\n\n"
-                          "Must be :mod:`bottlecap` view of item, or None")
     title = Attribute(u"Display title\n\n"
                        "Shown in item list")
-    icon_url = Attribute(u"URL of icon\n\n"
-                          "Must be sized to fit bottlecap UI requirements")
     modified = Attribute(u"Modification timestamp\n\n"
                           "Must be in UTC zone")
     creator = Attribute(u"Creator\n\n"
@@ -66,7 +70,19 @@ class IItemInfo(Interface):
     actions = Attribute(u"Actions list\n\n"
                          "Sequence of 'IActionInfo'")
 
-    def __call__(include_actions=True):
+    def item_url(request):
+        """ -> item URL
+
+           Must be :mod:`bottlecap` view of item, or None.
+        """
+
+    def icon_url(requst):
+        """ -> URL of icon
+
+            Must be sized to fit bottlecap UI requirements.
+        """
+
+    def __call__(request, include_actions=True):
         """ -> mapping of attributes.
 
         Map the item's actions onto a sequence of mappings, one per
@@ -85,10 +101,17 @@ class IFactoryInfo(Interface):
                        "Shown next to icon, or as popover")
     description = Attribute(u"Longer explanation\n\n"
                              "Shown in help text")
-    icon_url = Attribute(u"URL of icon\n\n"
-                          "Must be sized to fit bottlecap UI requirements")
-    factory_urls = Attribute(u"Mapping of URLs relevant to the action\n\n"
-                              "Keys same as 'ACTION_TYPE_URLS[\"form\"]'")
+
+    def icon_url(requst):
+        """ -> URL of icon
+
+            Must be sized to fit bottlecap UI requirements.
+        """
+    def factory_urls(request):
+        """ -> mapping of URLs relevant to the action
+
+            Keys same as 'ACTION_TYPE_URLS["form"]'.
+        """
 
     def __call__():
         """ -> mapping of attributes.
@@ -98,12 +121,8 @@ class IFactoryInfo(Interface):
 class IContainerInfo(Interface):
     """ Represent a single container item in the :mod:`bottlecap` UI.
     """
-    parent_url = Attribute(u"Parent URL\n\n"
-                            "Must be :mod:`bottlecap` view of parent, or None")
     title = Attribute(u"Display title\n\n"
                        "Shown in header")
-    icon_url = Attribute(u"URL of icon\n\n"
-                          "Must be sized to fit bottlecap UI requirements")
     modified = Attribute(u"Modification timestamp\n\n"
                           "Must be in UTC zone")
     creator = Attribute(u"Creator\n\n"
@@ -117,6 +136,17 @@ class IContainerInfo(Interface):
     sort_schema = Attribute(u"Schema for filtering items\n\n"
                                "Must be a :mod:`colander` schema, typically a "
                                "single multi-choice field")
+    def parent_url(request):
+        """ -> Parent URL
+
+            Must be :mod:`bottlecap` view of parent, or None.
+        """
+
+    def icon_url(request):
+        """ -> URL of icon
+
+            Must be sized to fit bottlecap UI requirements.
+        """
 
     def listItems(filter_spec=None,
                   sort_spec=None,
@@ -142,7 +172,8 @@ class IContainerInfo(Interface):
         sequence.
         """
 
-    def __call__(filter_spec=None,
+    def __call__(request,
+                 filter_spec=None,
                  sort_spec=None,
                  batch_start=None,
                  batch_size=None,
