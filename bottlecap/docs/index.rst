@@ -1,5 +1,5 @@
-:mod:`bottlecap`:  Shared Javascript / CSS resources
-=========================================================
+:mod:`bottlecap`:  One View to Rule them All
+============================================
 
 This package provides two features:
 
@@ -9,10 +9,11 @@ This package provides two features:
 - a sample WSGI application demonstrating use of the framework.
 
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
+
+   architecture
+   api
 
 Indices and tables
 ==================
