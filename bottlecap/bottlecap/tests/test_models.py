@@ -1,26 +1,6 @@
 import unittest
 
 
-class BottlecapTests(unittest.TestCase):
-
-    def _getTargetClass(self):
-        from bottlecap.models import Bottlecap
-        return Bottlecap
-
-    def _makeOne(self):
-        return self._getTargetClass()()
-
-    def test_class_conforms_to_IBottlecap(self):
-        from zope.interface.verify import verifyClass
-        from bottlecap.interfaces import IBottlecap
-        verifyClass(IBottlecap, self._getTargetClass())
-
-    def test_instance_conforms_to_IBottlecap(self):
-        from zope.interface.verify import verifyObject
-        from bottlecap.interfaces import IBottlecap
-        verifyObject(IBottlecap, self._makeOne())
-
-
 class Test_appmaker(unittest.TestCase):
 
     def _callFUT(self, zodb_root):
