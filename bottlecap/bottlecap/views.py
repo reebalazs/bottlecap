@@ -43,8 +43,29 @@ class BottlecapViews(object):
         page_title = 'About Bottlecap'
         return {'page_title': page_title, 'main': self.main}
 
+    @view_config(name="add_folder", context=Folder)
+    def add_folder(self):
+        title = self.request.POST.get('title')
+        author = self.request.POST.get('author')
+        if (not title) or (not author):
+            # Invalid form
+            response_html = ADD_FILE_INVALID
+        else:
+            # Valid form, add some data
+            folder = Folder()
+            folder.title = title
+            folder.author = author
+            folder.type = 'folder'
+            folder.modified = _now()
+            self.context[_title_to_name(title, self.context)] = folder
+            response_html = 'ok'
+
+        return Response(response_html)
+
     @view_config(name="add_file", context=Folder)
     def add_file(self):
+        #XXX this needs to change to use a real File type, with an uploaded
+        #    body.
         title = self.request.POST.get('title')
         author = self.request.POST.get('author')
         if (not title) or (not author):

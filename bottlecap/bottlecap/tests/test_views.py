@@ -59,6 +59,45 @@ class BottlecapViewsTests(_Base, unittest.TestCase):
         main = info['main']
         self.failUnless(isinstance(main, PageTemplate))
 
+    def test_add_folder_no_title(self):
+        from bottlecap.views import ADD_FILE_INVALID
+        context = self._makeContext()
+        request = self._makeRequest(POST={'author': 'J. Phredd Bloggs'})
+        view = self._makeOne(context, request)
+
+        response = view.add_folder()
+
+        self.assertEqual(response.body, ADD_FILE_INVALID)
+
+    def test_add_folder_no_author(self):
+        from bottlecap.views import ADD_FILE_INVALID
+        context = self._makeContext()
+        request = self._makeRequest(POST={'title': 'My Life in Kenya'})
+        view = self._makeOne(context, request)
+
+        response = view.add_folder()
+
+        self.assertEqual(response.body, ADD_FILE_INVALID)
+
+    def test_add_folder_w_author_and_title(self):
+        from repoze.folder import Folder
+        WHEN = object()
+        self._set_NOW(WHEN)
+        context = self._makeContext()
+        request = self._makeRequest(POST={'title': 'My Life in Kenya',
+                                          'author': 'J. Phredd Bloggs'})
+        view = self._makeOne(context, request)
+
+        response = view.add_folder()
+
+        self.assertEqual(response.body, 'ok')
+        added = context['my-life-in-kenya']
+        self.failUnless(isinstance(added, Folder))
+        self.assertEqual(added.title, 'My Life in Kenya')
+        self.assertEqual(added.author, 'J. Phredd Bloggs')
+        self.assertEqual(added.type, 'folder')
+        self.assertEqual(added.modified, WHEN)
+
     def test_add_file_no_title(self):
         from bottlecap.views import ADD_FILE_INVALID
         context = self._makeContext()
