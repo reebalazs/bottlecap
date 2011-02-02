@@ -118,13 +118,13 @@ lines 25 - 31
     Because computing URLs requires access to the ``request``, ``parent_url``
     and ``icon_url`` are methods, not simple attributes.
 
-lines 33 - 49
+lines 33 - 50
     We implement ``listItems`` by first "slicing" the values in ``context``
     and then wrapping each one in an adapter which provides ``IItemInfo``.
     (We skip doing the actual adapter lookup, because we know that
     the items can only be folders).
 
-lines 51 - 75
+lines 52 - 76
     ``__call__`` creates and returns a dictionary describing the container:
     this dictionary is going to be converted to JSON and returned to the
     Javascript in the :mod:`bottlecap` UI.  Note that we convert the

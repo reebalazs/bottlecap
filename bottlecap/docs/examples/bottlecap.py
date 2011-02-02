@@ -47,6 +47,7 @@ class FolderContainerInfo(object):
         return FOLDER_ICON
 
     def listItems(self,
+                  registry,
                   filter_spec=None,
                   sort_spec=None,
                   batch_start=None,

@@ -148,12 +148,15 @@ class IContainerInfo(Interface):
             Must be sized to fit bottlecap UI requirements.
         """
 
-    def listItems(filter_spec=None,
+    def listItems(registry,
+                  filter_spec=None,
                   sort_spec=None,
                   batch_start=None,
                   batch_size=None,
                  ):
         """ -> sequence of 'IItemInfo'
+
+        'registry' will be the current componetn registry.
 
         'filter_spec' is a :mod:`colander` appstruct, corresponding to
         the container's 'filter_schema', or None.  If not None, the container
