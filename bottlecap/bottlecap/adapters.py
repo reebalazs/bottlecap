@@ -13,6 +13,7 @@ def _now():
         return _NOW
     return datetime.datetime.now()
 
+
 class FolderContainerInfo(object):
     implements(IContainerInfo)
 
@@ -40,11 +41,15 @@ class FolderContainerInfo(object):
     sort_schema = None
 
     def parent_url(self, request):
+        """ See IContainerInfo.
+        """
         parent = self.context.__parent__
         if parent is not None:
            return resource_url(parent, request)
 
     def icon_url(self, request):
+        """ See IContainerInfo.
+        """
         return static_url('bottlecap:static/folder_icon.png', request)
 
     def listItems(self,
@@ -54,6 +59,8 @@ class FolderContainerInfo(object):
                   batch_start=None,
                   batch_size=None,
                  ):
+        """ See IContainerInfo.
+        """
         if filter_spec is not None:
             raise ValueError("'filter_spec' unsupported")
         if sort_spec is not None:
@@ -79,6 +86,8 @@ class FolderContainerInfo(object):
                  include_actions=True,
                  include_factories=True,
                 ):
+        """ See IContainerInfo.
+        """
         result = {'title': self.title,
                   'modified': self.modified,
                   'creator': self.creator,
@@ -95,6 +104,55 @@ class FolderContainerInfo(object):
 
         if include_factories:
             result['factories'] = [x(request) for x in self.actions]
+
+        return result
+
+
+class FolderItemInfo(object):
+    implements(IItemInfo)
+
+    def __init__(self, context):
+        self.context = context
+
+    key = property(lambda self: self.context.__name__)
+
+    title = property(lambda self: _get_title(self.context))
+
+    modified = property(lambda self: _get_modified(self.context))
+
+    creator = property(lambda self: getattr(self.context, 'creator', None))
+
+    def _get_actions(self):
+        #return [ViewActionInfo(self.context)]
+        return []
+    actions = property(_get_actions)
+
+    def item_url(self, request):
+        """ See IItemInfo.
+        """
+        return resource_url(self.context, request)
+
+    def icon_url(self, request):
+        """ See IItemInfo.
+        """
+        return static_url('bottlecap:static/folder_icon.png', request)
+
+    def __call__(self,
+                 request,
+                 include_actions=True,
+                ):
+        """ See IItemInfo.
+        """
+        result = {'key': self.key,
+                  'title': self.title,
+                  'modified': self.modified,
+                  'creator': self.creator,
+                  'item_url': self.item_url(request),
+                  'icon_url': self.icon_url(request),
+                 }
+
+        if include_actions:
+            result['actions'] = [x(request) for x in self.actions]
 
         return result
 

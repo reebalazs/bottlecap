@@ -218,3 +218,115 @@ class FolderContainerInfoTests(_Base, unittest.TestCase):
         request = self._makeRequest()
         info = adapter(request, include_factories=False)
         self.failIf('factories' in info)
+
+
+class FolderItemInfoTests(_Base, unittest.TestCase):
+
+    def _getTargetClass(self):
+        from bottlecap.adapters import FolderItemInfo
+        return FolderItemInfo
+
+    def test_class_conforms_to_IItemInfo(self):
+        from zope.interface.verify import verifyClass
+        from bottlecap.interfaces import IItemInfo
+        verifyClass(IItemInfo, self._getTargetClass())
+
+    def test_instance_conforms_to_IItemInfo(self):
+        from zope.interface.verify import verifyObject
+        from bottlecap.interfaces import IItemInfo
+        verifyObject(IItemInfo, self._makeOne())
+
+    def test_key_context_is_root(self):
+        adapter = self._makeOne()
+        self.assertEqual(adapter.key, None)
+
+    def test_key_context_is_notroot(self):
+        root = self._makeContext()
+        context = root['context'] = self._makeContext()
+        adapter = self._makeOne(context)
+        self.assertEqual(adapter.key, 'context')
+
+    def test_title_context_wo_title_or_name(self):
+        adapter = self._makeOne()
+        self.assertEqual(adapter.title, 'Root')
+
+    def test_title_context_wo_title_w_name(self):
+        context = self._makeContext(__name__='testing')
+        adapter = self._makeOne(context)
+        self.assertEqual(adapter.title, 'testing')
+
+    def test_title_context_w_title_w_name(self):
+        context = self._makeContext(__name__='testing', title='TITLE')
+        adapter = self._makeOne(context)
+        self.assertEqual(adapter.title, 'TITLE')
+
+    def test_modified_context_wo_modified(self):
+        import datetime
+        WHEN = datetime.datetime(2011, 2, 2, 8, 1)
+        self._set_NOW(WHEN)
+        adapter = self._makeOne()
+        self.assertEqual(adapter.modified, WHEN)
+
+    def test_modified_context_w_modified(self):
+        import datetime
+        WHEN = datetime.datetime(2011, 2, 2, 8, 1)
+        context = self._makeContext(modified=WHEN)
+        adapter = self._makeOne(context)
+        self.assertEqual(adapter.modified, WHEN)
+
+    def test_creator_context_wo_creator(self):
+        adapter = self._makeOne()
+        self.assertEqual(adapter.creator, None)
+
+    def test_creator_context_w_creator(self):
+        context = self._makeContext(creator='phred')
+        adapter = self._makeOne(context)
+        self.assertEqual(adapter.creator, 'phred')
+
+    def test_actions(self):
+        adapter = self._makeOne()
+        self.assertEqual(len(adapter.actions), 0) # XXX
+
+    def test_item_url_context_is_root(self):
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        self.assertEqual(adapter.item_url(request), 'http://example.com/')
+
+    def test_item_url_context_is_not_root(self):
+        root = self._makeContext()
+        parent = root['parent'] = self._makeContext()
+        context = parent['context'] = self._makeContext()
+        adapter = self._makeOne(context)
+        request = self._makeRequest()
+        self.assertEqual(adapter.item_url(request),
+                         'http://example.com/parent/context/')
+
+    def test_icon_url(self):
+        self.config.add_static_view('static', 'bottlecap:static')
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        self.assertEqual(adapter.icon_url(request),
+                         'http://example.com/static/folder_icon.png')
+
+    def test___call___defaults(self):
+        import datetime
+        WHEN = datetime.datetime(2011, 2, 2, 8, 1)
+        self._set_NOW(WHEN)
+        self.config.add_static_view('static', 'bottlecap:static')
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        info = adapter(request)
+        self.assertEqual(info['key'], None)
+        self.assertEqual(info['title'], 'Root')
+        self.assertEqual(info['modified'], WHEN)
+        self.assertEqual(info['item_url'], 'http://example.com/')
+        self.assertEqual(info['icon_url'], 
+                         'http://example.com/static/folder_icon.png')
+        self.assertEqual(len(info['actions']),  0)      # XXX
+
+    def test___call___wo_include_actions(self):
+        self.config.add_static_view('static', 'bottlecap:static')
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        info = adapter(request, include_actions=False)
+        self.failIf('actions' in info)
