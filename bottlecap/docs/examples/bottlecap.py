@@ -22,9 +22,6 @@ class FolderContainerInfo(object):
 
     title = property(lambda self: _get_title(self.context))
 
-    def icon_url(self, request):
-        return FOLDER_ICON
-
     modified = property(lambda self: _get_modified(self.context))
 
     creator = property(lambda self: getattr(self.context, 'creator', None))

@@ -106,7 +106,7 @@ lines 4 - 5
     As an adapter, the class is instantiated with its ``context`` (the
     folder).
 
-lines 7 - 26
+lines 7 - 23
     We implment the attributes required by `IContainerInfo` as
     properties (computed using ``context``) or static values.
 
@@ -114,17 +114,17 @@ lines 7 - 26
     in order to tell the :mod:`bottlecap` UI that we don't support filtering
     or sorting.
 
-lines 28 - 34
+lines 25 - 31
     Because computing URLs requires access to the ``request``, ``parent_url``
     and ``icon_url`` are methods, not simple attributes.
 
-lines 36 - 52
+lines 33 - 49
     We implement ``listItems`` by first "slicing" the values in ``context``
     and then wrapping each one in an adapter which provides ``IItemInfo``.
     (We skip doing the actual adapter lookup, because we know that
     the items can only be folders).
 
-lines 54 - 78
+lines 51 - 75
     ``__call__`` creates and returns a dictionary describing the container:
     this dictionary is going to be converted to JSON and returned to the
     Javascript in the :mod:`bottlecap` UI.  Note that we convert the
