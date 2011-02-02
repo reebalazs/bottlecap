@@ -132,23 +132,28 @@ $.widget("bottlecap.livesearch", {
             'bc-livesearch bc-livesearch-btn bc-livesearch-btn-search');
 
         // dynamically set height to match
-        var height = this.selectButton.outerHeight() - 2; 
+        var height = this.selectButton.outerHeight(); 
         var wrapper = $('<span></span>');
         wrapper
             .css('display', 'inline-block')
             .css('margin', '0')
             .css('padding', '0')
             .css('border', '0')
-            .css('height', height + 'px')
-            .css('vertical-align', 'top');
+            .css('height', height +'px')
+            .css('verticalAlign', 'top');
         el
             .wrap(wrapper)
-            .css('height', height + 'px')
-            .css('lineHeight', height + 'px');
+            .css('margin', '0')
+            .css('padding', '0')
+            .css('height', '' + (height - 2) + 'px')
+            .css('lineHeight', '' + (height - 2) + 'px');
 
+        var marginTop = this.selectButton.css('marginTop');   
+        // this  is essential _sometimes_ on WebKit
+        el.css('marginTop', marginTop);
         // hack IE7 that handles top margin differently
         if ($.browser.msie && parseInt($.browser.version) == 7) {
-            el.css('marginTop', '-1px');
+            this.selectButton.css('marginTop', '1px');
         }
     },
 
