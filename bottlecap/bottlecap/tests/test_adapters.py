@@ -1,6 +1,7 @@
 import unittest
 
-class FolderContainerInfoTests(unittest.TestCase):
+
+class _Base(object):
 
     def setUp(self):
         from pyramid.testing import setUp
@@ -11,10 +12,6 @@ class FolderContainerInfoTests(unittest.TestCase):
         from pyramid.testing import tearDown
         self._set_NOW(None)
         tearDown()
-
-    def _getTargetClass(self):
-        from bottlecap.adapters import FolderContainerInfo
-        return FolderContainerInfo
 
     def _makeOne(self, context=None):
         if context is None:
@@ -44,6 +41,13 @@ class FolderContainerInfoTests(unittest.TestCase):
                 return {'for': 'testing only'}
         self.config.registry.registerAdapter(_ItemInfo, (None,), IItemInfo)
         return _ItemInfo
+
+
+class FolderContainerInfoTests(_Base, unittest.TestCase):
+
+    def _getTargetClass(self):
+        from bottlecap.adapters import FolderContainerInfo
+        return FolderContainerInfo
 
     def test_class_conforms_to_IContainerInfo(self):
         from zope.interface.verify import verifyClass
