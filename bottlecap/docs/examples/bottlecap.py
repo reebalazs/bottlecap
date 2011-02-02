@@ -41,7 +41,7 @@ class FolderContainerInfo(object):
     def parent_url(self, request):
         parent = self.context.__parent__
         if parent is not None:
-           return resource_url(parent, '@@bottlecap')
+           return resource_url(parent, request, '@@bottlecap')
 
     def icon_url(self, request):
         return FOLDER_ICON
