@@ -8,23 +8,29 @@ from repoze.folder import Folder
 
 from bottlecap.models import Bottlecap
 
-form1_invalid = """
+_NOW = None
+def _now(): # hook for unit testing
+    if _NOW is not None:
+        return _NOW
+    return datetime.now() #pragma NO COVERAGE
+
+ADD_FILE_INVALID = """
 <fieldset>
-            <input name="title"/>
-            <label for="title">Title ******</label>
-        </fieldset>
-        <fieldset>
-            <input name="author"/>
-            <label for="author">Author</label>
-        </fieldset>
-        <input type="submit" value="add"/>
+ <input name="title"/>
+ <label for="title">Title</label>
+</fieldset>
+<fieldset>
+ <input name="author"/>
+ <label for="author">Author</label>
+</fieldset>
+<input type="submit" value="add"/>
 """
 
 class BottlecapViews(object):
 
-    def __init__(self, request):
+    def __init__(self, context, request):
+        self.context = context
         self.request = request
-        self.context = request.context
         self.main = get_renderer('templates/main.pt').implementation()
 
     @view_config(context=Folder, renderer="templates/index_html.pt")
@@ -43,14 +49,14 @@ class BottlecapViews(object):
         author = self.request.POST.get('author')
         if (not title) or (not author):
             # Invalid form
-            response_html = form1_invalid
+            response_html = ADD_FILE_INVALID
         else:
             # Valid form, add some data
             folder = Folder()
             folder.title = title
-            folder.type = 'folder',
-            folder.modified = datetime.now()
-            folder.author = 'paule'
+            folder.author = author
+            folder.type = 'folder'
+            folder.modified = _now()
             self.context[_title_to_name(title, self.context)] = folder
             response_html = 'ok'
 
@@ -61,9 +67,9 @@ def _title_to_name(title, container):
 
 class BottlecapJSON_API(object):
 
-    def __init__(self, request):
+    def __init__(self, context, request):
+        self.context = context
         self.request = request
-        self.context = request.context
 
     @view_config(name='list_items', context=Folder, renderer='json')
     def list_items(self):
@@ -71,7 +77,7 @@ class BottlecapJSON_API(object):
                  'title': getattr(value, 'title', key),
                  'type': 'folder',
                  'modified': value.modified.date().isoformat(),
-                 'author':  'repaul',
+                 'author':  getattr(value, 'author', 'unknown'),
                  'href': resource_url(value, self.request),
                 } for key, value in self.context.items()]
 
