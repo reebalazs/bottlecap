@@ -8,6 +8,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
     'pyramid',
+    'pyramid_zcml',
     'repoze.folder',
     'repoze.zodbconn',
     'repoze.tm2',
