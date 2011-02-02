@@ -6,7 +6,7 @@ from pyramid.url import resource_url
 from pyramid.view import view_config
 from repoze.folder import Folder
 
-from bottlecap.models import Bottlecap
+from bottlecap.interfaces import IBottlecap
 
 _NOW = None
 def _now(): # hook for unit testing
@@ -37,7 +37,7 @@ class BottlecapViews(object):
     def index_view(self):
         return {'name': 99, 'main': self.main}
 
-    @view_config(context=Bottlecap, name="about",
+    @view_config(context=IBottlecap, name="about",
                  renderer="templates/about_view.pt")
     def about_view(self):
         page_title = 'About Bottlecap'

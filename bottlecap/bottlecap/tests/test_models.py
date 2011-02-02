@@ -15,12 +15,16 @@ class Test_appmaker(unittest.TestCase):
 
         self.failUnless(root is BOTTLECAP)
         self.assertEqual(list(zodb_root), ['bottlecap'])
+        self.failUnless(zodb_root['bottlecap'] is root)
 
     def test_wo_existing_root(self):
-        from bottlecap.models import Bottlecap
+        from repoze.folder import Folder
+        from bottlecap.interfaces import IBottlecap
         zodb_root = {}
  
         root = self._callFUT(zodb_root)
 
-        self.failUnless(isinstance(root, Bottlecap))
+        self.failUnless(isinstance(root, Folder))
+        self.failUnless(IBottlecap.providedBy(root))
         self.assertEqual(list(zodb_root), ['bottlecap'])
+        self.failUnless(zodb_root['bottlecap'] is root)
