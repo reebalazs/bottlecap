@@ -6,6 +6,7 @@ from zope.interface import implements
 
 from bottlecap.interfaces import IActionInfo
 from bottlecap.interfaces import IContainerInfo
+from bottlecap.interfaces import IFactoryInfo
 from bottlecap.interfaces import IItemInfo
 
 _NOW = None
@@ -210,6 +211,32 @@ class EditViewActionInfo(object):
                 'description': self.description,
                 'icon_url': self.icon_url(request),
                 'action_urls': self.action_urls(request),
+               }
+
+
+class FolderFactoryInfo(object):
+    implements(IFactoryInfo)
+
+    def __init__(self, context):
+        self.context = context
+
+    token = 'folder'
+    title = 'Folder'
+    description = 'Add folder'
+
+    def icon_url(self, request):
+        return static_url('bottlecap:static/folder_icon.png', request)
+
+    def factory_urls(self, request):
+        view_url = resource_url(self.context, request, '@@add_folder')
+        return {'GET': view_url, 'POST': view_url}
+
+    def __call__(self, request):
+        return {'token': self.token,
+                'title': self.title,
+                'description': self.description,
+                'icon_url': self.icon_url(request),
+                'factory_urls': self.factory_urls(request),
                }
 
 

@@ -436,3 +436,56 @@ class EditViewActionInfoTests(_Base, unittest.TestCase):
                          {'GET': 'http://example.com/%40%40edit',
                           'POST': 'http://example.com/%40%40edit',
                          })
+
+
+class FolderFactoryInfoTests(_Base, unittest.TestCase):
+
+    def _getTargetClass(self):
+        from bottlecap.adapters import FolderFactoryInfo
+        return FolderFactoryInfo
+
+    def test_class_conforms_to_IFactoryInfo(self):
+        from zope.interface.verify import verifyClass
+        from bottlecap.interfaces import IFactoryInfo
+        verifyClass(IFactoryInfo, self._getTargetClass())
+
+    def test_instance_conforms_to_IFactoryInfo(self):
+        from zope.interface.verify import verifyObject
+        from bottlecap.interfaces import IFactoryInfo
+        verifyObject(IFactoryInfo, self._makeOne())
+
+    def test_attrs(self):
+        adapter = self._makeOne()
+        self.assertEqual(adapter.token, 'folder')
+        self.assertEqual(adapter.title, 'Folder')
+        self.assertEqual(adapter.description, 'Add folder')
+
+    def test_icon_url(self):
+        self.config.add_static_view('static', 'bottlecap:static')
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        self.assertEqual(adapter.icon_url(request),
+                         'http://example.com/static/folder_icon.png')
+
+    def test_factory_urls(self):
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        self.assertEqual(adapter.factory_urls(request),
+                         {'GET': 'http://example.com/%40%40add_folder',
+                          'POST': 'http://example.com/%40%40add_folder',
+                         })
+
+    def test___call__(self):
+        self.config.add_static_view('static', 'bottlecap:static')
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        info = adapter(request)
+        self.assertEqual(info['token'], 'folder')
+        self.assertEqual(info['title'], 'Folder')
+        self.assertEqual(info['description'], 'Add folder')
+        self.assertEqual(info['icon_url'],
+                         'http://example.com/static/folder_icon.png')
+        self.assertEqual(info['factory_urls'],
+                         {'GET': 'http://example.com/%40%40add_folder',
+                          'POST': 'http://example.com/%40%40add_folder',
+                         })

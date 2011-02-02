@@ -113,7 +113,7 @@ class IFactoryInfo(Interface):
             Keys same as 'ACTION_TYPE_URLS["form"]'.
         """
 
-    def __call__():
+    def __call__(request):
         """ -> mapping of attributes.
         """
 
