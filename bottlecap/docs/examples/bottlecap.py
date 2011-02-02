@@ -17,35 +17,37 @@ EDIT_ICON = '/static/edit_icon.png'
 class FolderContainerInfo(object):
     implements(IContainerInfo)
 
-    def __init__(self, context, request):
+    def __init__(self, context):
         self.context = context
-        self.request = request
-
-    def _get_parent_url(self):
-        parent = self.context.__parent__
-        if parent is not None:
-           return resource_url(parent, self.request, '@@bottlecap')
-    parent_url = property(_get_parent_url,)
 
     title = property(lambda self: _get_title(self.context))
 
-    icon_url = FOLDER_ICON
+    def icon_url(self, request):
+        return FOLDER_ICON
 
     modified = property(lambda self: _get_modified(self.context))
 
     creator = property(lambda self: getattr(self.context, 'creator', None))
 
     def _get_actions(self):
-        return [ViewActionInfo(self.context, self.request)]
+        return [ViewActionInfo(self.context)]
     actions = property(_get_actions)
 
     def _get_factories(self):
-        return (FolderFactoryInfo(self.context, self.request),)
+        return (FolderFactoryInfo(self.context),)
     factories = property(_get_factories,)
 
     # We don't currently support filtering or sorting
     filter_schema = None
     sort_schema = None
+
+    def parent_url(self, request):
+        parent = self.context.__parent__
+        if parent is not None:
+           return resource_url(parent, '@@bottlecap')
+
+    def icon_url(self, request):
+        return FOLDER_ICON
 
     def listItems(self,
                   filter_spec=None,
@@ -63,9 +65,10 @@ class FolderContainerInfo(object):
         values = self.context.values()
         if batch_start is not None:
             values = values[batch_start:batch_start+batch_size]
-        return [FolderItemInfo(x, self.request) for x in values]
+        return [FolderItemInfo(x) for x in values]
 
     def __call__(self,
+                 request,
                  filter_spec=None,
                  sort_spec=None,
                  batch_start=None,
@@ -73,20 +76,20 @@ class FolderContainerInfo(object):
                  include_actions=True,
                  include_factories=True,
                 ):
-        result = {'parent_url': self.parent_url,
-                  'title': self.title,
-                  'icon_url': self.icon_url,
+        result = {'title': self.title,
                   'modified': self.modified,
                   'creator': self.creator,
+                  'parent_url': self.parent_url(request),
+                  'icon_url': self.icon_url(request),
                  }
-        items = result['itmms'] = [x() for x in
+        items = result['items'] = [x(request) for x in
                                     self.listItems(filter_spec, sort_spec,
                                                     batch_start, batch_size)]
         if include_actions:
-            result['actions'] = [x() for x in self.actions]
+            result['actions'] = [x(request) for x in self.actions]
 
         if include_factories:
-            result['factories'] = [x() for x in self.actions]
+            result['factories'] = [x(request) for x in self.actions]
 
         return result
 
@@ -94,35 +97,34 @@ class FolderContainerInfo(object):
 class FolderItemInfo(object):
     implements(IItemInfo)
 
-    def __init__(self, context, request):
+    def __init__(self, context):
         self.context = context
-        self.request = request
 
     key = property(lambda self: self.context.__name__)
 
-    item_url = property(lambda self: resource_url(self.context,
-                                                  self.request,
-                                                  '@@bottlecap'))
-
     title = property(lambda self: _get_title(self.context))
-
-    icon_url = FOLDER_ICON
 
     modified = property(lambda self: _get_modified(self.context))
 
     creator = property(lambda self: getattr(self.context, 'creator', None))
 
     def _get_actions(self):
-        return [ViewActionInfo(self.context, self.request)]
+        return [ViewActionInfo(self.context)]
     actions = property(_get_actions)
 
-    def __call__(self, include_actions=True):
+    def item_url(self, request):
+        return resource_url(self.context, request, '@@bottlecap')
+
+    def icon_url(self, request):
+        return FOLDER_ICON
+
+    def __call__(self, request, include_actions=True):
         result = {'key': self.key,
-                  'item_url': self.item_url,
                   'title': self.title,
-                  'icon_url': self.icon_url,
                   'modified': self.modified,
                   'creator': self.creator,
+                  'item_url': self.item_url(request),
+                  'icon_url': self.icon_url(request),
                  }
 
         if include_actions:
@@ -132,54 +134,62 @@ class FolderItemInfo(object):
 
 
 class ViewActionInfo(object):
-    """ Action for the 'retail view' of a folder.
+    """ Action for the 'retail view' of a folder (new window).
     """
     implements(IActionInfo)
+
+    def __init__(self, context):
+        self.context = context
 
     action_type = 'external'
     token = 'view'
     title = 'View'
     description = 'Main (non-bottlecap) view'
-    icon_url = VIEW_ICON
 
-    def _get_action_urls(self):
-        url = resource_url(self.context, self.request)
+    def icon_url(self, request):
+        return VIEW_ICON
+
+    def action_urls(self, request):
+        url = resource_url(self.context, request)
         return {'url': url}
-    action_urls = property(_get_action_urls)
 
-    def __call__(self):
+    def __call__(self, request):
         return {'action_type': self.action_type,
                 'token': self.token,
                 'title': self.title,
                 'description': self.description,
-                'icon_url': self.icon_url,
-                'action_urls': self.action_urls,
+                'icon_url': self.icon_url(request),
+                'action_urls': self.action_urls(request),
                }
 
 
 class FolderEditActionInfo(object):
-    """ Action for the folder edit viwe (bottlecap overly).
+    """ Action for the folder edit viwe (bottlecap overlay).
     """
     implements(IActionInfo)
+
+    def __init__(self, context):
+        self.context = context
 
     action_type = 'form'
     token = 'edit'
     title = 'Edit'
     description = 'Edit the folder'
-    icon_url = EDIT_ICON
 
-    def _get_action_urls(self):
-        url = resource_url(self.context, self.request, '@@edit')
+    def icon_url(self, request):
+        return EDIT_ICON
+
+    def action_urls(self, request):
+        url = resource_url(self.context, request, '@@edit')
         return {'GET': url, 'POST': url}
-    action_urls = property(_get_action_urls)
 
-    def __call__(self):
+    def __call__(self, request):
         return {'action_type': self.action_type,
                 'token': self.token,
                 'title': self.title,
                 'description': self.description,
-                'icon_url': self.icon_url,
-                'action_urls': self.action_urls,
+                'icon_url': self.icon_url(request),
+                'action_urls': self.action_urls(request),
                }
 
 
@@ -188,24 +198,24 @@ class FolderFactoryInfo(object):
 
     def __init__(self, context, request):
         self.context = context
-        self.request = request
 
     token = 'Folder'
     title = 'Folder'
     description = 'Folders are contaners for other content'
-    icon_url = FOLDER_ICON
 
-    def _get_factory_urls(self):
-        url = resource_url(self.context, self.request, '@@add_folder')
+    def icon_url(self, request):
+        return FOLDER_ICON
+
+    def factory_urls(self, request):
+        url = resource_url(self.context, request, '@@add_folder')
         return {'GET': url, 'POST': url}
-    factory_urls = property(_get_factory_urls)
 
-    def __call__(self):
+    def __call__(self, request):
         return {'token': self.token,
                 'title': self.title,
                 'description': self.description,
-                'icon_url': self.icon_url,
-                'factory_urls': self.factory_urls,
+                'icon_url': self.icon_url(request),
+                'factory_urls': self.factory_urls(request),
                }
 
 

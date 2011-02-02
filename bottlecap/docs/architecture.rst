@@ -102,32 +102,33 @@ for your ``Folder`` objects:
 lines 1 - 2
     The class declares that it implements `IContainerInfo`
 
-lines 4-6
-    As an adapter, the class is instantiated with both ``context`` (the
-    folder) and ``request`` (a :mod:`webob` Request).  We need the request
-    in order to generate URLs.
+lines 4 - 5
+    As an adapter, the class is instantiated with its ``context`` (the
+    folder).
 
-lines 8 - 28
-    We implment the attributes required by `IContainerInfo` as either
-    properties (computed using ``context`` and ``request``) or static values.
+lines 7 - 26
+    We implment the attributes required by `IContainerInfo` as
+    properties (computed using ``context``) or static values.
 
-lines 30 - 32
     Note that we set both ``filter_schema`` and ``sort_schema`` to ``None``
     in order to tell the :mod:`bottlecap` UI that we don't support filtering
     or sorting.
 
-lines 34 - 50
+lines 28 - 34
+    Because computing URLs requires access to the ``request``, ``parent_url``
+    and ``icon_url`` are methods, not simple attributes.
+
+lines 36 - 52
     We implement ``listItems`` by first "slicing" the values in ``context``
     and then wrapping each one in an adapter which provides ``IItemInfo``.
     (We skip doing the actual adapter lookup, because we know that
     the items can only be folders).
 
-lines 52 - 75
+lines 54 - 78
     ``__call__`` creates and returns a dictionary describing the container:
     this dictionary is going to be converted to JSON and returned to the
     Javascript in the :mod:`bottlecap` UI.  Note that we convert the
-    items to mappings, as well as the objects contained in ``actions`` and
-    ``factories``, by calling them.
+    items, ``actions`` and ``factories`` to mappings by calling them.
 
 
 .. _implementing_iiteminfo:
@@ -146,16 +147,19 @@ We implement that interface for our ``Folder`` class as follows:
 lines 1 - 2
     The class declares that it implements `IItemInfo`
 
-lines 4-6
-    As an adapter, the class is instantiated with both ``context`` (the
-    folder) and ``request`` (a :mod:`webob` Request).  We need the request
-    in order to generate URLs.
+lines 4 - 5
+    As an adapter, the class is instantiated with its ``context`` (the
+    folder).
 
-lines 8 - 24
-    We implment the attributes required by `IItemInfo` as either
-    properties (computed using ``context`` and ``request``) or static values.
+lines 7 - 17
+    We implment the attributes required by `IItemInfo` as properties,
+    computed using ``context``.
 
-lines 26 - 38
+lines 19 - 23
+    Because computing URLs requires access to the ``request``, ``item_url``
+    and ``icon_url`` are methods, not simple attributes.
+
+lines 25 - 37
     ``__call__`` creates and returns a dictionary describing the item: 
     this dictionary is going to be converted to JSON and returned to the
     Javascript in the :mod:`bottlecap` UI.  Note that we convert the
@@ -177,19 +181,23 @@ our example, we provide one "external" action, which opens the normal
    :pyobject: ViewActionInfo
    :linenos:
 
-lines 1 - 2
+lines 1 - 4
     The class declares that it implements `IViewInfo`
 
-lines 4-6
-    As an adapter, the class is instantiated with both ``context`` (the
-    folder) and ``request`` (a :mod:`webob` Request).  We need the request
-    in order to generate URLs.
+lines 6 - 7
+    As an adapter, the class is instantiated with its ``context`` (the
+    folder).
 
-lines 8 - 15
-    We implment the attributes required by `IViewInfo` as either
-    properties (computed using ``context`` and ``request``) or static values.
+lines 8 - 12
+    We implment the attributes required by `IViewInfo` as  static values.
+    ``action_type`` is set to ``"external"`` to indicate that the
+    action opens its URL in a new, non-:mod:``bottlecap`` window.
 
-lines 17 - 24
+lines 14 - 19
+    Because computing URLs requires access to the ``request``, ``icon_url``
+    and ``action_urls`` are methods, not simple attributes.
+
+lines 21 - 28
     ``__call__`` creates and returns a dictionary describing the action: 
     this dictionary is going to be converted to JSON and returned to the
     Javascript in the :mod:`bottlecap` UI.
@@ -201,19 +209,23 @@ We also provide one "overlay" action, which opens an edit form in an overlay:
    :pyobject: FolderEditActionInfo
    :linenos:
 
-lines 1 - 2
+lines 1 - 4
     The class declares that it implements `IViewInfo`
 
-lines 4-6
-    As an adapter, the class is instantiated with both ``context`` (the
-    folder) and ``request`` (a :mod:`webob` Request).  We need the request
-    in order to generate URLs.
+lines 6 - 7
+    As an adapter, the class is instantiated with its ``context`` (the
+    folder).
 
-lines 8 - 15
-    We implment the attributes required by `IViewInfo` as either
-    properties (computed using ``context`` and ``request``) or static values.
+lines 8 - 12
+    We implment the attributes required by `IViewInfo` as  static values.
+    ``action_type`` is set to ``"form"`` to indicate that the
+    action opens its URL as a form in a :mod:``bottlecap`` overlay.
 
-lines 17 - 24
+lines 14 - 19
+    Because computing URLs requires access to the ``request``, ``icon_url``
+    and ``action_urls`` are methods, not simple attributes.
+
+lines 21 - 28
     ``__call__`` creates and returns a dictionary describing the action: 
     this dictionary is going to be converted to JSON and returned to the
     Javascript in the :mod:`bottlecap` UI.
@@ -235,14 +247,16 @@ In our example, we provide one factory, which creates sub-folders:
 lines 1 - 2
     The class declares that it implements `IFactoryInfo`
 
-lines 4-6
-    As an adapter, the class is instantiated with both ``context`` (the
-    folder) and ``request`` (a :mod:`webob` Request).  We need the request
-    in order to generate URLs.
+lines 4 - 5
+    As an adapter, the class is instantiated with its ``context`` (the
+    folder).
 
-lines 8 - 16
-    We implment the attributes required by `IViewInfo` as either
-    properties (computed using ``context`` and ``request``) or static values.
+lines 7 - 9
+    We implment the attributes required by `IFactoryInfo` as static values.
+
+lines 19 - 23
+    Because computing URLs requires access to the ``request``, ``icon_url``
+    and ``factory_urls`` are methods, not simple attributes.
 
 lines 18 - 24
     ``__call__`` creates and returns a dictionary describing the factory: 
