@@ -4,6 +4,7 @@ from pyramid.url import resource_url
 from pyramid.url import static_url
 from zope.interface import implements
 
+from bottlecap.interfaces import IActionInfo
 from bottlecap.interfaces import IContainerInfo
 from bottlecap.interfaces import IItemInfo
 
@@ -155,6 +156,33 @@ class FolderItemInfo(object):
             result['actions'] = [x(request) for x in self.actions]
 
         return result
+
+
+class RetailViewActionInfo(object):
+    implements(IActionInfo)
+
+    def __init__(self, context):
+        self.context = context
+
+    action_type = 'external'
+    token = 'view'
+    title = 'View'
+    description = 'Retail (non-bottlecap) view'
+
+    def icon_url(self, request):
+        return static_url('bottlecap_core:static/view_icon.png', request)
+
+    def action_urls(self, request):
+        return {'url': resource_url(self.context, request)}
+
+    def __call__(self, request):
+        return {'action_type': self.action_type,
+                'token': self.token,
+                'title': self.title,
+                'description': self.description,
+                'icon_url': self.icon_url(request),
+                'action_urls': self.action_urls(request),
+               }
 
 
 def _get_title(context):

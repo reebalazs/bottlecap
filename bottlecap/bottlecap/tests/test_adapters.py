@@ -330,3 +330,54 @@ class FolderItemInfoTests(_Base, unittest.TestCase):
         request = self._makeRequest()
         info = adapter(request, include_actions=False)
         self.failIf('actions' in info)
+
+
+class RetailViewActionInfoTests(_Base, unittest.TestCase):
+
+    def _getTargetClass(self):
+        from bottlecap.adapters import RetailViewActionInfo
+        return RetailViewActionInfo
+
+    def test_class_conforms_to_IActionInfo(self):
+        from zope.interface.verify import verifyClass
+        from bottlecap.interfaces import IActionInfo
+        verifyClass(IActionInfo, self._getTargetClass())
+
+    def test_instance_conforms_to_IActionInfo(self):
+        from zope.interface.verify import verifyObject
+        from bottlecap.interfaces import IActionInfo
+        verifyObject(IActionInfo, self._makeOne())
+
+    def test_attrs(self):
+        adapter = self._makeOne()
+        self.assertEqual(adapter.action_type, 'external')
+        self.assertEqual(adapter.token, 'view')
+        self.assertEqual(adapter.title, 'View')
+        self.assertEqual(adapter.description, 'Retail (non-bottlecap) view')
+
+    def test_icon_url(self):
+        self.config.add_static_view('bccore', 'bottlecap_core:static')
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        self.assertEqual(adapter.icon_url(request),
+                         'http://example.com/bccore/view_icon.png')
+
+    def test_action_urls(self):
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        self.assertEqual(adapter.action_urls(request),
+                         {'url': 'http://example.com/'})
+
+    def test___call__(self):
+        self.config.add_static_view('bccore', 'bottlecap_core:static')
+        adapter = self._makeOne()
+        request = self._makeRequest()
+        info = adapter(request)
+        self.assertEqual(info['action_type'], 'external')
+        self.assertEqual(info['token'], 'view')
+        self.assertEqual(info['title'], 'View')
+        self.assertEqual(info['description'], 'Retail (non-bottlecap) view')
+        self.assertEqual(info['icon_url'],
+                         'http://example.com/bccore/view_icon.png')
+        self.assertEqual(info['action_urls'],
+                         {'url': 'http://example.com/'})
