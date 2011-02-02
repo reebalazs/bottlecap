@@ -31,8 +31,8 @@ class FolderContainerInfo(object):
     actions = property(_get_actions)
 
     def _get_factories(self):
-        return (FolderFactoryInfo(self.context),)
-    factories = property(_get_factories,)
+        return [FolderFactoryInfo(self.context)]
+    factories = property(_get_factories)
 
     # We don't currently support filtering or sorting
     filter_schema = None
