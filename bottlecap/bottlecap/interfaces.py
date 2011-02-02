@@ -67,8 +67,6 @@ class IItemInfo(Interface):
                           "Must be in UTC zone")
     creator = Attribute(u"Creator\n\n"
                          "Login name of item creator")
-    actions = Attribute(u"Actions list\n\n"
-                         "Sequence of 'IActionInfo'")
 
     def item_url(request):
         """ -> item URL
@@ -80,6 +78,12 @@ class IItemInfo(Interface):
         """ -> URL of icon
 
             Must be sized to fit bottlecap UI requirements.
+        """
+
+    def actions(registry):
+        """ -> sequence of ``IActionInfo``
+        
+        List of actions apropos to the item.
         """
 
     def __call__(request, include_actions=True):
@@ -127,10 +131,6 @@ class IContainerInfo(Interface):
                           "Must be in UTC zone")
     creator = Attribute(u"Creator\n\n"
                          "Login name of item creator")
-    actions = Attribute(u"Actions list\n\n"
-                         "Sequence of 'IActionInfo'")
-    factories = Attribute(u"Factories list\n\n"
-                           "Sequence of 'IFactoryInfo'")
     filter_schema = Attribute(u"Schema for filtering items\n\n"
                                "Must be a :mod:`colander` schema")
     sort_schema = Attribute(u"Schema for filtering items\n\n"
@@ -146,6 +146,18 @@ class IContainerInfo(Interface):
         """ -> URL of icon
 
             Must be sized to fit bottlecap UI requirements.
+        """
+
+    def actions(registry):
+        """ -> sequence of ``IActionInfo``
+        
+        List of actions apropos to the container.
+        """
+
+    def factories(registry):
+        """ -> sequence of ``IFactoryInfo``
+
+        Factories apropos to the container.
         """
 
     def listItems(registry,

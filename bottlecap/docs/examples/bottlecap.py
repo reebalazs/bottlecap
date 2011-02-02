@@ -26,14 +26,6 @@ class FolderContainerInfo(object):
 
     creator = property(lambda self: getattr(self.context, 'creator', None))
 
-    def _get_actions(self):
-        return [ViewActionInfo(self.context)]
-    actions = property(_get_actions)
-
-    def _get_factories(self):
-        return [FolderFactoryInfo(self.context)]
-    factories = property(_get_factories)
-
     # We don't currently support filtering or sorting
     filter_schema = None
     sort_schema = None
@@ -45,6 +37,12 @@ class FolderContainerInfo(object):
 
     def icon_url(self, request):
         return FOLDER_ICON
+
+    def actions(self, registry):
+        return [ViewActionInfo(self.context)]
+
+    def factories(self, registry):
+        return [FolderFactoryInfo(self.context)]
 
     def listItems(self,
                   registry,
@@ -84,10 +82,10 @@ class FolderContainerInfo(object):
                                     self.listItems(filter_spec, sort_spec,
                                                     batch_start, batch_size)]
         if include_actions:
-            result['actions'] = [x(request) for x in self.actions]
+            result['actions'] = [x(request) for x in self.actions(None)]
 
         if include_factories:
-            result['factories'] = [x(request) for x in self.actions]
+            result['factories'] = [x(request) for x in self.factories(None)]
 
         return result
 
@@ -106,15 +104,14 @@ class FolderItemInfo(object):
 
     creator = property(lambda self: getattr(self.context, 'creator', None))
 
-    def _get_actions(self):
-        return [ViewActionInfo(self.context)]
-    actions = property(_get_actions)
-
     def item_url(self, request):
         return resource_url(self.context, request, '@@bottlecap')
 
     def icon_url(self, request):
         return FOLDER_ICON
+
+    def actions(self, registry):
+        return [ViewActionInfo(self.context)]
 
     def __call__(self, request, include_actions=True):
         result = {'key': self.key,
@@ -126,7 +123,7 @@ class FolderItemInfo(object):
                  }
 
         if include_actions:
-            result['actions'] = [x() for x in self.actions]
+            result['actions'] = [x() for x in self.actions(None)]
 
         return result
 

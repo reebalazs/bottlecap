@@ -106,29 +106,37 @@ lines 4 - 5
     As an adapter, the class is instantiated with its ``context`` (the
     folder).
 
-lines 7 - 23
+lines 7 - 15
     We implment the attributes required by `IContainerInfo` as
     properties (computed using ``context``) or static values.
 
+
+Lines 14 - 15
     Note that we set both ``filter_schema`` and ``sort_schema`` to ``None``
     in order to tell the :mod:`bottlecap` UI that we don't support filtering
     or sorting.
 
-lines 25 - 31
+lines 17 - 23
     Because computing URLs requires access to the ``request``, ``parent_url``
     and ``icon_url`` are methods, not simple attributes.
 
-lines 33 - 50
+lines 25 - 29
+    Because computing them might require access to the component registry,
+    ``actions`` and ``factories`` are methods, not simple attributes.
+
+lines 31 - 48
     We implement ``listItems`` by first "slicing" the values in ``context``
     and then wrapping each one in an adapter which provides ``IItemInfo``.
     (We skip doing the actual adapter lookup, because we know that
     the items can only be folders).
 
-lines 52 - 76
+lines 50 - 74
     ``__call__`` creates and returns a dictionary describing the container:
     this dictionary is going to be converted to JSON and returned to the
     Javascript in the :mod:`bottlecap` UI.  Note that we convert the
-    items, ``actions`` and ``factories`` to mappings by calling them.
+    items, actions and factories to mappings by calling them.
+    We don't bother passing a component registry to ``actions`` or
+    ``factories`` because we know our implementation doesn't need one.
 
 
 .. _implementing_iiteminfo:
@@ -151,19 +159,25 @@ lines 4 - 5
     As an adapter, the class is instantiated with its ``context`` (the
     folder).
 
-lines 7 - 17
+lines 7 - 13
     We implment the attributes required by `IItemInfo` as properties,
     computed using ``context``.
 
-lines 19 - 23
+lines 15 - 19
     Because computing URLs requires access to the ``request``, ``item_url``
     and ``icon_url`` are methods, not simple attributes.
 
-lines 25 - 37
+lines 21 - 22
+    Because computing actions might requires access to the component
+    registry, ``actions`` is a method, not a simple attribute.
+
+lines 24 - 36
     ``__call__`` creates and returns a dictionary describing the item: 
     this dictionary is going to be converted to JSON and returned to the
     Javascript in the :mod:`bottlecap` UI.  Note that we convert the
     objects for ``actions`` to mappings by calling them.
+    We don't bother passing a component registry to ``actions`` because we
+    know our implementation doesn't need one.
 
 
 .. _implementing_iactioninfo:
