@@ -185,6 +185,34 @@ class RetailViewActionInfo(object):
                }
 
 
+class EditViewActionInfo(object):
+    implements(IActionInfo)
+
+    def __init__(self, context):
+        self.context = context
+
+    action_type = 'form'
+    token = 'edit'
+    title = 'Edit'
+    description = 'Edit view'
+
+    def icon_url(self, request):
+        return static_url('bottlecap_core:static/edit_icon.png', request)
+
+    def action_urls(self, request):
+        view_url = resource_url(self.context, request, '@@edit')
+        return {'GET': view_url, 'POST': view_url}
+
+    def __call__(self, request):
+        return {'action_type': self.action_type,
+                'token': self.token,
+                'title': self.title,
+                'description': self.description,
+                'icon_url': self.icon_url(request),
+                'action_urls': self.action_urls(request),
+               }
+
+
 def _get_title(context):
      result = getattr(context, 'title', context)
      if result is context:
