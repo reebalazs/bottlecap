@@ -320,9 +320,13 @@ $.widget("bottlecap.livesearch", {
                 query = err,
                 pos = this._findGlobPosition(query, caretPosition);
             if (pos === -1) {
-                // cursor is after whitespace,
-                // but we don't have enough characters
-                errorDisplayer.show('not enough characters entered');
+                if ($.trim(query).length === 0) {
+                    errorDisplayer.hide();
+                } else {
+                    // cursor is after whitespace,
+                    // but we don't have enough characters
+                    errorDisplayer.show('not enough characters entered');
+                }
             } else {
                 // find the offending substring that failed validation
                 var nChars = 3,
