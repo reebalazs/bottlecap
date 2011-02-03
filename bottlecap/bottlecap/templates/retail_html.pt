@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Retail UI</title>
+</head>
+<body>
+
+ <h1> Example retail view </h1>
+
+ <p><a href="@@bottlecap.html">Bottlecap UI</a></p>
+
+</body>
+</html>

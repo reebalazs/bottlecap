@@ -32,6 +32,16 @@ class _Base(object):
         from bottlecap import views
         self._old_NOW, views._NOW = views._NOW, when
 
+    def _registerContainerInfo(self, items=()):
+        from zope.interface import implements
+        from bottlecap.interfaces import IContainerInfo
+        class _Info(object):
+            implements(IContainerInfo)
+            def __init__(self, context):
+                pass
+            def __call__(self, request):
+                return {'items': items}
+        self.config.registry.registerAdapter(_Info, (None,), IContainerInfo)
 
 class BottlecapViewsTests(_Base, unittest.TestCase):
 
@@ -39,11 +49,11 @@ class BottlecapViewsTests(_Base, unittest.TestCase):
         from bottlecap.views import BottlecapViews
         return BottlecapViews
 
-    def test_index_view(self):
+    def test_bottlecap_view(self):
         from chameleon.zpt.template import PageTemplate
         view = self._makeOne()
 
-        info = view.index_view()
+        info = view.bottlecap_view()
 
         self.assertEqual(info['name'], 99)
         main = info['main']
@@ -146,6 +156,7 @@ class BottlecapJSON_API_Tests(_Base, unittest.TestCase):
 
     def test_list_items_empty(self):
         view = self._makeOne()
+        self._registerContainerInfo()
         self.assertEqual(list(view.list_items()), [])
 
     def test_list_items_non_empty(self):
@@ -154,12 +165,16 @@ class BottlecapJSON_API_Tests(_Base, unittest.TestCase):
         TITLES = [x.upper() for x in KEYS]
         URLS = ['http://example.com/%s/' % x for x in KEYS]
         WHEN = datetime(2011, 2, 1, 23, 45)
-        context = self._makeContext()
+        infos = []
         for key in KEYS:
-            context[key] = self._makeContext(title=key.upper(),
-                                             modified=WHEN,
-                                             author='phred')
-        view = self._makeOne(context=context)
+            infos.append({'key': key,
+                          'title': key.upper(),
+                          'modified': WHEN,
+                          'creator': 'phred',
+                          'item_url': 'http://example.com/%s/' % key,
+                         })
+        self._registerContainerInfo(infos)
+        view = self._makeOne()
 
         items = view.list_items()
 

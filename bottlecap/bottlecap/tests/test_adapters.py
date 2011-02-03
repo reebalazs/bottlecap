@@ -135,7 +135,7 @@ class FolderContainerInfoTests(_Base, unittest.TestCase):
         self.assertEqual(adapter.creator, None)
 
     def test_creator_context_w_creator(self):
-        context = self._makeContext(creator='phred')
+        context = self._makeContext(author='phred')
         adapter = self._makeOne(context)
         self.assertEqual(adapter.creator, 'phred')
 
@@ -341,7 +341,7 @@ class FolderItemInfoTests(_Base, unittest.TestCase):
         self.assertEqual(adapter.creator, None)
 
     def test_creator_context_w_creator(self):
-        context = self._makeContext(creator='phred')
+        context = self._makeContext(author='phred')
         adapter = self._makeOne(context)
         self.assertEqual(adapter.creator, 'phred')
 
