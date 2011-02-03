@@ -144,7 +144,7 @@ $.widget("bottlecap.livesearch", {
         el
             .wrap(wrapper)
             .css('margin', '0')
-            .css('padding', '0')
+            .css('padding', '0 3px')
             .css('height', '' + (height - 2) + 'px')
             .css('lineHeight', '' + (height - 2) + 'px');
 
