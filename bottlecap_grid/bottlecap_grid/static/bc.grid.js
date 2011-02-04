@@ -13,6 +13,14 @@
         return (x == y ? 0 : (x > y ? 1 : -1));
     }
 
+    // http://snipplr.com/view/26662/get-url-parameters-with-jquery--improved/
+    function urlParam(url, name) {
+        var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(url);
+        if (! results) { return null; }
+        return decodeURI(results[1]) || null;
+    }
+
+
     // Register a "namespaced" widget with the widget factory
     $.widget("bc.grid", {
 
@@ -39,6 +47,7 @@
             this._create_grid();
             this._create_buttons();
             this._create_forms();
+            this._create_history();
 
         },
 
@@ -141,8 +150,11 @@
                     // TODO fix the protocol to send back the current title
                     // in the data.  Until then, this won't work.
                     var p = self.resource_path.split('/');
-                    var href = p.slice(0, p.length - 1).join('/');
-                    self.load_resource(href)
+                    // only do this if we are not already on top!
+                    if (p.length > 3) {
+                        var href = p.slice(0, p.length - 1).join('/');
+                        self.load_resource(href)
+                    }
                 });
 
             this.buttonsetAddables = $("#bc-grid-addables").buttonset();
@@ -223,8 +235,32 @@
             //    });
 
         },
+ 
+        _create_history: function(url) {
+            var History = window.History;
+            var self = this;
+            History.Adapter.bind(window, 'statechange', function() {
+                self.onStateChange();
+            });
+        },
 
-        update_resource_path: function(url) {
+        onStateChange: function() {
+            // This will trigger on the initial pageload, as well as, at each
+            // history event.
+            var History = window.History;
+            var State = History.getState();
+
+            History.log('bc.grid onStateChange', State.data, State.title, State.url);
+
+            var path = urlParam(State.url, 'path') || '/';
+
+            // Update the resource path and reload the grid
+            var href = History.expandUrl(path);
+            this.update_resource_path(href);
+            this.reload_grid();
+        },
+
+        update_resource_path: function(href) {
             var self = this;
         
             // XXX ajaxForm is unable to update its url option. So,
@@ -232,7 +268,13 @@
             //
             // this.ajaxForm('option', 'url', this.resource_path + '/add_file');
 
-            this.resource_path = url;
+            // If the href has a slash at the end, remove it.
+            
+            if (href[href.length - 1] == '/') {
+                href = href.slice(0, href.length - 1);
+            }
+
+            this.resource_path = href;
 
             // Bind any ajax forms
             this.ajaxForm =
@@ -256,13 +298,22 @@
             // When you click on a hyperlink in the title column, load the
             // contents for that resource and display it
 
-            // Isf the href has a slash at the end, remove it.  We need
-            // some kind of normalization system.
-            if (href[href.length - 1] == '/') {
-                href = href.slice(0, href.length - 1);
+            // first, make sure there is a '/' at the end of href,
+            // otherwise contractUrl will fail miserable
+            if (! href || href[href.length - 1] != '/') {
+                href += '/';
             }
-            this.update_resource_path(href);
-            this.reload_grid();
+            // store history
+            // this will reload the grid via onStateChange
+            var History = window.History;
+            var path = History.contractUrl(href);
+            console.log('load_resource', href, path);
+            // If the path does have a slash at the end, remove it.
+            if (path[path.length - 1] == '/') {
+                path = path.slice(0, path.length - 1);
+            }
+
+            History.pushState({path: path}, 'Title', "?path=" + encodeURI(path));
         },
 
         reload_grid: function () {
