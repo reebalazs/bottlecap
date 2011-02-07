@@ -144,7 +144,7 @@ $.widget("bottlecap.livesearch", {
         el
             .wrap(wrapper)
             .css('margin', '0')
-            .css('padding', '0')
+            .css('padding', '0 3px')
             .css('height', '' + (height - 2) + 'px')
             .css('lineHeight', '' + (height - 2) + 'px');
 
@@ -279,16 +279,16 @@ $.widget("bottlecap.livesearch", {
         }
     },
 
-    displayError: function(err) {
-        // cache the reference to the error displayer on the widget itself
-        var errorDisplayer = this._errorDisplayer;
-        if  (!errorDisplayer) {
-            // use a closure to wrap the errorbox and message
-            errorDisplayer = this._errorDisplayer = (function() {
+    errorDisplayer: function() {
+        if (!this._errorDisplayer) {
+            var self = this;
+            this._errorDisplayer = (function() {
                 var msg = $('<span></span>')
                     .addClass('bc-livesearch-autocomplete-message');
                 // A box, hidden initially, to show error messages such as
                 // "you didn't type enough characters"
+                var width = (self.element.outerWidth() +
+                             self.searchButton.outerWidth() - 2);
                 var errorBox = $(
                     '<div><span class="bc-livesearch-autocomplete-msgicon ' +
                         'ui-icon ui-icon-info"></span>' +
@@ -297,11 +297,11 @@ $.widget("bottlecap.livesearch", {
                 .addClass(
                     'bc-livesearch-autocomplete-notification ui-state-error'
                     + ' ui-icon-notice')
-                .width(250)
+                .width(width)
                 .appendTo('.bc-header')
                 .position({
-                    my: "left top",
-                    at: "left bottom",
+                    my: "right top",
+                    at: "right bottom",
                     of: $('.bc-header-toolbox')
                 });
                 // expose functions to show/hide the error box
@@ -312,25 +312,35 @@ $.widget("bottlecap.livesearch", {
                             msg.text(text);
                         }
                         errorBox.show();
+                    },
+                    replaceWith: function(replacement) {
+                        msg.replaceWith(replacement);
+                        msg = replacement;
+                        errorBox.show();
                     }
                 };
             })();
         }
+        return this._errorDisplayer;
+    },
+
+    displayError: function(err) {
+        var displayer = this.errorDisplayer();
 
         if (err === null) {
             // an err of null signals that we should clear the error message
-            errorDisplayer.hide();
+            displayer.hide();
         } else {
             var caretPosition = this.element.caret().start,
                 query = err,
                 pos = this._findGlobPosition(query, caretPosition);
             if (pos === -1) {
                 if ($.trim(query).length === 0) {
-                    errorDisplayer.hide();
+                    displayer.hide();
                 } else {
                     // cursor is after whitespace,
                     // but we don't have enough characters
-                    errorDisplayer.show('not enough characters entered');
+                    displayer.show('not enough characters entered');
                 }
             } else {
                 // find the offending substring that failed validation
@@ -343,8 +353,8 @@ $.widget("bottlecap.livesearch", {
                     }
                 }
                 var errorSubstring = query.substring(startPos, pos);
-                errorDisplayer.show('Please add more characters to: "' +
-                                    errorSubstring + '"');
+                displayer.show('Please add more characters to: "' +
+                               errorSubstring + '"');
             }
         }
     },
@@ -369,7 +379,12 @@ $.widget("bottlecap.livesearch", {
                  // ensure that the context menu isn't displayed when
                  // showing completion results
                  self.selectList.hide();
+                 // always call response - on no data it cleans up properly
                  response(data);
+                 if (!data || !data.length) {
+                     self._trigger('noresults', 0,
+                                   {query: query, url: url, el: self});
+                 }
              },
              error: function (xhr, status, exc) {
                  self.ajaxErrorFn.apply(self, arguments);
