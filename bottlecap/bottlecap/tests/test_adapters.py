@@ -32,7 +32,7 @@ class _Base(object):
 
     def _registerItemInfoAdapter(self):
         from zope.interface import implements
-        from bottlecap.interfaces import IItemInfo
+        from bottlecap_grid.interfaces import IItemInfo
         class _ItemInfo(object):
             implements(IItemInfo)
             def __init__(self, context):
@@ -44,7 +44,7 @@ class _Base(object):
 
     def _registerRetailViewInfoAdapter(self):
         from zope.interface import implements
-        from bottlecap.interfaces import IActionInfo
+        from bottlecap_grid.interfaces import IActionInfo
         class _RetailInfo(object):
             implements(IActionInfo)
             token = 'retail'
@@ -58,7 +58,7 @@ class _Base(object):
 
     def _registerEditViewInfoAdapter(self):
         from zope.interface import implements
-        from bottlecap.interfaces import IActionInfo
+        from bottlecap_grid.interfaces import IActionInfo
         class _EditInfo(object):
             implements(IActionInfo)
             token = 'edit'
@@ -72,7 +72,7 @@ class _Base(object):
 
     def _registerFolderFactoryInfoAdapter(self):
         from zope.interface import implements
-        from bottlecap.interfaces import IFactoryInfo
+        from bottlecap_grid.interfaces import IFactoryInfo
         class _FactoryInfo(object):
             implements(IFactoryInfo)
             token = 'folder'
@@ -94,12 +94,12 @@ class FolderContainerInfoTests(_Base, unittest.TestCase):
 
     def test_class_conforms_to_IContainerInfo(self):
         from zope.interface.verify import verifyClass
-        from bottlecap.interfaces import IContainerInfo
+        from bottlecap_grid.interfaces import IContainerInfo
         verifyClass(IContainerInfo, self._getTargetClass())
 
     def test_instance_conforms_to_IContainerInfo(self):
         from zope.interface.verify import verifyObject
-        from bottlecap.interfaces import IContainerInfo
+        from bottlecap_grid.interfaces import IContainerInfo
         verifyObject(IContainerInfo, self._makeOne())
 
     def test_title_context_wo_title_or_name(self):
@@ -169,7 +169,7 @@ class FolderContainerInfoTests(_Base, unittest.TestCase):
                          'http://example.com/static/folder_icon.png')
 
     def test_actions(self):
-        from bottlecap.interfaces import IActionInfo
+        from bottlecap_grid.interfaces import IActionInfo
         self._registerRetailViewInfoAdapter()
         self._registerEditViewInfoAdapter()
         adapter = self._makeOne()
@@ -290,12 +290,12 @@ class FolderItemInfoTests(_Base, unittest.TestCase):
 
     def test_class_conforms_to_IItemInfo(self):
         from zope.interface.verify import verifyClass
-        from bottlecap.interfaces import IItemInfo
+        from bottlecap_grid.interfaces import IItemInfo
         verifyClass(IItemInfo, self._getTargetClass())
 
     def test_instance_conforms_to_IItemInfo(self):
         from zope.interface.verify import verifyObject
-        from bottlecap.interfaces import IItemInfo
+        from bottlecap_grid.interfaces import IItemInfo
         verifyObject(IItemInfo, self._makeOne())
 
     def test_key_context_is_root(self):
@@ -346,7 +346,7 @@ class FolderItemInfoTests(_Base, unittest.TestCase):
         self.assertEqual(adapter.creator, 'phred')
 
     def test_actions(self):
-        from bottlecap.interfaces import IActionInfo
+        from bottlecap_grid.interfaces import IActionInfo
         self._registerRetailViewInfoAdapter()
         self._registerEditViewInfoAdapter()
         adapter = self._makeOne()
@@ -410,12 +410,12 @@ class RetailViewActionInfoTests(_Base, unittest.TestCase):
 
     def test_class_conforms_to_IActionInfo(self):
         from zope.interface.verify import verifyClass
-        from bottlecap.interfaces import IActionInfo
+        from bottlecap_grid.interfaces import IActionInfo
         verifyClass(IActionInfo, self._getTargetClass())
 
     def test_instance_conforms_to_IActionInfo(self):
         from zope.interface.verify import verifyObject
-        from bottlecap.interfaces import IActionInfo
+        from bottlecap_grid.interfaces import IActionInfo
         verifyObject(IActionInfo, self._makeOne())
 
     def test_attrs(self):
@@ -461,12 +461,12 @@ class EditViewActionInfoTests(_Base, unittest.TestCase):
 
     def test_class_conforms_to_IActionInfo(self):
         from zope.interface.verify import verifyClass
-        from bottlecap.interfaces import IActionInfo
+        from bottlecap_grid.interfaces import IActionInfo
         verifyClass(IActionInfo, self._getTargetClass())
 
     def test_instance_conforms_to_IActionInfo(self):
         from zope.interface.verify import verifyObject
-        from bottlecap.interfaces import IActionInfo
+        from bottlecap_grid.interfaces import IActionInfo
         verifyObject(IActionInfo, self._makeOne())
 
     def test_attrs(self):
@@ -516,12 +516,12 @@ class FolderFactoryInfoTests(_Base, unittest.TestCase):
 
     def test_class_conforms_to_IFactoryInfo(self):
         from zope.interface.verify import verifyClass
-        from bottlecap.interfaces import IFactoryInfo
+        from bottlecap_grid.interfaces import IFactoryInfo
         verifyClass(IFactoryInfo, self._getTargetClass())
 
     def test_instance_conforms_to_IFactoryInfo(self):
         from zope.interface.verify import verifyObject
-        from bottlecap.interfaces import IFactoryInfo
+        from bottlecap_grid.interfaces import IFactoryInfo
         verifyObject(IFactoryInfo, self._makeOne())
 
     def test_attrs(self):

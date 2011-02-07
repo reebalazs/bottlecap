@@ -2,11 +2,8 @@ from datetime import datetime
 
 from pyramid.renderers import get_renderer
 from pyramid.response import Response
-#from pyramid.view import view_config
 from repoze.folder import Folder
 
-#from bottlecap.interfaces import IBottlecap
-from bottlecap.interfaces import IContainerInfo
 
 _NOW = None
 def _now(): # hook for unit testing
@@ -36,17 +33,13 @@ class BottlecapViews(object):
     def default_view(self):
         return {}
 
-    #@view_config(context=Folder, renderer="templates/index_html.pt")
     def bottlecap_view(self):
         return {'name': 99, 'main': self.main}
 
-    #@view_config(context=IBottlecap, name="about",
-    #             renderer="templates/about_view.pt")
     def about_view(self):
         page_title = 'About Bottlecap'
         return {'page_title': page_title, 'main': self.main}
 
-    #@view_config(name="add_folder", context=Folder)
     def add_folder(self):
         title = self.request.POST.get('title')
         author = self.request.POST.get('author')
@@ -65,7 +58,6 @@ class BottlecapViews(object):
 
         return Response(response_html)
 
-    #@view_config(name="add_file", context=Folder)
     def add_file(self):
         #XXX this needs to change to use a real File type, with an uploaded
         #    body.
@@ -88,38 +80,3 @@ class BottlecapViews(object):
 
 def _title_to_name(title, container):
     return title.lower().replace(' ', '-') # TODO:  check for dupes
-
-class BottlecapJSON_API(object):
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-
-    #@view_config(name='list_items', context=Folder, renderer='json')
-    def list_items(self):
-        registry = self.request.registry
-        adapter = registry.getAdapter(self.context, IContainerInfo)
-        info = adapter(self.request)
-        return [_morph_item_info(x) for x in info['items']]
-
-    #@view_config(name='change_title', context=Folder, renderer='json')
-    def change_title(self):
-        target_id = str(self.request.POST['resource_id'])
-        new_title = self.request.POST['value']
-        self.context[target_id].title = new_title
-        return True
-
-    #@view_config(name='delete_items', context=Folder, renderer="json")
-    def delete_items(self):
-        target_ids = self.request.POST.getall("target_ids[]")
-        for t in target_ids:
-            del self.context[t]
-
-def _morph_item_info(info):
-    return {'id': info['key'],
-            'title': info['title'],
-            'type': 'folder',
-            'modified': info['modified'].date().isoformat(),
-            'author': info['creator'],
-            'href': info['item_url'],
-           }

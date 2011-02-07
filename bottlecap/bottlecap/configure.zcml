@@ -51,33 +51,33 @@
   <!-- Adapters needed by JSON API -->
   <adapter
     for="repoze.folder.Folder"
-    provides="bottlecap.interfaces.IContainerInfo"
+    provides="bottlecap_grid.interfaces.IContainerInfo"
     factory="bottlecap.adapters.FolderContainerInfo"
     />
 
   <adapter
     for="repoze.folder.Folder"
-    provides="bottlecap.interfaces.IItemInfo"
+    provides="bottlecap_grid.interfaces.IItemInfo"
     factory="bottlecap.adapters.FolderItemInfo"
     />
 
   <adapter
     for="repoze.folder.Folder"
-    provides="bottlecap.interfaces.IActionInfo"
+    provides="bottlecap_grid.interfaces.IActionInfo"
     factory="bottlecap.adapters.RetailViewActionInfo"
     name="retail"
     />
 
   <adapter
     for="repoze.folder.Folder"
-    provides="bottlecap.interfaces.IActionInfo"
+    provides="bottlecap_grid.interfaces.IActionInfo"
     factory="bottlecap.adapters.EditViewActionInfo"
     name="edit"
     />
 
   <adapter
     for="repoze.folder.Folder"
-    provides="bottlecap.interfaces.IFactoryInfo"
+    provides="bottlecap_grid.interfaces.IFactoryInfo"
     factory="bottlecap.adapters.FolderFactoryInfo"
     name="folder"
     />
@@ -85,7 +85,7 @@
   <!-- JSON API views -->
   <view
     for="*"
-    view="bottlecap.views.BottlecapJSON_API"
+    view="bottlecap_grid.views.BottlecapJSON_API"
     attr="list_items"
     name="list_items"
     renderer="json"
@@ -93,7 +93,7 @@
 
   <view
     for="*"
-    view="bottlecap.views.BottlecapJSON_API"
+    view="bottlecap_grid.views.BottlecapJSON_API"
     attr="change_title"
     name="change_title"
     renderer="json"
@@ -101,7 +101,7 @@
 
   <view
     for="*"
-    view="bottlecap.views.BottlecapJSON_API"
+    view="bottlecap_grid.views.BottlecapJSON_API"
     attr="delete_items"
     name="delete_items"
     renderer="json"

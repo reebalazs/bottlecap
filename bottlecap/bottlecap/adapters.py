@@ -4,10 +4,10 @@ from pyramid.url import resource_url
 from pyramid.url import static_url
 from zope.interface import implements
 
-from bottlecap.interfaces import IActionInfo
-from bottlecap.interfaces import IContainerInfo
-from bottlecap.interfaces import IFactoryInfo
-from bottlecap.interfaces import IItemInfo
+from bottlecap_grid.interfaces import IActionInfo
+from bottlecap_grid.interfaces import IContainerInfo
+from bottlecap_grid.interfaces import IFactoryInfo
+from bottlecap_grid.interfaces import IItemInfo
 
 _NOW = None
 def _now():
