@@ -19,8 +19,7 @@
         if (! results) { return null; }
         return decodeURI(results[1]) || null;
     }
-
-
+    
     // Register a "namespaced" widget with the widget factory
     $.widget("bc.grid", {
 
@@ -242,6 +241,19 @@
             History.Adapter.bind(window, 'statechange', function() {
                 self.onStateChange();
             });
+            History.Adapter.bind(window, 'anchorchange', function() {
+                var currentState = History.createStateObject({},'',document.location.href);
+                History.pushState(currentState.data,currentState.title,currentState.url);
+            });
+
+            // Trigger onStateChange, since WebKit has a broken implementation.
+            // XXX should not be here, but somewhere in the page
+            if ($.browser.webkit) {
+                $(function() {
+                    $(window).trigger('statechange');
+                });
+            }
+
         },
 
         onStateChange: function() {
@@ -249,12 +261,19 @@
             // history event.
             var History = window.History;
             var State = History.getState();
-
-            History.log('bc.grid onStateChange', State.data, State.title, State.url);
-
-            var path = urlParam(State.url, 'path') || '/';
+            
+            if (! State) {
+                // from our own trigger
+                // so, fetch the state.
+                State = History.createStateObject({}, '', document.location.href);
+            }
+            
+            // history log uses alerts on IE. Use normal log instead.
+            //History.log('bc.grid onStateChange', State.data, State.title, State.url);
+            log('bc.grid onStateChange', State.data, State.title, State.url);
 
             // Update the resource path and reload the grid
+            var path = urlParam(State.url, 'path') || '/';
             var href = History.expandUrl(path);
             this.update_resource_path(href);
             this.reload_grid();
@@ -307,7 +326,6 @@
             // this will reload the grid via onStateChange
             var History = window.History;
             var path = History.contractUrl(href);
-            console.log('load_resource', href, path);
             // If the path does have a slash at the end, remove it.
             if (path[path.length - 1] == '/') {
                 path = path.slice(0, path.length - 1);
@@ -383,7 +401,7 @@
                     self.dataView.endUpdate();
                 },
                 error: function (xhr, status, error) {
-                    console.log(status);
+                    log(status);
                 }
             });
         },
