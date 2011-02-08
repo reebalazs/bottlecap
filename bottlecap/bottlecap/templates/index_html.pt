@@ -31,6 +31,18 @@
         </div>
         <div class="bc-grid-contents"></div>
         <div id="bc-grid-addfolderdialog" class="bc-dialog" title="Add Folder">
+            <form class="bc-grid-ajaxform" id="bc-grid-addfolderform"
+                  action="/add_folder" method="POST">
+                <fieldset>
+                    <input name="title"/>
+                    <label for="title">Title</label>
+                </fieldset>
+                <fieldset>
+                    <input name="author"/>
+                    <label for="author">Author</label>
+                </fieldset>
+                <input type="submit" value="add"/>
+            </form>
         </div>
         <div id="bc-grid-addfiledialog" class="bc-dialog" title="Add File">
             <form class="bc-grid-ajaxform" id="bc-grid-addfileform"

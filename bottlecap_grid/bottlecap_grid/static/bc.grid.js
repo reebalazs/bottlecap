@@ -296,22 +296,27 @@
             this.resource_path = href;
 
             // Bind any ajax forms
-            this.ajaxForm =
-                $('.bc-grid-ajaxform').ajaxForm({
-                    // url will be set dynamically
-                    url:  this.resource_path + '/add_file',
-                    'success': function (responseText, statusText, xhr, form) {
-                        if (responseText == 'ok') {
-                            self.dialogAddFile.dialog('close');
-                            self.reload_grid();
-                        } else {
-                            form.empty().html(responseText);
-                        }
-                    }
-                });
-
+            this.bind_factory_form('#bc-grid-addfolderform', 'add_folder',
+                                   this.dialogAddFolder);
+            this.bind_factory_form('#bc-grid-addfileform', 'add_file',
+                                   this.dialogAddFile);
         },
 
+        bind_factory_form: function(selector, view_name, which_dialog) {
+            var self = this;
+            $(selector).ajaxForm({
+                // url will be set dynamically
+                url:  this.resource_path + '/' + view_name,
+                'success': function (responseText, statusText, xhr, form) {
+                    if (responseText == 'ok') {
+                        which_dialog.dialog('close');
+                        self.reload_grid();
+                    } else {
+                        form.empty().html(responseText);
+                    }
+                }
+            });
+        },
 
         load_resource: function (href) {
             // When you click on a hyperlink in the title column, load the
@@ -360,6 +365,18 @@
             $('.bc-dialog').dialog('close');
         },
 
+        add_folder: function () {
+            var self = this;
+
+            this.close_all_dialogs();
+            var ab = this.buttonAddFolder;
+            var p_left = ab.position().left;
+            var p_top = ab.position().top + ab.height();
+            this.dialogAddFolder
+                .dialog('option', 'position', [p_left, p_top])
+                .dialog('open');
+        },
+
         add_file: function () {
             var self = this;
 
@@ -404,11 +421,6 @@
                     log(status);
                 }
             });
-        },
-
-        add_folder: function () {
-            this.close_all_dialogs();
-            return; // For now, skip it until we figure out more
         },
 
         moveto_items: function () {
