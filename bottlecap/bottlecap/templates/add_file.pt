@@ -1,0 +1,11 @@
+<form action="@@add_file" method="POST">
+ <fieldset>
+  <input name="title" />
+  <label for="title">Title</label>
+ </fieldset>
+ <fieldset>
+  <input name="author" />
+  <label for="author">Author</label>
+ </fieldset>
+ <input type="form.submitted" value="add file" />
+</form>

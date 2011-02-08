@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from pyramid.renderers import get_renderer
+from pyramid.renderers import render_to_response
 from pyramid.response import Response
 from repoze.folder import Folder
 
@@ -41,42 +42,40 @@ class BottlecapViews(object):
         return {'page_title': page_title, 'main': self.main}
 
     def add_folder(self):
-        title = self.request.POST.get('title')
-        author = self.request.POST.get('author')
-        if (not title) or (not author):
-            # Invalid form
-            response_html = ADD_FILE_INVALID
-        else:
-            # Valid form, add some data
-            folder = Folder()
-            folder.title = title
-            folder.author = author
-            folder.type = 'folder'
-            folder.modified = _now()
-            self.context[_title_to_name(title, self.context)] = folder
-            response_html = 'ok'
+        POST = self.request.POST
+        if 'form.submitted' in POST:
+            title = POST.get('title')
+            author = POST.get('author')
+            if title and author:
+                # Valid form, add some data
+                folder = Folder()
+                folder.title = title
+                folder.author = author
+                folder.type = 'folder'
+                folder.modified = _now()
+                self.context[_title_to_name(title, self.context)] = folder
+                return Response('ok')
 
-        return Response(response_html)
+        return render_to_response('templates/add_folder.pt', {})
 
     def add_file(self):
         #XXX this needs to change to use a real File type, with an uploaded
         #    body.
-        title = self.request.POST.get('title')
-        author = self.request.POST.get('author')
-        if (not title) or (not author):
-            # Invalid form
-            response_html = ADD_FILE_INVALID
-        else:
-            # Valid form, add some data
-            folder = Folder()
-            folder.title = title
-            folder.author = author
-            folder.type = 'folder'
-            folder.modified = _now()
-            self.context[_title_to_name(title, self.context)] = folder
-            response_html = 'ok'
+        POST = self.request.POST
+        if 'form.submitted' in POST:
+            title = POST.get('title')
+            author = POST.get('author')
+            if title and author:
+                # Valid form, add some data
+                folder = Folder()
+                folder.title = title
+                folder.author = author
+                folder.type = 'folder'
+                folder.modified = _now()
+                self.context[_title_to_name(title, self.context)] = folder
+                return Response('ok')
 
-        return Response(response_html)
+        return render_to_response('templates/add_file.pt', {})
 
 def _title_to_name(title, container):
     return title.lower().replace(' ', '-') # TODO:  check for dupes
