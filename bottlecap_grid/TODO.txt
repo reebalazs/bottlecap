@@ -1,13 +1,13 @@
 :mod:`bottlecap_grid` TODOs
 ===========================
 
-- [/] Move container framework here from :mod:`bottlecap`
+- [X] Move container framework here from :mod:`bottlecap`
 
       * Interfaces
 
       * Views
 
-      o docs
+      * docs
 
 - [_] Expose info for current context via views.
 
