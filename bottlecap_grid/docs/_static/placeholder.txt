@@ -1,0 +1,1 @@
+# Static resources used to render docs go here.

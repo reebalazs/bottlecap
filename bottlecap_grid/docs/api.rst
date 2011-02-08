@@ -1,10 +1,10 @@
-:mod:`bottlecap` API Reference
-==============================
+:mod:`bottlecap_grid` API Reference
+===================================
 
 Interfaces
 ----------
 
-.. automodule:: bottlecap.interfaces
+.. automodule:: bottlecap_grid.interfaces
 
   .. autodata:: ACTION_TYPE_URLS
 
