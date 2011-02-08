@@ -1,19 +1,14 @@
 :mod:`bottlecap`:  One View to Rule them All
 ============================================
 
-This package provides two features:
-
-- Reusable interfaces, views, utilities, and adapters which define the
-  :mod:`bottlecap` framework.
-
-- a sample WSGI application demonstrating use of the framework.
+This package provides a sample WSGI application demonstrating use of the
+various views and adapters which make up the ``bottlecap`` frameworks.
 
 
 .. toctree::
    :maxdepth: 2
 
    architecture
-   api
 
 Indices and tables
 ==================
