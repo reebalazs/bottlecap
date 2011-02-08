@@ -31,6 +31,8 @@ def _morph_container_info(info):
               'author': info['creator'],
               'parent_url': info['parent_url'],
               'icon_url': info['icon_url'],
+              'actions': info['actions'],
+              'factories': info['factories'],
              }
     result['items'] = [_morph_item_info(x) for x in info['items']]
     return result

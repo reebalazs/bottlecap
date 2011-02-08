@@ -40,12 +40,46 @@ class BottlecapJSON_API_Tests(unittest.TestCase):
             def __init__(self, context):
                 pass
             def __call__(self, request):
+                CHILD_URL = 'http://example.com/parent/child'
                 return {'title': 'DUMMY CONTAINER',
                         'modified': when,
                         'creator': 'Dummy Author',
                         'parent_url': 'http://example.com/parent',
                         'icon_url': 'http://example.com/static/folder_icon.png',
                         'items': items,
+                        'actions': [
+                            {'action_type': 'external',
+                             'token': 'retail',
+                             'title': 'Retail',
+                             'description': 'Retail View',
+                             'icon_url':
+                               'http://example.com/static/view_icon.png',
+                             'action_urls': {'url': CHILD_URL},
+                            },
+                            {'action_type': 'form',
+                             'token': 'edit',
+                             'title': 'Edit',
+                             'description': 'Edit Form',
+                             'icon_url':
+                               'http://example.com/static/edit_icon.png',
+                             'action_urls':
+                               {'GET': '%s/@@edit' % CHILD_URL,
+                                'POST': '%s/@@edit' % CHILD_URL,
+                               },
+                            },
+                        ],
+                        'factories': [
+                            {'token': 'folder',
+                             'title': 'Folder',
+                             'description': 'Add Folder',
+                             'icon_url':
+                               'http://example.com/static/folder_icon.png',
+                             'factory_urls':
+                                {'GET': '%s/add_folder' % CHILD_URL,
+                                 'POST': '%s/add_folder' % CHILD_URL,
+                                },
+                            },
+                        ],
                        }
         self.config.registry.registerAdapter(_Info, (None,), IContainerInfo)
 
@@ -61,6 +95,13 @@ class BottlecapJSON_API_Tests(unittest.TestCase):
         self.assertEqual(info['parent_url'], 'http://example.com/parent')
         self.assertEqual(info['icon_url'],
                               'http://example.com/static/folder_icon.png')
+        actions = info['actions']
+        self.assertEqual(len(actions), 2)
+        self.assertEqual(actions[0]['token'], 'retail')
+        self.assertEqual(actions[1]['token'], 'edit')
+        factories = info['factories']
+        self.assertEqual(len(factories), 1)
+        self.assertEqual(factories[0]['token'], 'folder')
         self.assertEqual(list(info['items']), [])
 
     def test_container_info_non_empty(self):
