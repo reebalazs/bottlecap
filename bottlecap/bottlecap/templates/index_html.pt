@@ -13,7 +13,7 @@
     <div class="bc-grid-frame">
         <div class="bc-grid-header" style="width:100%">
         <span id="bc-grid-toolbar">
-            <label id="bc-grid-currenttitle">Root Folder</label>
+            <label id="bc-grid-currenttitle">Root</label>
             <span id="bc-grid-reloadframe">
                 <button id="bc-grid-reload">Reload</button>
             </span>

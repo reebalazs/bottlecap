@@ -8,11 +8,11 @@ class BottlecapJSON_API(object):
         self.context = context
         self.request = request
 
-    def list_items(self):
+    def container_info(self):
         registry = self.request.registry
         adapter = registry.getAdapter(self.context, IContainerInfo)
         info = adapter(self.request)
-        return [_morph_item_info(x) for x in info['items']]
+        return _morph_container_info(info)
 
     def change_title(self):
         target_id = str(self.request.POST['resource_id'])
@@ -25,10 +25,19 @@ class BottlecapJSON_API(object):
         for t in target_ids:
             del self.context[t]
 
+def _morph_container_info(info):
+    result = {'title': info['title'],
+              'modified': info['modified'].date().isoformat(),
+              'author': info['creator'],
+              'parent_url': info['parent_url'],
+              'icon_url': info['icon_url'],
+             }
+    result['items'] = [_morph_item_info(x) for x in info['items']]
+    return result
+
 def _morph_item_info(info):
     return {'id': info['key'],
             'title': info['title'],
-            'type': 'folder',
             'modified': info['modified'].date().isoformat(),
             'author': info['creator'],
             'href': info['item_url'],

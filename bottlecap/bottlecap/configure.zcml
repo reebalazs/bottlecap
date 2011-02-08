@@ -86,8 +86,8 @@
   <view
     for="*"
     view="bottlecap_grid.views.BottlecapJSON_API"
-    attr="list_items"
-    name="list_items"
+    attr="container_info"
+    name="container_info"
     renderer="json"
     />
 

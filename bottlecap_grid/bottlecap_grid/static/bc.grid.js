@@ -347,11 +347,13 @@
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: self.resource_path + '/list_items',
+                url: self.resource_path + '/container_info',
                 success: function (data) {
                     // initialize the model after all the events have been hooked up
+                    $('#bc-grid-currenttitle').text(data['title']);
                     self.dataView.beginUpdate();
-                    self.dataView.setItems(data);
+                    items = data['items'];
+                    self.dataView.setItems(items);
                     self.dataView.endUpdate();
                     self.grid.invalidate();
                 },

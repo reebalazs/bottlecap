@@ -91,6 +91,7 @@ class FolderContainerInfo(object):
         """ See IContainerInfo.
         """
         result = {'title': self.title,
+                  'type': 'folder',
                   'modified': self.modified,
                   'creator': self.creator,
                   'parent_url': self.parent_url(request),

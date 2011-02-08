@@ -29,23 +29,41 @@ class BottlecapJSON_API_Tests(unittest.TestCase):
         from pyramid.testing import DummyRequest
         return DummyRequest(**kw)
 
-    def _registerContainerInfo(self, items=()):
+    def _registerContainerInfo(self, items=(), when=None):
         from zope.interface import implements
         from bottlecap_grid.interfaces import IContainerInfo
+        if when is None:
+            import datetime
+            when = datetime.datetime.now()
         class _Info(object):
             implements(IContainerInfo)
             def __init__(self, context):
                 pass
             def __call__(self, request):
-                return {'items': items}
+                return {'title': 'DUMMY CONTAINER',
+                        'modified': when,
+                        'creator': 'Dummy Author',
+                        'parent_url': 'http://example.com/parent',
+                        'icon_url': 'http://example.com/static/folder_icon.png',
+                        'items': items,
+                       }
         self.config.registry.registerAdapter(_Info, (None,), IContainerInfo)
 
-    def test_list_items_empty(self):
+    def test_container_info_empty(self):
+        import datetime
+        WHEN = datetime.datetime(2011, 2, 8, 15, 45)
         view = self._makeOne()
-        self._registerContainerInfo()
-        self.assertEqual(list(view.list_items()), [])
+        self._registerContainerInfo(when=WHEN)
+        info = view.container_info()
+        self.assertEqual(info['title'], 'DUMMY CONTAINER')
+        self.assertEqual(info['modified'], '2011-02-08')
+        self.assertEqual(info['author'], 'Dummy Author')
+        self.assertEqual(info['parent_url'], 'http://example.com/parent')
+        self.assertEqual(info['icon_url'],
+                              'http://example.com/static/folder_icon.png')
+        self.assertEqual(list(info['items']), [])
 
-    def test_list_items_non_empty(self):
+    def test_container_info_non_empty(self):
         from datetime import datetime
         KEYS = ['foo', 'bar', 'baz']
         TITLES = [x.upper() for x in KEYS]
@@ -62,14 +80,14 @@ class BottlecapJSON_API_Tests(unittest.TestCase):
         self._registerContainerInfo(infos)
         view = self._makeOne()
 
-        items = view.list_items()
+        info = view.container_info()
+        items = info['items']
 
         self.assertEqual(len(items), len(KEYS))
         for item in items:
             self.failUnless(item['title'] in TITLES)
             self.assertEqual(item['modified'], '2011-02-01')
             self.assertEqual(item['author'], 'phred')
-            self.assertEqual(item['type'], 'folder')
             self.failUnless(item['href'] in URLS)
 
     def test_change_title_hit(self):
