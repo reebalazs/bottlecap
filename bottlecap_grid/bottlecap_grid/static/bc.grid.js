@@ -72,7 +72,7 @@
                 cssClass: "slick-cell-checkboxsel"
             });
             this.checkboxColumn = this.checkboxSelector.getColumnDefinition();
-            this.checkboxColumn['unselectable'] = false;
+            this.checkboxColumn.unselectable = false;
 
             this.columns = [
                 this.checkboxColumn,
@@ -152,7 +152,7 @@
                     // only do this if we are not already on top!
                     if (p.length > 3) {
                         var href = p.slice(0, p.length - 1).join('/');
-                        self.load_resource(href)
+                        self.load_resource(href);
                     }
                 });
 
@@ -165,7 +165,7 @@
                     text: true
                 })
                 .click(function () {
-                    self.add_folder()
+                    self.add_folder();
                 });
             this.buttonAddFile =
                 $('#bc-grid-addfile').button({
@@ -187,7 +187,7 @@
                     text: false
                 })
                 .click(function () {
-                    self.delete_items()
+                    self.delete_items();
                 });
             this.buttonMoveTo =
                 $('#bc-grid-moveto').button({
@@ -197,7 +197,7 @@
                     text: false
                 })
                 .click(function () {
-                    self.moveto_items()
+                    self.moveto_items();
                 });
             this.buttonReload =
                 $('#bc-grid-reload').button({
@@ -207,7 +207,7 @@
                     }
                 })
                 .click(function () {
-                    self.reload_grid()
+                    self.reload_grid();
                 });
 
         },
@@ -350,9 +350,9 @@
                 url: self.resource_path + '/container_info',
                 success: function (data) {
                     // initialize the model after all the events have been hooked up
-                    $('#bc-grid-currenttitle').text(data['title']);
+                    $('#bc-grid-currenttitle').text(data.title);
                     self.dataView.beginUpdate();
-                    items = data['items'];
+                    items = data.items;
                     self.dataView.setItems(items);
                     self.dataView.endUpdate();
                     self.grid.invalidate();
@@ -414,7 +414,9 @@
                     self.dataView.beginUpdate();
                     for (var i = 0, l = rows.length; i < l; i++) {
                         var item = self.dataView.getItem(rows[i]);
-                        if (item) self.dataView.deleteItem(item.id);
+                        if (item) {
+                            self.dataView.deleteItem(item.id);
+                        }
                     }
                     self.grid.setSelectedRows([]);
                     self.dataView.endUpdate();
@@ -432,19 +434,20 @@
         // Formatters and validators
 
         TitleFormatter: function (row, cell, value, columnDef, dataContext) {
-            var href = dataContext['href'];
+            var href = dataContext.href;
             return '<a class="bc-grid-titlecell" href="' + href + '">' + value + '</a>';
         },
 
         TypeFormatter: function (row, cell, value, columnDef, dataContext) {
-            var type = dataContext['type'];
+            var type = dataContext.type;
             var src = '/bccore/images/files_folder_small.png';
             return '<img src="' + src + '" height="16" width="16" alt="icon" />';
         },
 
         titleValidator: function (value) {
-            if (value == null || value == undefined || !value.length)
+            if (value === null || value === undefined || !value.length) {
                 return {valid:false, msg:"This is a required field"};
+            }
             // Ping the server synchronously to change the title
             // XXX this is all wrong.  I have the resource_id hardwired.  We
             // need access to that actually-edited dataView row.  Abusing a
