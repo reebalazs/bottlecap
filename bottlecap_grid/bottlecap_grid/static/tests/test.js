@@ -52,23 +52,58 @@ module("bc.grid", {
     // Mock http response can be produced here.
     //
     handle_ajax: function(request, server_state) {
+        log('XXX', request.urlParts.file);
         if (server_state == 'ERROR') {
             // simulate an error
             request.receive(500, 'Error');
-        } else if (request.urlParts.file == 'list_items') {
+        } else if (request.urlParts.file == 'container_info') {
             request.setResponseHeader("Content-Type", "application/json; charset=UTF-8");
-            if (server_state == 0) {
+            if (server_state === 0) {
                 // Example 1
-                var data = [];
+                var items_data = [];
                 for (var i=0; i<40; i++) {
-                    data.push({
+                    items_data.push({
                         "author": "repaul",
                         "title": "foo" + i,
                         "modified": "2011-01-28",
                         "href": "http://127.0.0.1:6543/foo" + i + "/",
-                        "type": "folder",
+                        //"type": "folder",   // XXX Currently not provided.
                         "id": "foo" + i
                     });
+                data = {
+                    "items": items_data,        
+                    "author": null,
+                    "parent_url": null,
+                    "icon_url": "http://127.0.0.1:6543/static/folder_icon.png",
+                    "title": "Root",
+                    "modified": "2011-02-10",
+                    "actions": [{
+                            "description": "Retail (non-bottlecap) view",
+                            "title": "View",
+                            "icon_url": "http://127.0.0.1:6543/bccore/view_icon.png",
+                            "action_urls": {"url": "http://127.0.0.1:6543/"},
+                            "token": "retail",
+                            "action_type": "external"
+                        }, {
+                            "description": "Edit view",
+                            "title": "Edit",
+                            "icon_url": "http://127.0.0.1:6543/bccore/edit_icon.png",
+                            "action_urls": {"POST": "http://127.0.0.1:6543/%40%40edit", "GET": "http://127.0.0.1:6543/%40%40edit"},
+                            "token": "edit",
+                            "action_type": "form"
+                        }
+                    ], 
+                    "factories": [{
+                            "icon_url": "http://127.0.0.1:6543/static/folder_icon.png",
+                            "token": "folder",
+                            "factory_urls": {"POST": "http://127.0.0.1:6543/%40%40add_folder", "GET": "http://127.0.0.1:6543/%40%40add_folder"},
+                            "description": "Add folder",
+                            "title": "Folder"
+                        }
+                    ]
+                }
+
+
                 }
                 request.receive(200, JSON.stringify(data));
             }

@@ -440,6 +440,7 @@
 
         TypeFormatter: function (row, cell, value, columnDef, dataContext) {
             var type = dataContext.type;
+            // XXX Currently type returned from server is undefined. It is also unused.
             var src = '/bccore/images/files_folder_small.png';
             return '<img src="' + src + '" height="16" width="16" alt="icon" />';
         },
