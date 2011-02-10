@@ -52,7 +52,6 @@ module("bc.grid", {
     // Mock http response can be produced here.
     //
     handle_ajax: function(request, server_state) {
-        log('XXX', request.urlParts.file);
         if (server_state == 'ERROR') {
             // simulate an error
             request.receive(500, 'Error');
