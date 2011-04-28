@@ -387,6 +387,8 @@ $.widget("bottlecap.livesearch", {
                  }
              },
              error: function (xhr, status, exc) {
+                 // call response with no data to clean up loading state
+                 response();
                  self.ajaxErrorFn.apply(self, arguments);
              }
         });
