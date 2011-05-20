@@ -109,7 +109,7 @@ $.widget("bottlecap.livesearch", {
             var liArray = $.makeArray(liNodes);
             for (var i = 0; i < liArray.length; i++) {
                 var li = $(liArray[i]);
-                if (li.text() === searchType) {
+                if (this.get_option_name(li) === searchType) {
                     var dontSaveCookie = true;
                     this.menuSelected(0, {item: li}, dontSaveCookie);
                     break;
@@ -132,7 +132,7 @@ $.widget("bottlecap.livesearch", {
             'bc-livesearch bc-livesearch-btn bc-livesearch-btn-search');
 
         // dynamically set height to match
-        var height = this.selectButton.outerHeight(); 
+        var height = this.selectButton.outerHeight();
         var wrapper = $('<span></span>');
         wrapper
             .css('display', 'inline-block')
@@ -148,7 +148,7 @@ $.widget("bottlecap.livesearch", {
             .css('height', '' + (height - 2) + 'px')
             .css('lineHeight', '' + (height - 2) + 'px');
 
-        var marginTop = this.selectButton.css('marginTop');   
+        var marginTop = this.selectButton.css('marginTop');
         // this  is essential _sometimes_ on WebKit
         el.css('marginTop', marginTop);
         // hack IE7 that handles top margin differently
@@ -168,13 +168,14 @@ $.widget("bottlecap.livesearch", {
         // called initially to populate the right selection so we
         // don't want to resave the cookie at that point
         if (!dontSaveCookie) {
-            this.cookieValue = text;
+            this.cookieValue = this.get_option_name(item);
             $.cookie(this.cookieName, this.cookieValue, {path: "/"});
         }
 
         this._trigger('menu', 0, {
             item: item,
-            text: text
+            text: text,
+            name: this.get_option_name(item),
         });
 
         // when the menu changes, we should also trigger a search
@@ -433,8 +434,15 @@ $.widget("bottlecap.livesearch", {
                 this.autoCompleteWidget._renderMenu = this._defaultRenderCompletions;
             }
         }
-    }
+    },
 
+    get_option_name: function(item) {
+        var name = item.attr('name');
+        if (typeof name == 'undefined') {
+            name = item.text();
+        }
+        return name;
+    }
 });
 
 })(jQuery);
