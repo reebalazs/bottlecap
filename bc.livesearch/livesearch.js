@@ -88,6 +88,9 @@ $.widget("bottlecap.livesearch", {
         this.autoCompleteWidget.menu.element
             .addClass('bc-livesearch-autocomplete-results');
 
+        // if user pastes from mouse, also trigger a search
+        el.bind('paste', $.proxy(this.textPasted, this));
+
         // plug in rendering function when results come in
         // first save the default
         this._defaultRenderCompletions = this.autoCompleteWidget._renderMenu;
@@ -398,6 +401,15 @@ $.widget("bottlecap.livesearch", {
         var val = this.transformQuery(this.element.val());
         this.performSearch(val);
         return false;
+    },
+
+    textPasted: function(e) {
+        // we need to use set timeout to capture the pasted text
+        // the text field doesn't contain the pasted text before the timeout
+        // and the event object doesn't contain it
+        setTimeout($.proxy(function() {
+            this.autoCompleteWidget.search();
+        }, this), 0);
     },
 
     keyPressed: function(e) {
