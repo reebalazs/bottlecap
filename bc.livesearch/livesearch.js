@@ -101,19 +101,21 @@ $.widget("bottlecap.livesearch", {
         // this one is if somebody hits the enter key on the keyboard
         el.bind('keydown.autocomplete', $.proxy(this.keyPressed, this));
 
-        // if the cookie exists, we need to select the appropriate
-        // category in the context menu
+        // Initialize selected search type
+        var searchType = 'all_content';
         if (this.cookieValue) {
-            var searchType = this.cookieValue;
-            var liNodes = this.selectList.find('li');
-            var liArray = $.makeArray(liNodes);
-            for (var i = 0; i < liArray.length; i++) {
-                var li = $(liArray[i]);
-                if (this.get_option_name(li) === searchType) {
-                    var dontSaveCookie = true;
-                    this.menuSelected(0, {item: li}, dontSaveCookie);
-                    break;
-                }
+            // if the cookie exists, we need to select the appropriate
+            // category in the context menu
+            searchType = this.cookieValue;
+        }
+        var liNodes = this.selectList.find('li');
+        var liArray = $.makeArray(liNodes);
+        for (var i = 0; i < liArray.length; i++) {
+            var li = $(liArray[i]);
+            if (this.get_option_name(li) === searchType) {
+                var dontSaveCookie = true;
+                this.menuSelected(0, {item: li}, dontSaveCookie);
+                break;
             }
         }
 
