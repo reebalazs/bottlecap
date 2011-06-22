@@ -172,11 +172,12 @@ $.widget("bottlecap.livesearch", {
             $.cookie(this.cookieName, this.cookieValue, {path: "/"});
         }
 
-        this._trigger('menu', 0, {
+        this.selected_item = {
             item: item,
             text: text,
-            name: this.get_option_name(item),
-        });
+            name: this.get_option_name(item)
+        };
+        this._trigger('menu', 0, this.selected_item);
 
         // when the menu changes, we should also trigger a search
         var searchText = this.element.val();
@@ -421,7 +422,7 @@ $.widget("bottlecap.livesearch", {
     },
 
     performSearch: function(query) {
-        this._trigger('search', 0, {query: query});
+        this._trigger('search', 0, {query: query, item: this.selected_item});
     },
 
     _setOption: function(key, value) {
