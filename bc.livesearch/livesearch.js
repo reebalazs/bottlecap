@@ -104,19 +104,21 @@ $.widget("bottlecap.livesearch", {
         // this one is if somebody hits the enter key on the keyboard
         el.bind('keydown.autocomplete', $.proxy(this.keyPressed, this));
 
-        // if the cookie exists, we need to select the appropriate
-        // category in the context menu
+        // Initialize selected search type
+        var searchType = 'all_content';
         if (this.cookieValue) {
-            var searchType = this.cookieValue;
-            var liNodes = this.selectList.find('li');
-            var liArray = $.makeArray(liNodes);
-            for (var i = 0; i < liArray.length; i++) {
-                var li = $(liArray[i]);
-                if (li.text() === searchType) {
-                    var dontSaveCookie = true;
-                    this.menuSelected(0, {item: li}, dontSaveCookie);
-                    break;
-                }
+            // if the cookie exists, we need to select the appropriate
+            // category in the context menu
+            searchType = this.cookieValue;
+        }
+        var liNodes = this.selectList.find('li');
+        var liArray = $.makeArray(liNodes);
+        for (var i = 0; i < liArray.length; i++) {
+            var li = $(liArray[i]);
+            if (this.get_option_name(li) === searchType) {
+                var dontSaveCookie = true;
+                this.menuSelected(0, {item: li}, dontSaveCookie);
+                break;
             }
         }
 
@@ -135,7 +137,7 @@ $.widget("bottlecap.livesearch", {
             'bc-livesearch bc-livesearch-btn bc-livesearch-btn-search');
 
         // dynamically set height to match
-        var height = this.selectButton.outerHeight(); 
+        var height = this.selectButton.outerHeight();
         var wrapper = $('<span></span>');
         wrapper
             .css('display', 'inline-block')
@@ -151,7 +153,7 @@ $.widget("bottlecap.livesearch", {
             .css('height', '' + (height - 2) + 'px')
             .css('lineHeight', '' + (height - 2) + 'px');
 
-        var marginTop = this.selectButton.css('marginTop');   
+        var marginTop = this.selectButton.css('marginTop');
         // this  is essential _sometimes_ on WebKit
         el.css('marginTop', marginTop);
         // hack IE7 that handles top margin differently
@@ -171,14 +173,16 @@ $.widget("bottlecap.livesearch", {
         // called initially to populate the right selection so we
         // don't want to resave the cookie at that point
         if (!dontSaveCookie) {
-            this.cookieValue = text;
+            this.cookieValue = this.get_option_name(item);
             $.cookie(this.cookieName, this.cookieValue, {path: "/"});
         }
 
-        this._trigger('menu', 0, {
+        this.selected_item = {
             item: item,
-            text: text
-        });
+            text: text,
+            name: this.get_option_name(item)
+        };
+        this._trigger('menu', 0, this.selected_item);
 
         // when the menu changes, we should also trigger a search
         var searchText = this.element.val();
@@ -432,7 +436,7 @@ $.widget("bottlecap.livesearch", {
     },
 
     performSearch: function(query) {
-        this._trigger('search', 0, {query: query});
+        this._trigger('search', 0, {query: query, item: this.selected_item});
     },
 
     _setOption: function(key, value) {
@@ -445,8 +449,15 @@ $.widget("bottlecap.livesearch", {
                 this.autoCompleteWidget._renderMenu = this._defaultRenderCompletions;
             }
         }
-    }
+    },
 
+    get_option_name: function(item) {
+        var name = item.attr('name');
+        if (typeof name == 'undefined') {
+            name = item.text();
+        }
+        return name;
+    }
 });
 
 })(jQuery);
