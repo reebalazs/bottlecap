@@ -8,7 +8,7 @@
 *     @depends ../jquery.cookie.js
 *     @depends ../jquery.ajaxmanager-3.0.7.js
 *     @depends ../jquery.caret-1.0.2.min.js
-*     @depends ../jquery.timeago-0.9.2.js
+*     @depends ../jquery.timeago-0.9.3.js
 *
 *   
 *
